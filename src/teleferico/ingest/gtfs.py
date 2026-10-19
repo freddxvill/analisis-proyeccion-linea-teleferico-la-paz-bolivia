@@ -86,7 +86,9 @@ def estaciones_y_andenes(gtfs: dict[str, pd.DataFrame]) -> tuple[gpd.GeoDataFram
     est["lineas"] = est["slug"].map(lineas)
     est["n_lineas"] = est["lineas"].str.len()
     est["transbordo"] = est["n_lineas"] > 1
-    est = est[["slug", "stop_id", "nombre", "nombre_aymara", "lineas", "n_lineas",
+    # stop_desc empieza con "El Alto, ..." para las estaciones de El Alto; el resto está en La Paz.
+    est["municipio"] = est["stop_desc"].str.startswith("El Alto").map({True: "El Alto", False: "La Paz"})
+    est = est[["slug", "stop_id", "nombre", "nombre_aymara", "municipio", "lineas", "n_lineas",
                "transbordo", "stop_desc", "stop_lat", "stop_lon"]]
 
     to_gdf = lambda df: gpd.GeoDataFrame(  # noqa: E731
