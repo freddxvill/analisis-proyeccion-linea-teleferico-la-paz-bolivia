@@ -1,0 +1,32 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv
+
+# Notas privadas
+idea.txt
+
+# Datos: crudos e intermedios no se versionan (se regeneran con el pipeline)
+data/raw/
+data/interim/
+# Procesados pesados (> ~5 MB): se regeneran con el pipeline
+data/processed/censo/manzanos.parquet
+
+# Quarto
+/.quarto/
+site/.quarto/
+site/_site/
+
+# Herramientas locales
+.playwright-cli/
+
+# Spec del proyecto (solo local)
+docs/plan.md

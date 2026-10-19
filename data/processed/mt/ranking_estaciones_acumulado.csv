@@ -1,0 +1,37 @@
+rank,estacion,codigo_linea,pct,linea,pasajeros_est
+1,San José,LMO,9.0,Morada,60551827
+2,Mirador,LAM,8.9,Amarilla,59879028
+3,Libertador,LAM,7.5,Amarilla,50459855
+4,16 de Julio,LRO,7.3,Roja,49114259
+5,Central,LRO,7.0,Roja,47095865
+6,6 de Marzo,LMO,6.4,Morada,43059077
+7,16 de Julio,LAZ,4.5,Azul,30275913
+8,Faro Murillo,LMO,4.0,Morada,26911923
+9,Libertador,LVE,3.7,Verde,24893529
+10,Sopocachi,LAM,3.7,Amarilla,24893529
+11,Villarroel,LNA,3.1,Naranja,20856740
+12,Irpavi,LVE,3.0,Verde,20183942
+13,16 de Julio,LPL,2.9,Plateada,19511144
+14,Central,LNA,2.8,Naranja,18838346
+15,Rio Seco,LAZ,2.8,Azul,18838346
+16,Cementerio,LRO,2.3,Roja,15474356
+17,Faro Murillo,LPL,2.1,Plateada,14128760
+18,Buenos Aires,LAM,1.9,Amarilla,12783163
+19,Plaza Libertad,LAZ,1.9,Azul,12783163
+20,Mirador,LPL,1.9,Plateada,12783163
+21,Libertador,LCE,1.7,Celeste,11437567
+22,Villarroel,LBL,1.6,Blanca,10764769
+23,Prado,LCE,1.3,Celeste,8746375
+24,Triangular,LBL,1.3,Blanca,8746375
+25,UPEA,LAZ,1.2,Azul,8073577
+26,San Jorge,LBL,1.0,Blanca,6727981
+27,Plaza La Paz,LAZ,0.8,Azul,5382385
+28,Alto Obrajes,LVE,0.8,Verde,5382385
+29,San Jorge,LCE,0.8,Celeste,5382385
+30,Armentia,LNA,0.7,Naranja,4709587
+31,Busch,LBL,0.6,Blanca,4036788
+32,Periférica,LNA,0.5,Naranja,3363990
+33,17 de Obrajes,LVE,0.4,Verde,2691192
+34,Villas,LCA,0.4,Café,2691192
+35,Cancha Zapata,LCE,0.2,Celeste,1345596
+36,Busch,LCA,0.1,Café,672798

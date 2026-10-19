@@ -1,0 +1,19 @@
+{
+  "nodos": 89564,
+  "aristas": 269006,
+  "longitud_km": 8538.0,
+  "highway": {
+    "residential": 157130,
+    "footway": 41162,
+    "service": 18746,
+    "tertiary": 18314,
+    "secondary": 8340,
+    "primary": 5856,
+    "track": 5084,
+    "steps": 3582,
+    "unclassified": 2070,
+    "trunk": 1722,
+    "path": 1426,
+    "['footway', 'steps']": 1302
+  }
+}

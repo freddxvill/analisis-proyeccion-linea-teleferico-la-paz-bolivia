@@ -1,0 +1,50 @@
+flowchart LR
+    P["🎯 Problema<br/>¿Quién queda lejos de una estación?<br/>¿Dónde va una nueva línea?"]
+
+    subgraph D["📥 Datos"]
+        D1["PDF Indicadores<br/>Mi Teleférico 2014-2025"]
+        D3["GTFS comunitario<br/>líneas y estaciones"]
+        D4["OpenStreetMap<br/>red peatonal"]
+        D5["Censo 2024<br/>población por manzano"]
+        D6["DEM Copernicus<br/>elevación"]
+    end
+
+    subgraph T["⚙️ Procesamiento"]
+        T1["Extracción de tablas PDF"]
+        T2["Grafo peatonal dirigido<br/>+ pendiente (Tobler)"]
+        T3["Población → hexágonos H3"]
+    end
+
+    subgraph A["🔎 Análisis"]
+        A1["EDA de demanda<br/>líneas · estaciones · meses"]
+        A2["Isócronas 5/10/15/20 min<br/>cobertura poblacional"]
+        A3["Lente de equidad<br/>brecha de accesibilidad"]
+    end
+
+    subgraph M["🧮 Modelado"]
+        M1["Modelo de demanda<br/>por estación (Poisson/NB)"]
+        M2["Optimización MCLP / p-mediana<br/>nuevas estaciones"]
+        M3["Trazado de línea<br/>+ sensibilidad k y umbral"]
+    end
+
+    R["📊 Resultados<br/>% población no cubierta<br/>población nueva cubierta<br/>pasajeros/año estimados"]
+
+    subgraph E["🚀 Entregables"]
+        E1["Sitio Quarto · GitHub Pages<br/>ECharts + MapLibre"]
+        E2["Notebooks renderizados"]
+        E3["README BLUF"]
+    end
+
+    P --> D
+    D1 --> T1
+    D3 & D4 & D6 --> T2
+    D5 --> T3
+    T1 --> A1
+    T2 & T3 --> A2
+    A2 --> A3
+    A1 & A2 --> M1
+    A2 & A3 --> M2
+    M2 --> M3
+    M1 --> M3
+    M3 --> R
+    R --> E1 & E2 & E3

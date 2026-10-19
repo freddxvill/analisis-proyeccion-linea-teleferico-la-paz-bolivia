@@ -1,0 +1,10 @@
+{
+  "nodos": 89564,
+  "nodos_sin_elevacion": 0,
+  "elevacion_min_m": 3003.5,
+  "elevacion_max_m": 4548.2,
+  "pendiente_abs_media_pct": 4.69,
+  "pendiente_abs_p90_pct": 14.05,
+  "km_con_pendiente_mayor_10pct": 1151.9,
+  "km_totales": 8538.0
+}

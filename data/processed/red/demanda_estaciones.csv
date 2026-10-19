@@ -1,0 +1,73 @@
+rank,estacion_pdf,codigo_linea,pct,linea,pasajeros_est,slug,periodo,estacion_gtfs
+1,San José,LMO,11.9,Morada,10432993,san_jose,2025,San José
+2,6 de Marzo,LMO,7.7,Morada,6750760,6_de_marzo,2025,6 de Marzo
+3,Mirador,LAM,6.6,Amarilla,5786366,mirador,2025,Mirador
+4,Libertador,LAM,5.5,Amarilla,4821971,libertador,2025,Libertador
+5,16 de Julio,LRO,5.4,Roja,4734299,16_de_julio,2025,16 de Julio
+6,16 de Julio,LAZ,5.4,Azul,4734299,16_de_julio,2025,16 de Julio
+7,Faro Murillo,LMO,5.1,Morada,4471283,faro_murillo,2025,Faro Murillo
+8,Central,LRO,4.9,Roja,4295938,estacion_central,2025,Estación Central
+9,16 de Julio,LPL,4.3,Plateada,3769905,16_de_julio,2025,16 de Julio
+10,Libertador,LVE,3.3,Verde,2893183,libertador,2025,Libertador
+11,Faro Murillo,LPL,3.1,Plateada,2717838,faro_murillo,2025,Faro Murillo
+12,Mirador,LPL,3.1,Plateada,2717838,mirador,2025,Mirador
+13,Rio Seco,LAZ,3.1,Azul,2717838,rio_seco,2025,Rio Seco
+14,Villarroel,LNA,2.9,Naranja,2542494,villarroel,2025,Héroes de la Revolución
+15,Central,LNA,2.7,Naranja,2367150,estacion_central,2025,Estación Central
+16,Sopocachi,LAM,2.5,Amarilla,2191805,sopocachi,2025,Sopocachi
+17,Irpavi,LVE,2.4,Verde,2104133,irpavi,2025,Irpavi
+18,Plaza Libertad,LAZ,2.1,Azul,1841116,plaza_libertad,2025,Plaza Libertad
+19,Libertador,LCE,2.0,Celeste,1753444,libertador,2025,Libertador
+20,Cementerio,LRO,1.7,Roja,1490428,cementerio,2025,Cementerio
+21,Prado,LCE,1.6,Celeste,1402755,prado,2025,Prado
+22,UPEA,LAZ,1.6,Azul,1402755,upea,2025,UPEA
+23,Buenos Aires,LAM,1.5,Amarilla,1315083,buenos_aires,2025,Buenos Aires
+24,Villarroel,LBL,1.5,Blanca,1315083,villarroel,2025,Héroes de la Revolución
+25,Triangular,LBL,1.5,Blanca,1315083,triangular,2025,Próceres de la Independencia
+26,San Jorge,LBL,1.0,Blanca,876722,del_poeta,2025,Del Poeta
+27,Plaza La Paz,LAZ,0.9,Azul,789050,plaza_la_paz,2025,Plaza La Paz
+28,San Jorge,LCE,0.9,Celeste,789050,del_poeta,2025,Del Poeta
+29,Armentia,LNA,0.7,Naranja,613705,armentia,2025,Armentia
+30,Alto Obrajes,LVE,0.6,Verde,526033,alto_obrajes,2025,Alto Obrajes
+31,Busch,LBL,0.6,Blanca,526033,busch,2025,Defensores del Chaco
+32,Periférica,LNA,0.6,Naranja,526033,periferica,2025,Periférica
+33,Villas,LCA,0.4,Café,350689,las_villas,2025,Las Villas
+34,17 de Obrajes,LVE,0.3,Verde,263017,obrajes,2025,Obrajes
+35,Cancha Zapata,LCE,0.3,Celeste,263017,teatro_al_aire_libre,2025,Teatro al Aire Libre
+36,Busch,LCA,0.1,Café,87672,busch,2025,Defensores del Chaco
+1,San José,LMO,9.0,Morada,60551827,san_jose,2014_2025,San José
+2,Mirador,LAM,8.9,Amarilla,59879028,mirador,2014_2025,Mirador
+3,Libertador,LAM,7.5,Amarilla,50459855,libertador,2014_2025,Libertador
+4,16 de Julio,LRO,7.3,Roja,49114259,16_de_julio,2014_2025,16 de Julio
+5,Central,LRO,7.0,Roja,47095865,estacion_central,2014_2025,Estación Central
+6,6 de Marzo,LMO,6.4,Morada,43059077,6_de_marzo,2014_2025,6 de Marzo
+7,16 de Julio,LAZ,4.5,Azul,30275913,16_de_julio,2014_2025,16 de Julio
+8,Faro Murillo,LMO,4.0,Morada,26911923,faro_murillo,2014_2025,Faro Murillo
+9,Libertador,LVE,3.7,Verde,24893529,libertador,2014_2025,Libertador
+10,Sopocachi,LAM,3.7,Amarilla,24893529,sopocachi,2014_2025,Sopocachi
+11,Villarroel,LNA,3.1,Naranja,20856740,villarroel,2014_2025,Héroes de la Revolución
+12,Irpavi,LVE,3.0,Verde,20183942,irpavi,2014_2025,Irpavi
+13,16 de Julio,LPL,2.9,Plateada,19511144,16_de_julio,2014_2025,16 de Julio
+14,Central,LNA,2.8,Naranja,18838346,estacion_central,2014_2025,Estación Central
+15,Rio Seco,LAZ,2.8,Azul,18838346,rio_seco,2014_2025,Rio Seco
+16,Cementerio,LRO,2.3,Roja,15474356,cementerio,2014_2025,Cementerio
+17,Faro Murillo,LPL,2.1,Plateada,14128760,faro_murillo,2014_2025,Faro Murillo
+18,Buenos Aires,LAM,1.9,Amarilla,12783163,buenos_aires,2014_2025,Buenos Aires
+19,Plaza Libertad,LAZ,1.9,Azul,12783163,plaza_libertad,2014_2025,Plaza Libertad
+20,Mirador,LPL,1.9,Plateada,12783163,mirador,2014_2025,Mirador
+21,Libertador,LCE,1.7,Celeste,11437567,libertador,2014_2025,Libertador
+22,Villarroel,LBL,1.6,Blanca,10764769,villarroel,2014_2025,Héroes de la Revolución
+23,Prado,LCE,1.3,Celeste,8746375,prado,2014_2025,Prado
+24,Triangular,LBL,1.3,Blanca,8746375,triangular,2014_2025,Próceres de la Independencia
+25,UPEA,LAZ,1.2,Azul,8073577,upea,2014_2025,UPEA
+26,San Jorge,LBL,1.0,Blanca,6727981,del_poeta,2014_2025,Del Poeta
+27,Plaza La Paz,LAZ,0.8,Azul,5382385,plaza_la_paz,2014_2025,Plaza La Paz
+28,Alto Obrajes,LVE,0.8,Verde,5382385,alto_obrajes,2014_2025,Alto Obrajes
+29,San Jorge,LCE,0.8,Celeste,5382385,del_poeta,2014_2025,Del Poeta
+30,Armentia,LNA,0.7,Naranja,4709587,armentia,2014_2025,Armentia
+31,Busch,LBL,0.6,Blanca,4036788,busch,2014_2025,Defensores del Chaco
+32,Periférica,LNA,0.5,Naranja,3363990,periferica,2014_2025,Periférica
+33,17 de Obrajes,LVE,0.4,Verde,2691192,obrajes,2014_2025,Obrajes
+34,Villas,LCA,0.4,Café,2691192,las_villas,2014_2025,Las Villas
+35,Cancha Zapata,LCE,0.2,Celeste,1345596,teatro_al_aire_libre,2014_2025,Teatro al Aire Libre
+36,Busch,LCA,0.1,Café,672798,busch,2014_2025,Defensores del Chaco
