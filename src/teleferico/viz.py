@@ -93,3 +93,20 @@ def guardar(fig, nombre: str) -> None:
     out = ROOT / "reports" / "figures"
     out.mkdir(parents=True, exist_ok=True)
     fig.savefig(out / f"{nombre}.png", bbox_inches="tight", dpi=150)
+
+
+def mapa_base(ax, limites=None, lineas=None, estaciones=None, bounds=None) -> None:
+    """Fondo de mapa: límites, líneas del teleférico (color oficial) y estaciones, en el CRS de las capas."""
+    if limites is not None:
+        limites.boundary.plot(ax=ax, color=TINTA_3, lw=0.8, zorder=3)
+    if lineas is not None:
+        for linea, g in lineas.groupby("linea"):
+            g.plot(ax=ax, color=TRAZO_LINEA[linea], lw=2.2, zorder=4)
+    if estaciones is not None:
+        estaciones.plot(ax=ax, color="white", edgecolor=TINTA, markersize=16, linewidth=1, zorder=5)
+    if bounds is not None:
+        minx, miny, maxx, maxy = bounds
+        ax.set_xlim(minx, maxx)
+        ax.set_ylim(miny, maxy)
+    ax.set_aspect("equal")
+    ax.set_axis_off()

@@ -65,3 +65,38 @@ def test_red_peatonal_y_pendiente():
     r = json.loads((RED / "resumen_pendiente.json").read_text(encoding="utf-8"))
     assert r["nodos_sin_elevacion"] == 0
     assert 2900 < r["elevacion_min_m"] < r["elevacion_max_m"] < 4800
+
+
+ACC = PROCESSED / "accesibilidad"
+
+
+def test_tobler():
+    from teleferico.access import V_PLANA_KMH, tobler_kmh
+
+    assert tobler_kmh(-0.05) == pytest.approx(6.0)
+    assert V_PLANA_KMH == pytest.approx(5.04, abs=0.01)
+    # Direccional: subir una pendiente fuerte es más lento que bajarla.
+    assert tobler_kmh(0.15) < tobler_kmh(-0.15) < V_PLANA_KMH
+
+
+def test_accesibilidad_manzanos():
+    _requiere(ACC / "manzanos_acceso.parquet")
+    from teleferico.access import BANDAS_MIN, cobertura
+
+    acc = pd.read_parquet(ACC / "manzanos_acceso.parquet")
+    assert acc["codigo"].is_unique
+    assert acc["personas"].sum() == 885_210 + 750_225
+    cob = cobertura(acc)
+    pct = cob[[f"pct_{b}" for b in BANDAS_MIN]].to_numpy()
+    assert (pct[:, 1:] >= pct[:, :-1]).all(), "las bandas acumuladas deben ser crecientes"
+    # Hipótesis 1: la línea recta sobreestima y la pendiente reduce la cobertura.
+    p15 = cob.set_index("escenario")["pct_15"]
+    assert p15["pendiente"] < p15["plana"] < p15["euclidiano"]
+
+
+def test_captacion_estaciones():
+    _requiere(ACC / "estaciones_captacion.parquet")
+    cap = pd.read_parquet(ACC / "estaciones_captacion.parquet")
+    assert len(cap) == 26
+    assert (cap["pob_pendiente_20"] >= cap["pob_pendiente_15"]).all()
+    assert (cap["pob_pendiente_15"] >= cap["pob_exclusiva_pendiente_15"]).all()

@@ -4,18 +4,22 @@ import argparse
 import logging
 import time
 
-from teleferico.ingest import censo, dem, gtfs, mt_pdf, osm
+from teleferico import access
+from teleferico.ingest import censo, dem, gtfs, limites, mt_pdf, osm
 from teleferico.utils import setup_logging
 
 log = logging.getLogger("teleferico.pipeline")
 
-# El orden importa: gtfs usa las tablas del PDF; osm y dem usan el área de estudio del censo.
+# El orden importa: gtfs usa las tablas del PDF; osm y dem usan el área de estudio del censo;
+# acceso usa la red con pendiente, las estaciones, los manzanos y los límites.
 PASOS = {
     "mt_pdf": mt_pdf.run,
     "gtfs": gtfs.run,
     "censo": censo.run,
     "osm": osm.run,
     "dem": dem.run,
+    "limites": limites.run,
+    "acceso": access.run,
 }
 
 
