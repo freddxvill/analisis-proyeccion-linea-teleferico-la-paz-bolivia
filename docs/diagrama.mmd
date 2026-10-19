@@ -22,6 +22,7 @@ flowchart LR
     end
 
     subgraph M["🧮 Modelado"]
+        M0["Bolsones de subcobertura<br/>DBSCAN"]
         M1["Modelo de demanda<br/>por estación (Poisson/NB)"]
         M2["Optimización MCLP / p-mediana<br/>nuevas estaciones"]
         M3["Trazado de línea<br/>+ sensibilidad k y umbral"]
@@ -43,7 +44,8 @@ flowchart LR
     T2 & T3 --> A2
     A2 --> A3
     A1 & A2 --> M1
-    A2 & A3 --> M2
+    A2 & A3 --> M0
+    M0 --> M2
     M2 --> M3
     M1 --> M3
     M3 --> R
