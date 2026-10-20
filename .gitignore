@@ -24,9 +24,10 @@ data/processed/censo/manzanos.parquet
 /.quarto/
 site/.quarto/
 site/_site/
-# Copias que genera site/scripts/preparar.ts (las fuentes son notebooks/ y docs/diagrama.mmd)
+# Copias que genera site/scripts/preparar.ts (las fuentes son notebooks/, docs/diagrama.mmd y docs/glosario.md)
 site/notebooks/*.ipynb
 site/assets/diagrama.mmd
+site/_glosario.md
 
 # Herramientas locales
 .playwright-cli/

@@ -1,0 +1,6 @@
+---
+title: "Glosario"
+subtitle: "Qué significa cada término del análisis y por qué se usó"
+---
+
+{{< include _glosario.md >}}

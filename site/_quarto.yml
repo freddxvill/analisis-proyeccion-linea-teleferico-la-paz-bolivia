@@ -30,6 +30,8 @@ website:
         href: propuesta.qmd
       - text: Metodología
         href: metodologia.qmd
+      - text: Glosario
+        href: glosario.qmd
       - text: Notebooks
         href: notebooks.qmd
   page-footer:

@@ -1,6 +1,7 @@
 // Prepara el proyecto Quarto antes de renderizar:
 // - copia los notebooks del repo (../notebooks) a site/notebooks, para renderizarlos con sus
 //   resultados guardados (Quarto no ejecuta los .ipynb por defecto);
+// - copia el glosario (../docs/glosario.md) para incluirlo en glosario.qmd;
 // - copia el diagrama Mermaid (../docs/diagrama.mmd, fuente única) en orientación vertical y le
 //   agrega los enlaces de cada paso a su página, que solo tienen sentido en el sitio.
 // Uso: `quarto run scripts/preparar.ts` desde site/ (también corre como pre-render).
@@ -30,3 +31,8 @@ const enlaces: Record<string, string> = {
 const mmd = (await Deno.readTextFile(new URL("docs/diagrama.mmd", raiz))).replace(/^flowchart LR/m, "flowchart TB");
 const clicks = Object.entries(enlaces).map(([nodo, url]) => `    click ${nodo} "${url}"`).join("\n");
 await Deno.writeTextFile(new URL("assets/diagrama.mmd", sitio), `${mmd.trimEnd()}\n\n${clicks}\n`);
+
+// Glosario (../docs/glosario.md, fuente única): sin su título, que en el sitio pone glosario.qmd.
+// El "_" inicial evita que Quarto lo renderice como página aparte.
+const glosario = await Deno.readTextFile(new URL("docs/glosario.md", raiz));
+await Deno.writeTextFile(new URL("_glosario.md", sitio), glosario.replace(/^# .*\n+/, ""));

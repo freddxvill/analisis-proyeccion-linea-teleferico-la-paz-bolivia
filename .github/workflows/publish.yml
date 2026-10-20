@@ -6,7 +6,7 @@ name: Publicar sitio
 on:
   push:
     branches: [main]
-    paths: ["site/**", "notebooks/**", "docs/diagrama.mmd", ".github/workflows/publish.yml"]
+    paths: ["site/**", "notebooks/**", "docs/diagrama.mmd", "docs/glosario.md", ".github/workflows/publish.yml"]
   workflow_dispatch:
 
 permissions:
