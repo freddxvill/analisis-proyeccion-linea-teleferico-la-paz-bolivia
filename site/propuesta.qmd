@@ -1,6 +1,6 @@
 ---
-title: "Propuesta"
-subtitle: "¿Dónde convendría una nueva línea? Un escenario guiado por datos"
+title: "¿Dónde convendría una nueva línea?"
+subtitle: "Un escenario guiado por datos"
 include-in-header: assets/librerias.html
 ---
 

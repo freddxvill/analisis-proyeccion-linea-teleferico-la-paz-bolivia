@@ -1,6 +1,5 @@
 ---
-title: "Demanda"
-subtitle: "Cómo se mueve la gente en Mi Teleférico, 2014-2025"
+title: "Cómo se mueve la gente en Mi Teleférico, 2014-2025"
 include-in-header: assets/librerias.html
 ---
 

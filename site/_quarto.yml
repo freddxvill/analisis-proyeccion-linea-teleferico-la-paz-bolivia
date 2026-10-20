@@ -18,6 +18,7 @@ website:
   page-navigation: true
   favicon: assets/img/favicon.svg
   navbar:
+    title: false
     left:
       - text: Inicio
         href: index.qmd

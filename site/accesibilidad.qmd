@@ -1,6 +1,5 @@
 ---
-title: "Accesibilidad"
-subtitle: "¿Cuánta gente vive a pocos minutos a pie de una estación, contando la pendiente?"
+title: "¿Cuánta gente vive a pocos minutos a pie de una estación, contando la pendiente?"
 include-in-header: assets/librerias.html
 ---
 
