@@ -1,0 +1,70 @@
+---
+title: "Metodología y datos"
+subtitle: "Fuentes, supuestos, limitaciones y cómo reproducir el análisis"
+---
+
+## El flujo completo
+
+::: {.column-page}
+```{mermaid}
+%%| file: assets/diagrama.mmd
+%%| fig-responsive: true
+```
+:::
+
+## Fuentes
+
+| Fuente | Contenido | Licencia |
+|---|---|---|
+| [Mi Teleférico, *Indicadores de Gestión mayo 2014 - dic 2025*](https://adminweb.miteleferico.bo/uploads/INDICADORTES_DIC_2025_final_comprimido_934425e7d3.pdf) | Pasajeros por año, línea, mes y estación | Datos públicos |
+| [GTFS comunitario de Mi Teleférico](https://datosbolivia.github.io/gtfs/mi-teleferico.zip) (Datos Bolivia) | Estaciones, andenes y trazados | CC-BY-4.0 |
+| [OpenStreetMap](https://www.openstreetmap.org/copyright) (vía OSMnx) | Red peatonal y límites de macrodistritos | ODbL |
+| [Censo 2024 por manzano](https://github.com/lab-tecnosocial/censosbo) (INE, repackaging de censosbo) | Población y 194 indicadores por manzano | Datos públicos del INE; código MIT |
+| [Copernicus GLO-30](https://registry.opendata.aws/copernicus-dem/) | Modelo de elevación de 30 m | Licencia Copernicus (libre con atribución) |
+| [OpenFreeMap](https://openfreemap.org/) | Mapa base de los mapas interactivos | OSM (ODbL) |
+
+## Supuestos clave
+
+- **Caminata:** velocidad de Tobler, `v = 6·exp(−3,5·|s + 0,05|)` km/h, con `s` la pendiente en el sentido
+  de la marcha (subir y bajar cuestan distinto). La caminata "plana" usa la misma función con `s = 0`
+  (5,04 km/h).
+- **Pendiente:** perfil cada 30 m sobre el DEM suavizado (σ = 1 píxel), para atenuar los techos del modelo
+  de superficie. La cobertura resultante varía entre 20 % y 26 % según este tratamiento.
+- **Tiempo de la casa a la estación:** Dijkstra multi-origen sobre el grafo peatonal invertido. Las
+  "puertas" de cada estación son los nodos a ≤ 75 m de ella. Cada manzano toma su nodo más cercano y suma
+  la caminata recta hasta él.
+- **Cubierto:** a ≤ 15 minutos a pie con pendiente.
+- **Demanda por estación:** abordajes estimados de 2025 (porcentaje con un decimal del PDF × total anual).
+  Los transbordos cuentan como abordajes.
+- **Vulnerabilidad:** promedio de los rangos percentiles ponderados por población de 7 carencias de la ficha
+  censal (disponible para el 96 % de la población del área).
+- **Bolsones:** DBSCAN sobre los hexágonos H3 densos no cubiertos, con la población como peso (eps = 450 m,
+  núcleo de 6.000 personas). Solo se reportan los que persisten en la mayoría de 9 combinaciones de parámetros.
+- **Línea:** búsqueda en haz desde una estación existente, con vanos de 700-2.500 m y giros ≤ 60°. Se
+  agregan estaciones mientras cada una rinda al menos lo que la red actual por km.
+
+## Limitaciones
+
+- **El teleférico no es solo caminata.** Se ignora el acceso en minibús, el principal alimentador, así que
+  la cobertura efectiva es mayor que la medida. Por eso la población a pie no explica la demanda.
+- **El DEM es de superficie**, no de terreno: en zonas muy edificadas puede sobreestimar la cota.
+- **OSM puede omitir senderos informales.** La densidad de red es similar en El Alto y La Paz (42 y 44 km
+  por km² de manzanos), pero no se puede descartar.
+- **Distritos de El Alto:** OSM solo tiene 3 de 14, así que en El Alto se agrega por hexágonos H3.
+- **Modelo de demanda con n = 26:** errores fuera de muestra de ~1,1 M de abordajes al año e intervalos
+  amplios. Los pasajeros de la propuesta son un orden de magnitud. Además, una parte vendría de otras estaciones.
+- **Factibilidad:** no se evalúan derechos de vía, torres, costos ni factibilidad política. La propuesta es
+  un escenario guiado por datos.
+- **Validación de rutas:** el notebook 02 calcula 4 rutas de referencia en ambos sentidos. La comparación
+  con Google Maps a pie queda pendiente.
+
+## Cómo reproducir
+
+```bash
+uv sync                                   # dependencias
+uv run python -m teleferico.pipeline      # descarga, procesa y modela (~25 min)
+uv run python -m teleferico.export_web    # JSON y GeoJSON del sitio
+cd site && quarto run scripts/preparar.ts && quarto render
+```
+
+El código está en el repositorio del proyecto; los notebooks renderizados, en [Notebooks](notebooks.qmd).

@@ -439,3 +439,61 @@ def run(overwrite: bool = False) -> None:
         json.dumps(pasajeros(est_nuevas), ensure_ascii=False, indent=2), encoding="utf-8")
     log.info("Propuesta: %d estaciones desde %s, %.1f km, %d personas nuevas a ≤15 min (%.0f/km)",
              n, fila["origen"], fila["km"], resumen["personas_nuevas_15"], resumen["personas_nuevas_por_km"])
+    comparaciones(acc, a, nod, est, resumen)
+
+
+# --- Comparaciones: líneas actuales y proyecto anunciado ---------------------------------------
+
+# Extensión anunciada de la Línea Café (Las Villas → Pampahasi, Ley N° 1759, crédito BID BO-L1229).
+# Punto de Pampahasi en OSM: nodo 1740962925.
+PAMPAHASI = (-68.1037712, -16.4997213)
+
+
+def rendimiento_lineas(acc: pd.DataFrame, aristas: pd.DataFrame, nod: gpd.GeoDataFrame,
+                       est: gpd.GeoDataFrame, mz: gpd.GeoDataFrame) -> pd.DataFrame:
+    """Población a ≤ 15 min de alguna estación de cada línea, por km de cable."""
+    T = ac.tiempos_por_estacion(aristas, nod, est, variantes=("pendiente",))
+    _, por_est = ac.acceso_manzanos(mz, nod, est, T)
+    pers = mz["personas"].to_numpy()
+    km = gpd.read_parquet(PROCESSED / "red" / "lineas.parquet").groupby("linea")["longitud_m"].sum() / 1000
+    andenes = pd.read_parquet(PROCESSED / "red" / "andenes.parquet")
+    filas = []
+    for linea, g in andenes.groupby("linea"):
+        cub = (por_est["pendiente"][est.index[est["slug"].isin(g["slug"])]] <= UMBRAL_MIN).any(axis=0)
+        filas.append({"linea": linea, "km": km[linea], "personas_15": float(pers[cub].sum())})
+    df = pd.DataFrame(filas)
+    df["personas_por_km"] = df["personas_15"] / df["km"]
+    return df
+
+
+def contraste_pampahasi(acc: pd.DataFrame, aristas: pd.DataFrame, nod: gpd.GeoDataFrame,
+                        est: gpd.GeoDataFrame, mz: gpd.GeoDataFrame, dem_h: pd.DataFrame) -> dict:
+    p = gpd.GeoDataFrame({"id": ["Pampahasi"]}, geometry=gpd.points_from_xy(*[[c] for c in PAMPAHASI]),
+                         crs=CRS_WGS84).to_crs(CRS_METRIC)
+    m, est_p = evaluar(p, acc, aristas, nod, mz)
+    km = est.set_index("slug").geometry["las_villas"].distance(p.geometry.iat[0]) / 1000
+    celda = h3.latlng_to_cell(PAMPAHASI[1], PAMPAHASI[0], 9)
+    bolson = dem_h.loc[dem_h["h3"] == celda, "bolson"]
+    return resumen_propuesta(m, km) | {
+        "lon": PAMPAHASI[0], "lat": PAMPAHASI[1], "bolson": int(bolson.iat[0]) if len(bolson) else None,
+        "abordajes": pasajeros(est_p)[demand_model.EXTENDIDO]["total"],
+    }
+
+
+def comparaciones(acc=None, aristas=None, nod=None, est=None, resumen=None) -> None:
+    """Rendimiento por km de las líneas actuales y contraste con Pampahasi (sin rehacer la optimización)."""
+    acc = acc if acc is not None else pd.read_parquet(ac.OUT_DIR / "manzanos_acceso.parquet")
+    nod = nod if nod is not None else ac.nodos()
+    aristas = aristas if aristas is not None else ac.aristas_tiempo()
+    est = est if est is not None else gpd.read_parquet(PROCESSED / "red" / "estaciones.parquet").to_crs(CRS_METRIC)
+    resumen = resumen or json.loads((OUT_DIR / "resumen_propuesta.json").read_text(encoding="utf-8"))
+    mz = ac.manzanos_centroides()
+    rl = rendimiento_lineas(acc, aristas, nod, est, mz)
+    rl = pd.concat([rl, pd.DataFrame([{"linea": "Propuesta", "km": resumen["km_cable"],
+                                        "personas_15": resumen["personas_nuevas_15"],
+                                        "personas_por_km": resumen["personas_nuevas_por_km"]}])], ignore_index=True)
+    rl.to_parquet(OUT_DIR / "rendimiento_lineas.parquet", index=False)
+    dem_h = pd.read_parquet(OUT_DIR / "demanda_h3.parquet")
+    cp = contraste_pampahasi(acc, aristas, nod, est, mz, dem_h)
+    (OUT_DIR / "contraste_pampahasi.json").write_text(json.dumps(cp, ensure_ascii=False, indent=2), encoding="utf-8")
+    log.info("Pampahasi: %d personas nuevas (%.0f/km)", cp["personas_nuevas_15"], cp["personas_nuevas_por_km"])

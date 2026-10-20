@@ -1,0 +1,7 @@
+# Páginas de notebooks: código plegado (se lee primero el resultado) y sin reejecutar.
+format:
+  html:
+    code-fold: true
+    code-summary: "Ver código"
+execute:
+  enabled: false

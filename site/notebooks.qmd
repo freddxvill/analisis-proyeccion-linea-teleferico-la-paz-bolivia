@@ -1,0 +1,16 @@
+---
+title: "Notebooks"
+subtitle: "El análisis completo, con código y resultados"
+toc: false
+---
+
+Los notebooks se ejecutan localmente (`jupyter nbconvert --execute`) y el sitio muestra sus resultados
+guardados, sin volver a ejecutarlos.
+
+| Notebook | Pregunta |
+|---|---|
+| [01 · EDA de demanda](notebooks/01_eda_demanda.ipynb) | ¿Cómo evolucionó la demanda por línea y estación entre 2014 y 2025? |
+| [02 · Red peatonal con pendiente](notebooks/02_red_peatonal_pendiente.ipynb) | ¿Cuánto cuesta caminar en La Paz y El Alto según la pendiente? |
+| [03 · Accesibilidad y cobertura](notebooks/03_accesibilidad_cobertura.ipynb) | ¿Quién queda lejos del cable? Hipótesis 1 y lente de equidad |
+| [04 · Modelo de demanda por estación](notebooks/04_modelo_demanda_estaciones.ipynb) | ¿Qué hace que una estación tenga pasajeros? |
+| [05 · Optimización de una nueva línea](notebooks/05_optimizacion_nueva_linea.ipynb) | ¿Dónde va una nueva línea y cuánto rinde? |

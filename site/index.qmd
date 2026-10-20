@@ -1,0 +1,73 @@
+---
+title: "¿Quién queda lejos del cable?"
+subtitle: "Accesibilidad a pie, con pendiente, a Mi Teleférico en La Paz y El Alto, y dónde convendría una nueva línea"
+include-in-header: assets/librerias.html
+toc: false
+---
+
+::: {.gancho}
+Mi Teleférico movió **87,7 millones de pasajeros en 2025** y es la columna vertebral del transporte masivo
+de La Paz y El Alto. Pero **solo 1 de cada 4 habitantes vive a 15 minutos a pie de una estación**, y en El
+Alto, apenas 1 de cada 8. Una línea de 7 estaciones desde 16 de Julio hacia el norte de El Alto le daría
+acceso a pie a **95 mil personas más**.
+:::
+
+::: {.kpis}
+<div class="kpi heroe"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_pendiente" data-fmt="pct">—</span><span class="kpi-etiqueta">de la población vive a ≤ 15 min a pie de una estación, contando la pendiente</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pob_no_cubierta_15min" data-fmt="millones">—</span><span class="kpi-etiqueta">personas a más de 15 min a pie</span><span class="kpi-nota">de 1,64 M (Censo 2024)</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_pendiente_el_alto" data-fmt="pct">—</span><span class="kpi-etiqueta">de cobertura en El Alto, frente a <span data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_pendiente_la_paz" data-fmt="pct">—</span> en La Paz</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="propuesta/kpis.json" data-campo="personas_nuevas_15" data-fmt="miles">—</span><span class="kpi-etiqueta">personas nuevas a ≤ 15 min con la línea propuesta</span><span class="kpi-nota">7 estaciones · 5,9 km de cable</span></div>
+:::
+
+## El mapa en una imagen
+
+Minutos a pie desde cada hexágono habitado hasta la estación más cercana, con la velocidad corregida por
+la pendiente. La línea discontinua es la propuesta.
+
+<div id="leyenda-inicio" class="leyenda"></div>
+<div id="mapa-inicio" class="mapa" role="img" aria-label="Mapa de La Paz y El Alto coloreado por minutos a pie hasta la estación más cercana, con la red actual y la línea propuesta"></div>
+
+## Hallazgos clave
+
+::: {.hallazgo}
+**1. La línea recta miente.** Un buffer en línea recta dice que el 38,5 % vive a ≤ 15 minutos de una
+estación. Caminando por las calles reales y con pendiente, es el **24,9 %**: unas **221 mil personas
+menos**. La pendiente sola quita 78 mil, todas en las laderas de La Paz. [Ver accesibilidad →](accesibilidad.qmd)
+:::
+
+::: {.hallazgo}
+**2. El Alto es el gran vacío.** Con el 54 % de la población y el 31 % de las estaciones, solo el 12,9 % de
+los alteños camina a una estación en 15 minutos. 771 mil personas quedan afuera. [Ver accesibilidad →](accesibilidad.qmd)
+:::
+
+::: {.hallazgo}
+**3. La demanda la mueven las puertas entre El Alto y La Paz.** Las 7 cabeceras de las líneas Roja,
+Amarilla y Morada concentran el 71 % de los abordajes. La población a pie de una estación no explica su
+demanda: la gente llega en minibús. [Ver demanda →](demanda.qmd)
+:::
+
+::: {.hallazgo}
+**4. Lejos del cable vive la población más vulnerable.** La cobertura cae del 44 % en el quintil menos
+vulnerable al 6 % en el más vulnerable, también dentro de cada municipio. [Ver equidad →](accesibilidad.qmd#equidad)
+:::
+
+::: {.hallazgo}
+**5. Una línea al norte de El Alto rinde como las mejores.** 7 estaciones y 5,9 km desde 16 de Julio
+cubren 95 mil personas nuevas (16,2 mil por km, al nivel de las líneas Azul y Morada). El 63 % de ellas
+es vulnerable, y la línea captaría unos 9 M de abordajes al año (5-14 M). [Ver propuesta →](propuesta.qmd)
+:::
+
+## Cómo se hizo {#como-se-hizo}
+
+::: {.column-page}
+```{mermaid}
+%%| file: assets/diagrama.mmd
+%%| fig-responsive: true
+```
+:::
+
+Cada paso enlaza con su página. El detalle de fuentes, supuestos y limitaciones está en
+[Metodología](metodologia.qmd), y el código, en los [notebooks](notebooks.qmd).
+
+<script src="assets/js/comun.js"></script>
+<script src="assets/js/inicio.js"></script>

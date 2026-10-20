@@ -1,0 +1,52 @@
+project:
+  type: website
+  output-dir: _site
+  # Copia los notebooks del repo y el diagrama Mermaid dentro del proyecto (ver scripts/preparar.ts).
+  # Quarto arma la lista de archivos antes del pre-render: en un clon nuevo, correr primero
+  # `quarto run scripts/preparar.ts` (el workflow de GitHub Pages ya lo hace).
+  pre-render: scripts/preparar.ts
+  resources:
+    - data/**
+    - assets/js/**
+    - assets/img/**
+
+lang: es
+
+website:
+  title: "Mi Teleférico: ¿quién queda lejos del cable?"
+  description: "Accesibilidad peatonal con pendiente a Mi Teleférico (La Paz y El Alto) y propuesta de una nueva línea guiada por datos."
+  page-navigation: true
+  favicon: assets/img/favicon.svg
+  navbar:
+    left:
+      - text: Inicio
+        href: index.qmd
+      - text: Demanda
+        href: demanda.qmd
+      - text: Accesibilidad
+        href: accesibilidad.qmd
+      - text: Propuesta
+        href: propuesta.qmd
+      - text: Metodología
+        href: metodologia.qmd
+      - text: Notebooks
+        href: notebooks.qmd
+  page-footer:
+    left: "Datos: Mi Teleférico, Censo 2024 (INE vía censosbo), OpenStreetMap (ODbL), GTFS comunitario (CC-BY-4.0), Copernicus GLO-30."
+    right: "Análisis independiente; no es un sitio oficial de Mi Teleférico."
+
+format:
+  html:
+    theme:
+      light: [cosmo, assets/css/claro.scss]
+      dark: [darkly, assets/css/oscuro.scss]
+    css: assets/css/site.css
+    toc: true
+    toc-title: "En esta página"
+    smooth-scroll: true
+    link-external-newwindow: true
+    mermaid:
+      theme: neutral
+
+execute:
+  freeze: auto

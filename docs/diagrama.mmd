@@ -17,18 +17,18 @@ flowchart LR
 
     subgraph A["🔎 Análisis"]
         A1["EDA de demanda<br/>líneas · estaciones · meses"]
-        A2["Isócronas 5/10/15/20 min<br/>cobertura poblacional"]
+        A2["Isócronas 5/10/15/20 min<br/>cobertura: 24,9 % a ≤ 15 min"]
         A3["Lente de equidad<br/>brecha de accesibilidad"]
     end
 
     subgraph M["🧮 Modelado"]
-        M0["Bolsones de subcobertura<br/>DBSCAN"]
-        M1["Modelo de demanda<br/>por estación (Poisson/NB)"]
+        M0["Bolsones de subcobertura<br/>DBSCAN: 16 bolsones"]
+        M1["Modelo de demanda<br/>por estación (binomial negativa)"]
         M2["Optimización MCLP / p-mediana<br/>nuevas estaciones"]
         M3["Trazado de línea<br/>+ sensibilidad k y umbral"]
     end
 
-    R["📊 Resultados<br/>% población no cubierta<br/>población nueva cubierta<br/>pasajeros/año estimados"]
+    R["📊 Resultados<br/>75 % a más de 15 min a pie<br/>línea de 7 estaciones: +95 mil personas<br/>~9 M abordajes/año"]
 
     subgraph E["🚀 Entregables"]
         E1["Sitio Quarto · GitHub Pages<br/>ECharts + MapLibre"]
@@ -50,3 +50,24 @@ flowchart LR
     M1 --> M3
     M3 --> R
     R --> E1 & E2 & E3
+
+    %% Colores por etapa (paleta del sitio). Los subgrafos quedan neutros.
+    classDef problema fill:#f0efec,stroke:#52514e,color:#0b0b0b
+    classDef datos fill:#cde2fb,stroke:#256abf,color:#0b0b0b
+    classDef proc fill:#d9f2e8,stroke:#199e70,color:#0b0b0b
+    classDef analisis fill:#fde3d7,stroke:#d95926,color:#0b0b0b
+    classDef modelo fill:#e8e4fb,stroke:#6250d6,color:#0b0b0b
+    classDef resultado fill:#ffeec2,stroke:#c98500,color:#0b0b0b
+    classDef entrega fill:#f0efec,stroke:#52514e,color:#0b0b0b
+    class P problema
+    class D1,D3,D4,D5,D6 datos
+    class T1,T2,T3 proc
+    class A1,A2,A3 analisis
+    class M0,M1,M2,M3 modelo
+    class R resultado
+    class E1,E2,E3 entrega
+    style D fill:#fcfcfb,stroke:#c3c2b7
+    style T fill:#fcfcfb,stroke:#c3c2b7
+    style A fill:#fcfcfb,stroke:#c3c2b7
+    style M fill:#fcfcfb,stroke:#c3c2b7
+    style E fill:#fcfcfb,stroke:#c3c2b7

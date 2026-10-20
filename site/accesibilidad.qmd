@@ -1,0 +1,83 @@
+---
+title: "Accesibilidad"
+subtitle: "¿Cuánta gente vive a pocos minutos a pie de una estación, contando la pendiente?"
+include-in-header: assets/librerias.html
+---
+
+Para cada uno de los 32.860 manzanos del Censo 2024 se calculó el tiempo a pie hasta la estación más
+cercana por la red de calles de OpenStreetMap, con la **velocidad de Tobler corregida por la pendiente**
+(subir cuesta más que bajar). Se compara con dos atajos habituales: la caminata sin pendiente y la
+distancia en línea recta. Detalle en los notebooks [02](notebooks/02_red_peatonal_pendiente.ipynb) y
+[03](notebooks/03_accesibilidad_cobertura.ipynb).
+
+::: {.kpis}
+<div class="kpi heroe"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_pendiente" data-fmt="pct">—</span><span class="kpi-etiqueta">de la población a ≤ 15 min a pie, con pendiente</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_euclidiano" data-fmt="pct">—</span><span class="kpi-etiqueta">según un buffer en línea recta, que sobreestima en <span data-fuente="accesibilidad/kpis.json" data-campo="sobreestimacion_euclid_personas" data-fmt="miles">—</span> personas</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="mediana_min_pendiente" data-fmt="min">—</span><span class="kpi-etiqueta">a pie es la mediana: la mitad de la población vive más lejos</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_q5" data-fmt="pct">—</span><span class="kpi-etiqueta">de cobertura en el quintil más vulnerable, frente a <span data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_q1" data-fmt="pct">—</span> en el menos vulnerable</span></div>
+:::
+
+## El mapa
+
+::: {.controles}
+<div class="segmentado" id="sel-variable" role="group" aria-label="Variable del mapa">
+<button data-valor="t_pendiente_min" aria-pressed="true">Con pendiente</button>
+<button data-valor="t_plana_min" aria-pressed="false">Sin pendiente</button>
+<button data-valor="t_euclidiano_min" aria-pressed="false">Línea recta</button>
+<button data-valor="brecha" aria-pressed="false">Brecha de equidad</button>
+</div>
+<label><input type="checkbox" id="chk-isocrona"> Isócrona de 15 min con pendiente</label>
+:::
+
+<div id="leyenda-acceso" class="leyenda"></div>
+<div id="mapa-acceso" class="mapa" role="img" aria-label="Mapa de hexágonos de La Paz y El Alto con el tiempo a pie a la estación más cercana o la brecha de equidad"></div>
+
+La red forma un **corredor angosto**: a ~1,5 km del cable el tiempo ya supera los 20-30 minutos. Con la
+**brecha de equidad** (vulnerabilidad × falta de acceso) se ve que la población vulnerable y lejana se
+concentra en el norte, el oeste y el sur de El Alto.
+
+## Hipótesis 1: la línea recta sobreestima la cobertura
+
+<div id="g-h1" class="grafico" role="img" aria-label="Porcentaje de población a 15 minutos o menos según el método, por municipio"></div>
+
+- La línea recta dice **38,5 %**; por las calles reales con pendiente es **24,9 %**. De la diferencia,
+  ~143 mil personas se deben a la forma de la red (rodeos, quebradas, autopistas) y **~78 mil a la
+  pendiente**.
+- La pendiente pesa **solo en La Paz** (de 49,5 % a 39,1 %). En El Alto, que es plano, cambia 401 personas.
+- El resultado es robusto: con cualquier tratamiento del modelo de elevación, la cobertura total queda
+  entre 20 % y 26 %.
+
+::: {.fila-graficos}
+<div><div id="g-curva-lp" class="grafico" role="img" aria-label="Población acumulada según minutos a pie en La Paz"></div></div>
+<div><div id="g-curva-ea" class="grafico" role="img" aria-label="Población acumulada según minutos a pie en El Alto"></div></div>
+:::
+
+## Por zona
+
+OSM tiene los 7 macrodistritos urbanos de La Paz. Para El Alto (14 distritos, solo 3 en OSM) se usa el
+municipio completo.
+
+<div id="g-zonas" class="grafico" role="img" aria-label="Porcentaje de población a 15 minutos o menos por zona, sin y con pendiente"></div>
+
+## Equidad {#equidad}
+
+Índice de vulnerabilidad por manzano con 7 carencias del censo (sin educación superior, sin seguro de
+salud, sin agua por red, sin alcantarillado, sin internet, hacinamiento alto y piso de tierra). Los
+quintiles dividen a la población en cinco grupos del mismo tamaño.
+
+<div id="g-equidad" class="grafico" role="img" aria-label="Porcentaje de población a 15 minutos o menos por quintil de vulnerabilidad y municipio"></div>
+
+**La cobertura cae a lo largo del gradiente de vulnerabilidad, también dentro de cada municipio.** El Alto
+concentra la vulnerabilidad: el 31 % de su población está en el quintil más vulnerable, frente al 7 % de
+La Paz. ~546 mil personas de los quintiles 4 y 5 viven a más de 15 minutos de una estación.
+
+## Población caminable frente a demanda
+
+<div id="g-captacion" class="grafico" role="img" aria-label="Dispersión de población a 15 minutos frente a abordajes 2025 por estación"></div>
+
+**La población a pie no explica cuántos pasajeros tiene una estación** (correlación de Spearman ≈ −0,1).
+Las estaciones con más abordajes son cabeceras y transbordos alimentados por minibús. Eso lleva al
+[modelo de demanda](propuesta.qmd#modelo-de-demanda).
+
+<script src="assets/js/comun.js"></script>
+<script src="assets/js/accesibilidad.js"></script>

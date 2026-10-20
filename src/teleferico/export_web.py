@@ -172,15 +172,36 @@ def exportar_propuesta() -> None:
 
     _escribir(out / "linea_propuesta.geojson", _geojson(gpd.read_parquet(d / "linea_propuesta.parquet")))
     _escribir(out / "estaciones_propuestas.geojson", _geojson(gpd.read_parquet(d / "estaciones_propuestas.parquet")))
-    pas = d / "pasajeros_propuesta.json"
-    if pas.exists():
-        _escribir(out / "pasajeros.json", json.loads(pas.read_text(encoding="utf-8")))
+    for nombre in ("pasajeros_propuesta", "contraste_pampahasi"):
+        f = d / f"{nombre}.json"
+        if f.exists():
+            _escribir(out / f"{nombre.split('_')[0]}.json", json.loads(f.read_text(encoding="utf-8")))
+    rl = d / "rendimiento_lineas.parquet"
+    if rl.exists():
+        _escribir(out / "rendimiento_lineas.json", pd.read_parquet(rl).to_dict(orient="records"))
+    lh = pd.read_parquet(d / "lineas_haz.parquet").drop(columns="secuencia")
+    _escribir(out / "lineas_haz.json", lh.to_dict(orient="records"))
+
+
+def exportar_red() -> None:
+    """Líneas y estaciones actuales (GeoJSON) para los mapas."""
+    out = SITE_DATA / "red"
+    lineas = gpd.read_parquet(PROCESSED / "red" / "lineas.parquet")[["ruta", "linea", "longitud_m", "geometry"]]
+    lineas["color"] = lineas["linea"].map(TRAZO_LINEA)
+    _escribir(out / "lineas.geojson", _geojson(lineas))
+    t = demanda.cargar()
+    est = demanda.estaciones_fisicas(t)[["slug", "nombre", "municipio", "lineas", "transbordo", "pasajeros_est",
+                                         "stop_lon", "stop_lat"]]
+    est = gpd.GeoDataFrame(est.drop(columns=["stop_lon", "stop_lat"]),
+                           geometry=gpd.points_from_xy(est["stop_lon"], est["stop_lat"]), crs=CRS_WGS84)
+    _escribir(out / "estaciones.geojson", _geojson(est))
 
 
 if __name__ == "__main__":
     from teleferico.utils import setup_logging
 
     setup_logging()
+    exportar_red()
     exportar_demanda()
     exportar_accesibilidad()
     exportar_modelo_demanda()

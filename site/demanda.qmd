@@ -1,0 +1,56 @@
+---
+title: "Demanda"
+subtitle: "Cómo se mueve la gente en Mi Teleférico, 2014-2025"
+include-in-header: assets/librerias.html
+---
+
+Fuente: *Indicadores de Gestión mayo 2014 - dic 2025* de Mi Teleférico (PDF oficial). Las series se
+reconstruyeron desde los gráficos del PDF y cuadran con los totales impresos. "Pasajeros" son
+**abordajes**: un transbordo cuenta como un nuevo abordaje. Detalle en el
+[notebook 01](notebooks/01_eda_demanda.ipynb).
+
+::: {.kpis}
+<div class="kpi"><span class="kpi-valor" data-fuente="demanda/kpis.json" data-campo="pasajeros_2025" data-fmt="millones">—</span><span class="kpi-etiqueta">pasajeros en 2025</span><span class="kpi-nota">+<span data-fuente="demanda/kpis.json" data-campo="var_2025_vs_2024_pct" data-fmt="pct">—</span> frente a 2024</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="demanda/kpis.json" data-campo="indice_2025_vs_2019" data-fmt="pct0">—</span><span class="kpi-etiqueta">del pico de 2019 (recuperación aún incompleta)</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="demanda/kpis.json" data-campo="promedio_diario_2025" data-fmt="miles">—</span><span class="kpi-etiqueta">pasajeros por día en 2025</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="demanda/kpis.json" data-campo="pct_abordajes_el_alto_2025" data-fmt="pct">—</span><span class="kpi-etiqueta">de los abordajes ocurre en las 8 estaciones de El Alto</span></div>
+:::
+
+## Evolución anual
+
+La red creció a saltos con cada inauguración (2017-2019). La cuarentena de 2020 recortó la demanda un
+58 %, y en 2025 el sistema todavía está un 9,5 % por debajo de 2019.
+
+<div id="g-anual" class="grafico" role="img" aria-label="Barras de pasajeros por año, 2014 a 2025"></div>
+
+## Serie mensual y estacionalidad
+
+<div id="g-mensual" class="grafico" role="img" aria-label="Línea de pasajeros por mes, 2014 a 2025"></div>
+
+La estacionalidad es baja y estable: enero y febrero (vacaciones) caen un ~14 % bajo un mes típico, y
+octubre y diciembre suben un 10-12 %. Es una demanda cotidiana, de trabajo y estudio.
+
+<div id="g-estacionalidad" class="grafico" role="img" aria-label="Mapa de calor de pasajeros por mes y año"></div>
+
+## Líneas
+
+La Morada lleva **1 de cada 4 pasajeros** con el 14 % de los km. Las líneas de El Alto (Plateada y Azul)
+y la Morada ya superaron sus niveles de 2019; las internas de La Paz siguen entre el 50 % y el 72 %.
+
+::: {.fila-graficos}
+<div><div id="g-lineas" class="grafico alto" role="img" aria-label="Pasajeros 2025 por línea"></div></div>
+<div><div id="g-recuperacion" class="grafico alto" role="img" aria-label="Pasajeros 2025 como porcentaje de 2019 por línea"></div></div>
+:::
+
+## Estaciones
+
+**5 estaciones (19 % del total) generan más de la mitad de los abordajes.** Son las cabeceras en el borde
+de El Alto y sus pares de llegada en La Paz: la red funciona como un sistema de **puertas entre El Alto y
+La Paz**, como confirma el [modelo de demanda](propuesta.qmd#modelo-de-demanda).
+
+<div id="g-estaciones" class="grafico alto" role="img" aria-label="Abordajes 2025 por estación, coloreados por municipio"></div>
+
+<div id="g-concentracion" class="grafico bajo" role="img" aria-label="Curva de concentración de la demanda por estación"></div>
+
+<script src="assets/js/comun.js"></script>
+<script src="assets/js/demanda.js"></script>

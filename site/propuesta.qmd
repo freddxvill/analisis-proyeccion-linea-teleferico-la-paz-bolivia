@@ -1,0 +1,99 @@
+---
+title: "Propuesta"
+subtitle: "¿Dónde convendría una nueva línea? Un escenario guiado por datos"
+include-in-header: assets/librerias.html
+---
+
+La población hoy a más de 15 minutos a pie se agrupó en **bolsones de subcobertura** (DBSCAN ponderado
+por población). Luego se buscaron las ubicaciones que más población nueva cubren (**MCLP**) y la **línea
+continua** que mejor rinde por km de cable, conectada a la red actual. Detalle en los notebooks
+[04](notebooks/04_modelo_demanda_estaciones.ipynb) y [05](notebooks/05_optimizacion_nueva_linea.ipynb).
+
+::: {.callout-note appearance="simple"}
+**Escenario, no diseño de ingeniería.** No se evalúan derechos de vía, torres, costos ni factibilidad
+política. Se recomienda un **corredor**: la ubicación exacta de las estaciones cambia con los supuestos.
+:::
+
+::: {.kpis}
+<div class="kpi heroe"><span class="kpi-valor" data-fuente="propuesta/kpis.json" data-campo="personas_nuevas_15" data-fmt="miles">—</span><span class="kpi-etiqueta">personas pasan a vivir a ≤ 15 min a pie de una estación</span></div>
+<div class="kpi"><span class="kpi-valor"><span data-fuente="propuesta/kpis.json" data-campo="n_estaciones" data-fmt="num">—</span> · <span data-fuente="propuesta/kpis.json" data-campo="km_cable" data-fmt="km">—</span></span><span class="kpi-etiqueta">estaciones nuevas y km de cable desde 16 de Julio</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="propuesta/kpis.json" data-campo="pct_15_despues_el_alto" data-fmt="pct">—</span><span class="kpi-etiqueta">de cobertura en El Alto (hoy 12,9 %)</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="propuesta/pasajeros.json" data-campo="Cabecera interurbana.total.media" data-fmt="millones">—</span><span class="kpi-etiqueta">abordajes al año estimados</span><span class="kpi-nota">IC 90 %: <span data-fuente="propuesta/pasajeros.json" data-campo="Cabecera interurbana.total.p05" data-fmt="millones">—</span> a <span data-fuente="propuesta/pasajeros.json" data-campo="Cabecera interurbana.total.p95" data-fmt="millones">—</span></span></div>
+:::
+
+## El mapa
+
+::: {.controles}
+<label><input type="checkbox" id="chk-mclp" checked> Estaciones libres del MCLP</label>
+<label>k = <output id="k-valor">6</output> <input type="range" id="k-mclp" min="3" max="10" step="1" value="6" aria-label="Número de estaciones del MCLP"></label>
+:::
+
+<div id="leyenda-propuesta" class="leyenda"></div>
+<div id="mapa-propuesta" class="mapa" role="img" aria-label="Mapa con los bolsones de subcobertura, las estaciones del MCLP, la línea propuesta y la extensión anunciada a Pampahasi"></div>
+
+- **Hipótesis 2, confirmada:** hay 16 bolsones robustos con 561 mil personas no cubiertas. Los mayores
+  están al norte (103 mil) y al sur (97 mil) de 16 de Julio, en El Alto, y en San Antonio (69 mil), en La Paz.
+- La **línea propuesta** sale de 16 de Julio (transbordo con las líneas Roja, Azul y Plateada) hacia el
+  noroeste, a lo largo del bolsón más grande, con vanos de 0,7 a 1,2 km. Su primera estación cae en la
+  ladera de Max Paredes (La Paz).
+
+## ¿Cuántas estaciones?
+
+::: {.fila-graficos}
+<div><div id="g-curva" class="grafico" role="img" aria-label="Población nueva cubierta según el número de estaciones del MCLP"></div></div>
+<div><div id="g-parada" class="grafico" role="img" aria-label="Personas nuevas por km que agrega cada estación de la línea"></div></div>
+:::
+
+Con estaciones libres (MCLP), la cobertura crece con rendimientos decrecientes suaves: 90 mil personas
+con 3 estaciones y 263 mil con 10. La línea continua logra ~50 % de lo que lograrían esas estaciones
+libres: es el costo de exigir una línea conectada. Se agregan estaciones mientras cada una rinda al menos
+lo que la red actual (**13,2 mil personas por km**); la 8.ª ya no lo hace.
+
+## Rendimiento por km frente a las líneas actuales
+
+<div id="g-rendimiento" class="grafico" role="img" aria-label="Personas a 15 minutos o menos por km de cable, por línea y para la propuesta"></div>
+
+La propuesta cubre **16,2 mil personas nuevas por km**, al nivel de la Azul y la Morada, aunque solo cuenta
+la población que hoy no tiene acceso. Las líneas cortas del centro rinden más porque cruzan las zonas más
+densas y consolidadas.
+
+## Impacto
+
+<div id="tabla-impacto"></div>
+
+- El **63 % de las personas nuevas cubiertas** está en los quintiles más vulnerables (Q4-Q5).
+- Los abordajes son un **orden de magnitud**: ~1,2-1,3 M por estación, coherente con las estaciones internas
+  de la línea Azul (0,8-2,7 M). No incluyen los transbordos adicionales en 16 de Julio, y una parte vendría
+  de otras estaciones: no son todos viajeros nuevos.
+- El **corredor es robusto**: sin pendiente o con umbral de 10 minutos, la mejor línea también sale de 16 de
+  Julio hacia el norte de El Alto. Lo que cambia es la ubicación exacta de cada estación.
+
+## Modelo de demanda {#modelo-de-demanda}
+
+¿De qué depende cuántos pasajeros tiene una estación? Se ajustaron regresiones **binomiales negativas**
+sobre las 26 estaciones con validación *leave-one-out* (cada estación se predice sin usarla en el ajuste).
+
+::: {.fila-graficos}
+<div><div id="g-modelos" class="grafico" role="img" aria-label="Error absoluto medio fuera de muestra por modelo"></div></div>
+<div><div id="g-loo" class="grafico" role="img" aria-label="Abordajes observados frente a la predicción fuera de muestra"></div></div>
+:::
+
+- **El mejor modelo usa una sola variable:** ser cabecera de una línea que une El Alto con La Paz (Roja,
+  Amarilla, Morada) **multiplica la demanda por ~6,7** sobre una base de ~1,3 M al año.
+- **La población a pie no explica la demanda**, y agregar variables empeora el error fuera de muestra
+  (con 26 estaciones, sobreajusta). La hipótesis 3 se reformula: pesa el **rol de la estación en la red**.
+- El 65 % de las estaciones queda dentro de un factor 2. Por eso los pasajeros se reportan con intervalos amplios.
+
+## Contraste: la extensión anunciada a Pampahasi
+
+El único proyecto de ampliación con financiamiento aprobado es la **extensión de la Línea Café de Las
+Villas a Pampahasi** (~1,2 km; Ley N° 1759, crédito del BID BO-L1229). Evaluado con el mismo método:
+
+<div id="tabla-contraste"></div>
+
+Pampahasi cae **dentro del bolsón de San Antonio**, uno de los más grandes y persistentes de La Paz: el
+método llega a la misma prioridad que la planificación oficial. Las dos intervenciones son
+complementarias: una atiende una ladera de La Paz y la otra, el bolsón más grande de El Alto.
+
+<script src="assets/js/comun.js"></script>
+<script src="assets/js/propuesta.js"></script>

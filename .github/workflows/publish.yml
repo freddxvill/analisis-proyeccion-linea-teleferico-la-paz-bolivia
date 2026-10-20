@@ -1,0 +1,41 @@
+# Publica el sitio Quarto (site/) en la rama gh-pages.
+# Los notebooks y los datos del sitio se generan localmente y se versionan; CI solo renderiza
+# (no ejecuta Python): los .ipynb se muestran con sus resultados guardados.
+name: Publicar sitio
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "notebooks/**", "docs/diagrama.mmd", ".github/workflows/publish.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.7.31
+
+      # Jupyter disponible por si Quarto lo necesita para convertir los .ipynb (no se ejecutan).
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install jupyter
+
+      # Copia notebooks y diagrama al proyecto antes de que Quarto arme la lista de archivos.
+      - name: Preparar el proyecto
+        working-directory: site
+        run: quarto run scripts/preparar.ts
+
+      - uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+          path: site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
