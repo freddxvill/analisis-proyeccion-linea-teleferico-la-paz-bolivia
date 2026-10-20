@@ -1,0 +1,236 @@
+/* Tokens de color por rol (paleta de referencia validada; ver assets/js/comun.js).
+   Los gráficos y mapas leen estos valores en cada render, así que el modo oscuro es una
+   selección propia de pasos, no una inversión automática. */
+body {
+  --surface-1: #fcfcfb;
+  --page: #f9f9f7;
+  --ink-1: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --ring: rgba(11, 11, 11, 0.10);
+  /* categórica: slot 1 = El Alto, slot 2 = La Paz, slot 3 */
+  --cat-1: #2a78d6;
+  --cat-2: #eb6834;
+  --cat-3: #1baf7a;
+  /* ordinal azul (euclidiano → plana → pendiente) */
+  --ord-1: #86b6ef;
+  --ord-2: #2a78d6;
+  --ord-3: #104281;
+  /* divergente de tiempo a pie: cubierto (azul) | lejos (rojo) */
+  --t-1: #104281;
+  --t-2: #2a78d6;
+  --t-3: #86b6ef;
+  --t-4: #ee9a85;
+  --t-5: #d9533f;
+  --t-6: #9c2a1f;
+  /* secuencial naranja (brecha, bolsones) */
+  --o-1: #f0a465;
+  --o-2: #de7429;
+  --o-3: #b24a0d;
+  --o-4: #6e2c05;
+  --seq-bajo: #cde2fb;
+  --seq-alto: #0d366b;
+  --accent: #2a78d6;
+}
+
+body.quarto-dark {
+  --surface-1: #1a1a19;
+  --page: #0d0d0d;
+  --ink-1: #f0efec;
+  --ink-2: #c3c2b7;
+  --ink-3: #898781;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --ring: rgba(255, 255, 255, 0.10);
+  --cat-1: #3987e5;
+  --cat-2: #d95926;
+  --cat-3: #199e70;
+  --ord-1: #256abf;
+  --ord-2: #5598e7;
+  --ord-3: #b7d3f6;
+  --t-1: #b7d3f6;
+  --t-2: #5598e7;
+  --t-3: #256abf;
+  --t-4: #a53526;
+  --t-5: #dc5b45;
+  --t-6: #f1a593;
+  --o-1: #8a3d0b;
+  --o-2: #c4591a;
+  --o-3: #ea8740;
+  --o-4: #f6c08f;
+  --seq-bajo: #1c2a3d;
+  --seq-alto: #b7d3f6;
+  --accent: #3987e5;
+}
+
+/* --- Portada --- */
+.gancho {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 46rem;
+}
+
+/* --- Tarjetas de cifras (stat tiles) --- */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.75rem;
+}
+.kpi {
+  background: var(--surface-1);
+  border: 1px solid var(--ring);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.kpi-valor {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ink-1);
+}
+.kpi-etiqueta {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  line-height: 1.35;
+}
+.kpi-nota {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+.kpi.heroe .kpi-valor { font-size: 2.6rem; }
+.kpi-valor { white-space: nowrap; }
+
+/* --- Gráficos --- */
+.grafico {
+  width: 100%;
+  height: 360px;
+  background: var(--surface-1);
+  border: 1px solid var(--ring);
+  border-radius: 10px;
+  margin: 0.75rem 0 0.25rem;
+}
+.grafico.alto { height: 520px; }
+.grafico.bajo { height: 280px; }
+.fila-graficos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 0.75rem;
+}
+
+/* Vista de tabla: todo valor del gráfico es accesible sin hover. */
+details.vista-tabla {
+  margin: 0 0 1.25rem;
+  font-size: 0.85rem;
+}
+details.vista-tabla summary {
+  cursor: pointer;
+  color: var(--ink-2);
+  padding: 0.25rem 0;
+}
+details.vista-tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+details.vista-tabla th,
+details.vista-tabla td {
+  border-bottom: 1px solid var(--grid);
+  padding: 0.3rem 0.5rem;
+  text-align: right;
+}
+details.vista-tabla th:first-child,
+details.vista-tabla td:first-child { text-align: left; }
+.tabla-scroll { overflow-x: auto; }
+
+/* --- Mapas --- */
+.mapa {
+  width: 100%;
+  height: 560px;
+  border-radius: 10px;
+  border: 1px solid var(--ring);
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.9rem;
+}
+.segmentado {
+  display: inline-flex;
+  border: 1px solid var(--axis);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.segmentado button {
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  cursor: pointer;
+}
+.segmentado button + button { border-left: 1px solid var(--axis); }
+.segmentado button[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+.controles input[type="range"] { accent-color: var(--accent); }
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+  margin: 0.25rem 0 0.75rem;
+}
+.leyenda span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.leyenda i {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+.leyenda i.linea { height: 3px; width: 18px; border-radius: 2px; }
+.leyenda i.punto { border-radius: 50%; width: 11px; height: 11px; border: 2px solid var(--ink-1); }
+
+.maplibregl-popup-content {
+  background: var(--surface-1);
+  color: var(--ink-1);
+  font-size: 0.82rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+.maplibregl-popup-tip { display: none; }
+.popup-valor { font-weight: 600; }
+.popup-sec { color: var(--ink-2); }
+
+/* --- Hallazgos --- */
+.hallazgo {
+  border-left: 3px solid var(--accent);
+  padding: 0.25rem 0 0.25rem 1rem;
+  margin: 1rem 0;
+}
+
+@media (max-width: 991px) {
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 576px) {
+  .kpis { grid-template-columns: 1fr; }
+  .kpi-valor { font-size: 1.6rem; }
+  .kpi.heroe .kpi-valor { font-size: 2.3rem; }
+  .mapa { height: 440px; }
+  .grafico { height: 320px; }
+  .grafico.alto { height: 560px; }
+}

@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>04 · Modelo de demanda por estación: ¿qué hace que una estación tenga pasajeros? – Mi Teleférico: ¿quién queda lejos del cable?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/img/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6c595b621499470f26c402490b503aff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-f33d57418b8ae2465de997d81314bbfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-6c595b621499470f26c402490b503aff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Mi Teleférico: ¿quién queda lejos del cable?</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../demanda.html"> 
+<span class="menu-text">Demanda</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../accesibilidad.html"> 
+<span class="menu-text">Accesibilidad</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../propuesta.html"> 
+<span class="menu-text">Propuesta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../metodologia.html"> 
+<span class="menu-text">Metodología</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks.html"> 
+<span class="menu-text">Notebooks</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#exploración-la-demanda-la-mueven-las-puertas-entre-el-alto-y-la-paz" id="toc-exploración-la-demanda-la-mueven-las-puertas-entre-el-alto-y-la-paz" class="nav-link active" data-scroll-target="#exploración-la-demanda-la-mueven-las-puertas-entre-el-alto-y-la-paz">1. Exploración: la demanda la mueven las “puertas” entre El Alto y La Paz</a></li>
+  <li><a href="#comparación-de-modelos-binomial-negativa-validación-leave-one-out" id="toc-comparación-de-modelos-binomial-negativa-validación-leave-one-out" class="nav-link" data-scroll-target="#comparación-de-modelos-binomial-negativa-validación-leave-one-out">2. Comparación de modelos (binomial negativa, validación leave-one-out)</a></li>
+  <li><a href="#modelos-elegidos" id="toc-modelos-elegidos" class="nav-link" data-scroll-target="#modelos-elegidos">3. Modelos elegidos</a></li>
+  <li><a href="#predicción-fuera-de-muestra-loo-frente-a-lo-observado" id="toc-predicción-fuera-de-muestra-loo-frente-a-lo-observado" class="nav-link" data-scroll-target="#predicción-fuera-de-muestra-loo-frente-a-lo-observado">4. Predicción fuera de muestra (LOO) frente a lo observado</a></li>
+  <li><a href="#contraste-demanda-acumulada-2014-2025" id="toc-contraste-demanda-acumulada-2014-2025" class="nav-link" data-scroll-target="#contraste-demanda-acumulada-2014-2025">5. Contraste: demanda acumulada 2014-2025</a></li>
+  <li><a href="#predicción-para-estaciones-hipotéticas-con-intervalos" id="toc-predicción-para-estaciones-hipotéticas-con-intervalos" class="nav-link" data-scroll-target="#predicción-para-estaciones-hipotéticas-con-intervalos">6. Predicción para estaciones hipotéticas (con intervalos)</a></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">7. Conclusiones</a></li>
+  <li><a href="#anexo-exportación-de-datos-para-el-sitio" id="toc-anexo-exportación-de-datos-para-el-sitio" class="nav-link" data-scroll-target="#anexo-exportación-de-datos-para-el-sitio">Anexo: exportación de datos para el sitio</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">04 · Modelo de demanda por estación: ¿qué hace que una estación tenga pasajeros?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Pregunta:</strong> ¿de qué depende el número de abordajes de una estación y cuántos pasajeros al año podría captar una estación nueva?</p>
+<p><strong>Datos</strong> (<code>teleferico.demand_model</code>): - <strong>Variable respuesta:</strong> abordajes estimados de 2025 por estación física (ranking del PDF de Mi Teleférico, % con un decimal × total del año; error de ±0,05 pp × 87,7 M ≈ ±44 mil por andén). Los andenes de una estación de transbordo se suman. - <strong>Variables candidatas:</strong> población a ≤ 15 min a pie con pendiente (notebook 03), población del “área de alimentación” (estación más cercana en línea recta, a ≤ 3 km), cabecera de línea, línea que une El Alto con La Paz, transbordo, municipio, distancia al centro y años de operación.</p>
+<p><strong>Método:</strong> regresión <strong>binomial negativa</strong> (los conteos tienen mucha sobredispersión), con pocos modelos simples y validación <strong>leave-one-out</strong> (LOO). Con <strong>n = 26</strong> se evita sobreinterpretar: se prefieren modelos de 1-2 variables y se reportan intervalos.</p>
+<div id="6d7f5d1b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:09.345241Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:09.344857Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:16.666665Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:16.664597Z&quot;}}" data-execution_count="1">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> mticker</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico <span class="im">import</span> demand_model <span class="im">as</span> dm</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico <span class="im">import</span> demanda, viz</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>viz.estilo()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.float_format"</span>, <span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x<span class="sc">:,.3f}</span><span class="ss">"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> demanda.cargar()</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> dm.variables(t)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Líneas que unen El Alto con La Paz:"</span>, dm.lineas_interurbanas(t))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"nombre"</span>, <span class="st">"municipio"</span>, <span class="st">"lineas"</span>, <span class="st">"y"</span>, <span class="st">"pob_15"</span>, <span class="st">"pob_voronoi_3km"</span>, <span class="st">"cabecera"</span>, <span class="st">"interurbana"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cabecera_interurbana"</span>, <span class="st">"transbordo"</span>, <span class="st">"dist_centro_km"</span>, <span class="st">"anios_operacion"</span>]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df[cols].sort_values(<span class="st">"y"</span>, ascending<span class="op">=</span><span class="va">False</span>).set_index(<span class="st">"nombre"</span>).style.<span class="bu">format</span>(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"y"</span>: viz.fmt_int, <span class="st">"pob_15"</span>: viz.fmt_int, <span class="st">"pob_voronoi_3km"</span>: viz.fmt_int, <span class="st">"dist_centro_km"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Líneas que unen El Alto con La Paz: ['Amarilla', 'Morada', 'Roja']</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<style type="text/css">
+</style>
+
+<table id="T_bd00c" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_bd00c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">municipio</th>
+<th id="T_bd00c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">lineas</th>
+<th id="T_bd00c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">y</th>
+<th id="T_bd00c_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">pob_15</th>
+<th id="T_bd00c_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">pob_voronoi_3km</th>
+<th id="T_bd00c_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">cabecera</th>
+<th id="T_bd00c_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">interurbana</th>
+<th id="T_bd00c_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">cabecera_interurbana</th>
+<th id="T_bd00c_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">transbordo</th>
+<th id="T_bd00c_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">dist_centro_km</th>
+<th id="T_bd00c_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">anios_operacion</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">nombre</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col4" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col5" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col6" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col7" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col8" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col9" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col10" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_bd00c_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">16 de Julio</td>
+<td id="T_bd00c_row0_col0" class="data row0 col0">El Alto</td>
+<td id="T_bd00c_row0_col1" class="data row0 col1">Azul, Plateada, Roja</td>
+<td id="T_bd00c_row0_col2" class="data row0 col2">13.238.503</td>
+<td id="T_bd00c_row0_col3" class="data row0 col3">10.423</td>
+<td id="T_bd00c_row0_col4" class="data row0 col4">27.439</td>
+<td id="T_bd00c_row0_col5" class="data row0 col5">1</td>
+<td id="T_bd00c_row0_col6" class="data row0 col6">1</td>
+<td id="T_bd00c_row0_col7" class="data row0 col7">1</td>
+<td id="T_bd00c_row0_col8" class="data row0 col8">1</td>
+<td id="T_bd00c_row0_col9" class="data row0 col9">3.3</td>
+<td id="T_bd00c_row0_col10" class="data row0 col10">12</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">San José</td>
+<td id="T_bd00c_row1_col0" class="data row1 col0">La Paz</td>
+<td id="T_bd00c_row1_col1" class="data row1 col1">Morada</td>
+<td id="T_bd00c_row1_col2" class="data row1 col2">10.432.993</td>
+<td id="T_bd00c_row1_col3" class="data row1 col3">40.150</td>
+<td id="T_bd00c_row1_col4" class="data row1 col4">27.080</td>
+<td id="T_bd00c_row1_col5" class="data row1 col5">1</td>
+<td id="T_bd00c_row1_col6" class="data row1 col6">1</td>
+<td id="T_bd00c_row1_col7" class="data row1 col7">1</td>
+<td id="T_bd00c_row1_col8" class="data row1 col8">0</td>
+<td id="T_bd00c_row1_col9" class="data row1 col9">0.5</td>
+<td id="T_bd00c_row1_col10" class="data row1 col10">8</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Libertador</td>
+<td id="T_bd00c_row2_col0" class="data row2 col0">La Paz</td>
+<td id="T_bd00c_row2_col1" class="data row2 col1">Amarilla, Celeste, Verde</td>
+<td id="T_bd00c_row2_col2" class="data row2 col2">9.468.598</td>
+<td id="T_bd00c_row2_col3" class="data row2 col3">1.942</td>
+<td id="T_bd00c_row2_col4" class="data row2 col4">13.723</td>
+<td id="T_bd00c_row2_col5" class="data row2 col5">1</td>
+<td id="T_bd00c_row2_col6" class="data row2 col6">1</td>
+<td id="T_bd00c_row2_col7" class="data row2 col7">1</td>
+<td id="T_bd00c_row2_col8" class="data row2 col8">1</td>
+<td id="T_bd00c_row2_col9" class="data row2 col9">3.2</td>
+<td id="T_bd00c_row2_col10" class="data row2 col10">12</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Mirador</td>
+<td id="T_bd00c_row3_col0" class="data row3 col0">El Alto</td>
+<td id="T_bd00c_row3_col1" class="data row3 col1">Amarilla, Plateada</td>
+<td id="T_bd00c_row3_col2" class="data row3 col2">8.504.204</td>
+<td id="T_bd00c_row3_col3" class="data row3 col3">21.185</td>
+<td id="T_bd00c_row3_col4" class="data row3 col4">42.916</td>
+<td id="T_bd00c_row3_col5" class="data row3 col5">1</td>
+<td id="T_bd00c_row3_col6" class="data row3 col6">1</td>
+<td id="T_bd00c_row3_col7" class="data row3 col7">1</td>
+<td id="T_bd00c_row3_col8" class="data row3 col8">1</td>
+<td id="T_bd00c_row3_col9" class="data row3 col9">3.0</td>
+<td id="T_bd00c_row3_col10" class="data row3 col10">12</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">Faro Murillo</td>
+<td id="T_bd00c_row4_col0" class="data row4 col0">El Alto</td>
+<td id="T_bd00c_row4_col1" class="data row4 col1">Morada, Plateada</td>
+<td id="T_bd00c_row4_col2" class="data row4 col2">7.189.121</td>
+<td id="T_bd00c_row4_col3" class="data row4 col3">21.785</td>
+<td id="T_bd00c_row4_col4" class="data row4 col4">27.883</td>
+<td id="T_bd00c_row4_col5" class="data row4 col5">1</td>
+<td id="T_bd00c_row4_col6" class="data row4 col6">1</td>
+<td id="T_bd00c_row4_col7" class="data row4 col7">1</td>
+<td id="T_bd00c_row4_col8" class="data row4 col8">1</td>
+<td id="T_bd00c_row4_col9" class="data row4 col9">2.8</td>
+<td id="T_bd00c_row4_col10" class="data row4 col10">8</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">6 de Marzo</td>
+<td id="T_bd00c_row5_col0" class="data row5 col0">El Alto</td>
+<td id="T_bd00c_row5_col1" class="data row5 col1">Morada</td>
+<td id="T_bd00c_row5_col2" class="data row5 col2">6.750.760</td>
+<td id="T_bd00c_row5_col3" class="data row5 col3">10.880</td>
+<td id="T_bd00c_row5_col4" class="data row5 col4">88.774</td>
+<td id="T_bd00c_row5_col5" class="data row5 col5">1</td>
+<td id="T_bd00c_row5_col6" class="data row5 col6">1</td>
+<td id="T_bd00c_row5_col7" class="data row5 col7">1</td>
+<td id="T_bd00c_row5_col8" class="data row5 col8">0</td>
+<td id="T_bd00c_row5_col9" class="data row5 col9">4.8</td>
+<td id="T_bd00c_row5_col10" class="data row5 col10">8</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">Estación Central</td>
+<td id="T_bd00c_row6_col0" class="data row6 col0">La Paz</td>
+<td id="T_bd00c_row6_col1" class="data row6 col1">Naranja, Roja</td>
+<td id="T_bd00c_row6_col2" class="data row6 col2">6.663.088</td>
+<td id="T_bd00c_row6_col3" class="data row6 col3">25.406</td>
+<td id="T_bd00c_row6_col4" class="data row6 col4">43.573</td>
+<td id="T_bd00c_row6_col5" class="data row6 col5">1</td>
+<td id="T_bd00c_row6_col6" class="data row6 col6">1</td>
+<td id="T_bd00c_row6_col7" class="data row6 col7">1</td>
+<td id="T_bd00c_row6_col8" class="data row6 col8">1</td>
+<td id="T_bd00c_row6_col9" class="data row6 col9">1.3</td>
+<td id="T_bd00c_row6_col10" class="data row6 col10">12</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">Héroes de la Revolución</td>
+<td id="T_bd00c_row7_col0" class="data row7 col0">La Paz</td>
+<td id="T_bd00c_row7_col1" class="data row7 col1">Blanca, Naranja</td>
+<td id="T_bd00c_row7_col2" class="data row7 col2">3.857.577</td>
+<td id="T_bd00c_row7_col3" class="data row7 col3">32.230</td>
+<td id="T_bd00c_row7_col4" class="data row7 col4">75.391</td>
+<td id="T_bd00c_row7_col5" class="data row7 col5">1</td>
+<td id="T_bd00c_row7_col6" class="data row7 col6">0</td>
+<td id="T_bd00c_row7_col7" class="data row7 col7">0</td>
+<td id="T_bd00c_row7_col8" class="data row7 col8">1</td>
+<td id="T_bd00c_row7_col9" class="data row7 col9">1.8</td>
+<td id="T_bd00c_row7_col10" class="data row7 col10">9</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">Rio Seco</td>
+<td id="T_bd00c_row8_col0" class="data row8 col0">El Alto</td>
+<td id="T_bd00c_row8_col1" class="data row8 col1">Azul</td>
+<td id="T_bd00c_row8_col2" class="data row8 col2">2.717.838</td>
+<td id="T_bd00c_row8_col3" class="data row8 col3">20.048</td>
+<td id="T_bd00c_row8_col4" class="data row8 col4">124.786</td>
+<td id="T_bd00c_row8_col5" class="data row8 col5">1</td>
+<td id="T_bd00c_row8_col6" class="data row8 col6">0</td>
+<td id="T_bd00c_row8_col7" class="data row8 col7">0</td>
+<td id="T_bd00c_row8_col8" class="data row8 col8">0</td>
+<td id="T_bd00c_row8_col9" class="data row8 col9">8.1</td>
+<td id="T_bd00c_row8_col10" class="data row8 col10">9</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">Sopocachi</td>
+<td id="T_bd00c_row9_col0" class="data row9 col0">La Paz</td>
+<td id="T_bd00c_row9_col1" class="data row9 col1">Amarilla</td>
+<td id="T_bd00c_row9_col2" class="data row9 col2">2.191.805</td>
+<td id="T_bd00c_row9_col3" class="data row9 col3">28.816</td>
+<td id="T_bd00c_row9_col4" class="data row9 col4">31.301</td>
+<td id="T_bd00c_row9_col5" class="data row9 col5">0</td>
+<td id="T_bd00c_row9_col6" class="data row9 col6">1</td>
+<td id="T_bd00c_row9_col7" class="data row9 col7">0</td>
+<td id="T_bd00c_row9_col8" class="data row9 col8">0</td>
+<td id="T_bd00c_row9_col9" class="data row9 col9">2.1</td>
+<td id="T_bd00c_row9_col10" class="data row9 col10">12</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">Irpavi</td>
+<td id="T_bd00c_row10_col0" class="data row10 col0">La Paz</td>
+<td id="T_bd00c_row10_col1" class="data row10 col1">Verde</td>
+<td id="T_bd00c_row10_col2" class="data row10 col2">2.104.133</td>
+<td id="T_bd00c_row10_col3" class="data row10 col3">9.000</td>
+<td id="T_bd00c_row10_col4" class="data row10 col4">57.005</td>
+<td id="T_bd00c_row10_col5" class="data row10 col5">1</td>
+<td id="T_bd00c_row10_col6" class="data row10 col6">0</td>
+<td id="T_bd00c_row10_col7" class="data row10 col7">0</td>
+<td id="T_bd00c_row10_col8" class="data row10 col8">0</td>
+<td id="T_bd00c_row10_col9" class="data row10 col9">6.8</td>
+<td id="T_bd00c_row10_col10" class="data row10 col10">12</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row11" class="row_heading level0 row11" data-quarto-table-cell-role="th">Plaza Libertad</td>
+<td id="T_bd00c_row11_col0" class="data row11 col0">El Alto</td>
+<td id="T_bd00c_row11_col1" class="data row11 col1">Azul</td>
+<td id="T_bd00c_row11_col2" class="data row11 col2">1.841.116</td>
+<td id="T_bd00c_row11_col3" class="data row11 col3">22.480</td>
+<td id="T_bd00c_row11_col4" class="data row11 col4">34.897</td>
+<td id="T_bd00c_row11_col5" class="data row11 col5">0</td>
+<td id="T_bd00c_row11_col6" class="data row11 col6">0</td>
+<td id="T_bd00c_row11_col7" class="data row11 col7">0</td>
+<td id="T_bd00c_row11_col8" class="data row11 col8">0</td>
+<td id="T_bd00c_row11_col9" class="data row11 col9">4.3</td>
+<td id="T_bd00c_row11_col10" class="data row11 col10">9</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row12" class="row_heading level0 row12" data-quarto-table-cell-role="th">Del Poeta</td>
+<td id="T_bd00c_row12_col0" class="data row12 col0">La Paz</td>
+<td id="T_bd00c_row12_col1" class="data row12 col1">Blanca, Celeste</td>
+<td id="T_bd00c_row12_col2" class="data row12 col2">1.665.772</td>
+<td id="T_bd00c_row12_col3" class="data row12 col3">13.193</td>
+<td id="T_bd00c_row12_col4" class="data row12 col4">14.949</td>
+<td id="T_bd00c_row12_col5" class="data row12 col5">1</td>
+<td id="T_bd00c_row12_col6" class="data row12 col6">0</td>
+<td id="T_bd00c_row12_col7" class="data row12 col7">0</td>
+<td id="T_bd00c_row12_col8" class="data row12 col8">1</td>
+<td id="T_bd00c_row12_col9" class="data row12 col9">2.1</td>
+<td id="T_bd00c_row12_col10" class="data row12 col10">8</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row13" class="row_heading level0 row13" data-quarto-table-cell-role="th">Cementerio</td>
+<td id="T_bd00c_row13_col0" class="data row13 col0">La Paz</td>
+<td id="T_bd00c_row13_col1" class="data row13 col1">Roja</td>
+<td id="T_bd00c_row13_col2" class="data row13 col2">1.490.428</td>
+<td id="T_bd00c_row13_col3" class="data row13 col3">41.325</td>
+<td id="T_bd00c_row13_col4" class="data row13 col4">49.581</td>
+<td id="T_bd00c_row13_col5" class="data row13 col5">0</td>
+<td id="T_bd00c_row13_col6" class="data row13 col6">1</td>
+<td id="T_bd00c_row13_col7" class="data row13 col7">0</td>
+<td id="T_bd00c_row13_col8" class="data row13 col8">0</td>
+<td id="T_bd00c_row13_col9" class="data row13 col9">2.1</td>
+<td id="T_bd00c_row13_col10" class="data row13 col10">12</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row14" class="row_heading level0 row14" data-quarto-table-cell-role="th">Prado</td>
+<td id="T_bd00c_row14_col0" class="data row14 col0">La Paz</td>
+<td id="T_bd00c_row14_col1" class="data row14 col1">Celeste</td>
+<td id="T_bd00c_row14_col2" class="data row14 col2">1.402.755</td>
+<td id="T_bd00c_row14_col3" class="data row14 col3">35.717</td>
+<td id="T_bd00c_row14_col4" class="data row14 col4">9.330</td>
+<td id="T_bd00c_row14_col5" class="data row14 col5">1</td>
+<td id="T_bd00c_row14_col6" class="data row14 col6">0</td>
+<td id="T_bd00c_row14_col7" class="data row14 col7">0</td>
+<td id="T_bd00c_row14_col8" class="data row14 col8">0</td>
+<td id="T_bd00c_row14_col9" class="data row14 col9">0.5</td>
+<td id="T_bd00c_row14_col10" class="data row14 col10">8</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row15" class="row_heading level0 row15" data-quarto-table-cell-role="th">UPEA</td>
+<td id="T_bd00c_row15_col0" class="data row15 col0">El Alto</td>
+<td id="T_bd00c_row15_col1" class="data row15 col1">Azul</td>
+<td id="T_bd00c_row15_col2" class="data row15 col2">1.402.755</td>
+<td id="T_bd00c_row15_col3" class="data row15 col3">27.014</td>
+<td id="T_bd00c_row15_col4" class="data row15 col4">60.240</td>
+<td id="T_bd00c_row15_col5" class="data row15 col5">0</td>
+<td id="T_bd00c_row15_col6" class="data row15 col6">0</td>
+<td id="T_bd00c_row15_col7" class="data row15 col7">0</td>
+<td id="T_bd00c_row15_col8" class="data row15 col8">0</td>
+<td id="T_bd00c_row15_col9" class="data row15 col9">6.4</td>
+<td id="T_bd00c_row15_col10" class="data row15 col10">9</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row16" class="row_heading level0 row16" data-quarto-table-cell-role="th">Próceres de la Independencia</td>
+<td id="T_bd00c_row16_col0" class="data row16 col0">La Paz</td>
+<td id="T_bd00c_row16_col1" class="data row16 col1">Blanca</td>
+<td id="T_bd00c_row16_col2" class="data row16 col2">1.315.083</td>
+<td id="T_bd00c_row16_col3" class="data row16 col3">21.687</td>
+<td id="T_bd00c_row16_col4" class="data row16 col4">9.973</td>
+<td id="T_bd00c_row16_col5" class="data row16 col5">0</td>
+<td id="T_bd00c_row16_col6" class="data row16 col6">0</td>
+<td id="T_bd00c_row16_col7" class="data row16 col7">0</td>
+<td id="T_bd00c_row16_col8" class="data row16 col8">0</td>
+<td id="T_bd00c_row16_col9" class="data row16 col9">1.6</td>
+<td id="T_bd00c_row16_col10" class="data row16 col10">8</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row17" class="row_heading level0 row17" data-quarto-table-cell-role="th">Buenos Aires</td>
+<td id="T_bd00c_row17_col0" class="data row17 col0">La Paz</td>
+<td id="T_bd00c_row17_col1" class="data row17 col1">Amarilla</td>
+<td id="T_bd00c_row17_col2" class="data row17 col2">1.315.083</td>
+<td id="T_bd00c_row17_col3" class="data row17 col3">23.872</td>
+<td id="T_bd00c_row17_col4" class="data row17 col4">39.541</td>
+<td id="T_bd00c_row17_col5" class="data row17 col5">0</td>
+<td id="T_bd00c_row17_col6" class="data row17 col6">1</td>
+<td id="T_bd00c_row17_col7" class="data row17 col7">0</td>
+<td id="T_bd00c_row17_col8" class="data row17 col8">0</td>
+<td id="T_bd00c_row17_col9" class="data row17 col9">2.4</td>
+<td id="T_bd00c_row17_col10" class="data row17 col10">12</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row18" class="row_heading level0 row18" data-quarto-table-cell-role="th">Plaza La Paz</td>
+<td id="T_bd00c_row18_col0" class="data row18 col0">El Alto</td>
+<td id="T_bd00c_row18_col1" class="data row18 col1">Azul</td>
+<td id="T_bd00c_row18_col2" class="data row18 col2">789.050</td>
+<td id="T_bd00c_row18_col3" class="data row18 col3">29.809</td>
+<td id="T_bd00c_row18_col4" class="data row18 col4">45.240</td>
+<td id="T_bd00c_row18_col5" class="data row18 col5">0</td>
+<td id="T_bd00c_row18_col6" class="data row18 col6">0</td>
+<td id="T_bd00c_row18_col7" class="data row18 col7">0</td>
+<td id="T_bd00c_row18_col8" class="data row18 col8">0</td>
+<td id="T_bd00c_row18_col9" class="data row18 col9">5.3</td>
+<td id="T_bd00c_row18_col10" class="data row18 col10">9</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row19" class="row_heading level0 row19" data-quarto-table-cell-role="th">Armentia</td>
+<td id="T_bd00c_row19_col0" class="data row19 col0">La Paz</td>
+<td id="T_bd00c_row19_col1" class="data row19 col1">Naranja</td>
+<td id="T_bd00c_row19_col2" class="data row19 col2">613.705</td>
+<td id="T_bd00c_row19_col3" class="data row19 col3">22.732</td>
+<td id="T_bd00c_row19_col4" class="data row19 col4">19.504</td>
+<td id="T_bd00c_row19_col5" class="data row19 col5">0</td>
+<td id="T_bd00c_row19_col6" class="data row19 col6">0</td>
+<td id="T_bd00c_row19_col7" class="data row19 col7">0</td>
+<td id="T_bd00c_row19_col8" class="data row19 col8">0</td>
+<td id="T_bd00c_row19_col9" class="data row19 col9">0.7</td>
+<td id="T_bd00c_row19_col10" class="data row19 col10">9</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row20" class="row_heading level0 row20" data-quarto-table-cell-role="th">Defensores del Chaco</td>
+<td id="T_bd00c_row20_col0" class="data row20 col0">La Paz</td>
+<td id="T_bd00c_row20_col1" class="data row20 col1">Blanca, Café</td>
+<td id="T_bd00c_row20_col2" class="data row20 col2">613.705</td>
+<td id="T_bd00c_row20_col3" class="data row20 col3">34.168</td>
+<td id="T_bd00c_row20_col4" class="data row20 col4">19.393</td>
+<td id="T_bd00c_row20_col5" class="data row20 col5">1</td>
+<td id="T_bd00c_row20_col6" class="data row20 col6">0</td>
+<td id="T_bd00c_row20_col7" class="data row20 col7">0</td>
+<td id="T_bd00c_row20_col8" class="data row20 col8">1</td>
+<td id="T_bd00c_row20_col9" class="data row20 col9">1.4</td>
+<td id="T_bd00c_row20_col10" class="data row20 col10">8</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row21" class="row_heading level0 row21" data-quarto-table-cell-role="th">Alto Obrajes</td>
+<td id="T_bd00c_row21_col0" class="data row21 col0">La Paz</td>
+<td id="T_bd00c_row21_col1" class="data row21 col1">Verde</td>
+<td id="T_bd00c_row21_col2" class="data row21 col2">526.033</td>
+<td id="T_bd00c_row21_col3" class="data row21 col3">14.619</td>
+<td id="T_bd00c_row21_col4" class="data row21 col4">24.145</td>
+<td id="T_bd00c_row21_col5" class="data row21 col5">0</td>
+<td id="T_bd00c_row21_col6" class="data row21 col6">0</td>
+<td id="T_bd00c_row21_col7" class="data row21 col7">0</td>
+<td id="T_bd00c_row21_col8" class="data row21 col8">0</td>
+<td id="T_bd00c_row21_col9" class="data row21 col9">3.8</td>
+<td id="T_bd00c_row21_col10" class="data row21 col10">12</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row22" class="row_heading level0 row22" data-quarto-table-cell-role="th">Periférica</td>
+<td id="T_bd00c_row22_col0" class="data row22 col0">La Paz</td>
+<td id="T_bd00c_row22_col1" class="data row22 col1">Naranja</td>
+<td id="T_bd00c_row22_col2" class="data row22 col2">526.033</td>
+<td id="T_bd00c_row22_col3" class="data row22 col3">7.912</td>
+<td id="T_bd00c_row22_col4" class="data row22 col4">28.043</td>
+<td id="T_bd00c_row22_col5" class="data row22 col5">0</td>
+<td id="T_bd00c_row22_col6" class="data row22 col6">0</td>
+<td id="T_bd00c_row22_col7" class="data row22 col7">0</td>
+<td id="T_bd00c_row22_col8" class="data row22 col8">0</td>
+<td id="T_bd00c_row22_col9" class="data row22 col9">1.1</td>
+<td id="T_bd00c_row22_col10" class="data row22 col10">9</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row23" class="row_heading level0 row23" data-quarto-table-cell-role="th">Las Villas</td>
+<td id="T_bd00c_row23_col0" class="data row23 col0">La Paz</td>
+<td id="T_bd00c_row23_col1" class="data row23 col1">Café</td>
+<td id="T_bd00c_row23_col2" class="data row23 col2">350.689</td>
+<td id="T_bd00c_row23_col3" class="data row23 col3">30.988</td>
+<td id="T_bd00c_row23_col4" class="data row23 col4">72.645</td>
+<td id="T_bd00c_row23_col5" class="data row23 col5">1</td>
+<td id="T_bd00c_row23_col6" class="data row23 col6">0</td>
+<td id="T_bd00c_row23_col7" class="data row23 col7">0</td>
+<td id="T_bd00c_row23_col8" class="data row23 col8">0</td>
+<td id="T_bd00c_row23_col9" class="data row23 col9">2.0</td>
+<td id="T_bd00c_row23_col10" class="data row23 col10">8</td>
+</tr>
+<tr class="odd">
+<td id="T_bd00c_level0_row24" class="row_heading level0 row24" data-quarto-table-cell-role="th">Obrajes</td>
+<td id="T_bd00c_row24_col0" class="data row24 col0">La Paz</td>
+<td id="T_bd00c_row24_col1" class="data row24 col1">Verde</td>
+<td id="T_bd00c_row24_col2" class="data row24 col2">263.017</td>
+<td id="T_bd00c_row24_col3" class="data row24 col3">13.260</td>
+<td id="T_bd00c_row24_col4" class="data row24 col4">36.868</td>
+<td id="T_bd00c_row24_col5" class="data row24 col5">0</td>
+<td id="T_bd00c_row24_col6" class="data row24 col6">0</td>
+<td id="T_bd00c_row24_col7" class="data row24 col7">0</td>
+<td id="T_bd00c_row24_col8" class="data row24 col8">0</td>
+<td id="T_bd00c_row24_col9" class="data row24 col9">4.9</td>
+<td id="T_bd00c_row24_col10" class="data row24 col10">12</td>
+</tr>
+<tr class="even">
+<td id="T_bd00c_level0_row25" class="row_heading level0 row25" data-quarto-table-cell-role="th">Teatro al Aire Libre</td>
+<td id="T_bd00c_row25_col0" class="data row25 col0">La Paz</td>
+<td id="T_bd00c_row25_col1" class="data row25 col1">Celeste</td>
+<td id="T_bd00c_row25_col2" class="data row25 col2">263.017</td>
+<td id="T_bd00c_row25_col3" class="data row25 col3">14.745</td>
+<td id="T_bd00c_row25_col4" class="data row25 col4">8.859</td>
+<td id="T_bd00c_row25_col5" class="data row25 col5">0</td>
+<td id="T_bd00c_row25_col6" class="data row25 col6">0</td>
+<td id="T_bd00c_row25_col7" class="data row25 col7">0</td>
+<td id="T_bd00c_row25_col8" class="data row25 col8">0</td>
+<td id="T_bd00c_row25_col9" class="data row25 col9">1.2</td>
+<td id="T_bd00c_row25_col10" class="data row25 col10">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="exploración-la-demanda-la-mueven-las-puertas-entre-el-alto-y-la-paz" class="level2">
+<h2 class="anchored" data-anchor-id="exploración-la-demanda-la-mueven-las-puertas-entre-el-alto-y-la-paz">1. Exploración: la demanda la mueven las “puertas” entre El Alto y La Paz</h2>
+<div id="a459a5f3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:16.671033Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:16.670568Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:18.270393Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:18.267932Z&quot;}}" data-execution_count="2">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> df.sort_values(<span class="st">"y"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>COL <span class="op">=</span> {<span class="dv">1</span>: viz.SECUENCIAL[<span class="dv">5</span>], <span class="dv">0</span>: viz.SECUENCIAL[<span class="dv">1</span>]}</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">6.2</span>), gridspec_kw<span class="op">=</span>{<span class="st">"width_ratios"</span>: [<span class="fl">1.25</span>, <span class="dv">1</span>]})</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axs[<span class="dv">0</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.barh(d[<span class="st">"nombre"</span>], d[<span class="st">"y"</span>], color<span class="op">=</span>d[<span class="st">"cabecera_interurbana"</span>].<span class="bu">map</span>(COL), height<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(mticker.FuncFormatter(viz.millones))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, visible<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">"y"</span>, labelsize<span class="op">=</span><span class="fl">8.5</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>[Patch(color<span class="op">=</span>COL[<span class="dv">1</span>], label<span class="op">=</span><span class="st">"Cabecera de una línea El Alto ↔ La Paz"</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                   Patch(color<span class="op">=</span>COL[<span class="dv">0</span>], label<span class="op">=</span><span class="st">"Resto"</span>)], loc<span class="op">=</span><span class="st">"lower right"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Abordajes estimados 2025 por estación"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axs[<span class="dv">1</span>]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v, g <span class="kw">in</span> df.groupby(<span class="st">"cabecera_interurbana"</span>):</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    ax.scatter(g[<span class="st">"pob_15"</span>], g[<span class="st">"y"</span>], color<span class="op">=</span>COL[v], s<span class="op">=</span>np.where(g[<span class="st">"transbordo"</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="dv">80</span>, <span class="dv">40</span>), edgecolor<span class="op">=</span><span class="st">"white"</span>, zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>ax.set_yscale(<span class="st">"log"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(mticker.FuncFormatter(<span class="kw">lambda</span> x, _: viz.millones(x) <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="fl">1e6</span> <span class="cf">else</span> viz.miles(x)))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(mticker.FuncFormatter(viz.miles))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Población a ≤ 15 min a pie"</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Población caminable frente a demanda (escala log)"</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"04_exploracion"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> df[[<span class="st">"l_pob_15"</span>, <span class="st">"l_pob_voronoi_3km"</span>, <span class="st">"cabecera"</span>, <span class="st">"interurbana"</span>, <span class="st">"cabecera_interurbana"</span>, <span class="st">"transbordo"</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>          <span class="st">"el_alto"</span>, <span class="st">"dist_centro_km"</span>, <span class="st">"anios_operacion"</span>]].corrwith(np.log(df[<span class="st">"y"</span>]), method<span class="op">=</span><span class="st">"spearman"</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>rho.sort_values(ascending<span class="op">=</span><span class="va">False</span>).to_frame(<span class="st">"Spearman con log(abordajes)"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_modelo_demanda_estaciones_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Spearman con log(abordajes)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">cabecera_interurbana</td>
+<td>0.769</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">interurbana</td>
+<td>0.691</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">cabecera</td>
+<td>0.618</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">transbordo</td>
+<td>0.517</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">el_alto</td>
+<td>0.406</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">l_pob_voronoi_3km</td>
+<td>0.176</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">anios_operacion</td>
+<td>0.164</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">dist_centro_km</td>
+<td>0.151</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">l_pob_15</td>
+<td>-0.077</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Lectura:</strong> - Las <strong>7 estaciones con más abordajes son exactamente las cabeceras de las 3 líneas que unen El Alto con La Paz</strong> (Roja, Amarilla y Morada): 16 de Julio, Mirador, Faro Murillo y 6 de Marzo arriba; San José, Libertador y Estación Central abajo. Juntas suman el <strong>71 % de los abordajes</strong>, con entre 6,7 y 13,2 M cada una. La octava (Héroes de la Revolución) ya baja a 3,9 M. - La correlación más alta con la demanda es la de esa variable (ρ = 0,77). Siguen la línea interurbana (0,69), la cabecera de cualquier línea (0,62) y el transbordo (0,52). - <strong>La población caminable no se asocia con la demanda</strong> (ρ = −0,08), y el área de alimentación de 3 km apenas lo hace (0,18). Confirma lo visto en el notebook 03: las estaciones grandes captan viajes que llegan en minibús y transbordo, no de su vecindario.</p>
+</section>
+<section id="comparación-de-modelos-binomial-negativa-validación-leave-one-out" class="level2">
+<h2 class="anchored" data-anchor-id="comparación-de-modelos-binomial-negativa-validación-leave-one-out">2. Comparación de modelos (binomial negativa, validación leave-one-out)</h2>
+<p>Métricas LOO: cada estación se predice con un modelo ajustado sin ella. <code>loo_mae</code> es el error absoluto medio en pasajeros/año, <code>loo_dev_poisson</code> la devianza de Poisson media (castiga más los errores relativos en estaciones chicas) y <code>loo_r2_log</code> el R² en escala logarítmica.</p>
+<div id="232d5cca" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:18.276305Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:18.275815Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:31.944481Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:31.942488Z&quot;}}" data-execution_count="3">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>comp, preds <span class="op">=</span> dm.comparar(df)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>comp.drop(columns<span class="op">=</span><span class="st">"formula"</span>).sort_values(<span class="st">"loo_dev_poisson"</span>).style.<span class="bu">format</span>({</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"aic"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"pseudo_r2"</span>: <span class="st">"</span><span class="sc">{:.3f}</span><span class="st">"</span>, <span class="st">"alpha"</span>: <span class="st">"</span><span class="sc">{:.2f}</span><span class="st">"</span>, <span class="st">"loo_mae"</span>: <span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss"> M"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loo_dev_poisson"</span>: <span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x <span class="op">/</span> <span class="fl">1e3</span><span class="sc">:,.0f}</span><span class="ss"> mil"</span>, <span class="st">"loo_mape_mediana"</span>: <span class="st">"</span><span class="sc">{:.0f}</span><span class="st"> %"</span>, <span class="st">"loo_r2_log"</span>: <span class="st">"</span><span class="sc">{:.2f}</span><span class="st">"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<style type="text/css">
+</style>
+
+<table id="T_8631c" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_8631c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n_coef</th>
+<th id="T_8631c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">aic</th>
+<th id="T_8631c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">pseudo_r2</th>
+<th id="T_8631c_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">alpha</th>
+<th id="T_8631c_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">loo_mae</th>
+<th id="T_8631c_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">loo_dev_poisson</th>
+<th id="T_8631c_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">loo_mape_mediana</th>
+<th id="T_8631c_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">loo_r2_log</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">modelo</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col4" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col5" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col6" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col7" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_8631c_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cabecera interurbana</td>
+<td id="T_8631c_row0_col0" class="data row0 col0">2</td>
+<td id="T_8631c_row0_col1" class="data row0 col1">807.0</td>
+<td id="T_8631c_row0_col2" class="data row0 col2">0.039</td>
+<td id="T_8631c_row0_col3" class="data row0 col3">0.38</td>
+<td id="T_8631c_row0_col4" class="data row0 col4">1.13 M</td>
+<td id="T_8631c_row0_col5" class="data row0 col5">691 mil</td>
+<td id="T_8631c_row0_col6" class="data row0 col6">39 %</td>
+<td id="T_8631c_row0_col7" class="data row0 col7">0.60</td>
+</tr>
+<tr class="even">
+<td id="T_8631c_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Cab. interurbana + transbordo</td>
+<td id="T_8631c_row1_col0" class="data row1 col0">3</td>
+<td id="T_8631c_row1_col1" class="data row1 col1">807.4</td>
+<td id="T_8631c_row1_col2" class="data row1 col2">0.041</td>
+<td id="T_8631c_row1_col3" class="data row1 col3">0.36</td>
+<td id="T_8631c_row1_col4" class="data row1 col4">1.28 M</td>
+<td id="T_8631c_row1_col5" class="data row1 col5">823 mil</td>
+<td id="T_8631c_row1_col6" class="data row1 col6">45 %</td>
+<td id="T_8631c_row1_col7" class="data row1 col7">0.58</td>
+</tr>
+<tr class="odd">
+<td id="T_8631c_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Cabecera + interurbana + transbordo</td>
+<td id="T_8631c_row2_col0" class="data row2 col0">4</td>
+<td id="T_8631c_row2_col1" class="data row2 col1">806.1</td>
+<td id="T_8631c_row2_col2" class="data row2 col2">0.045</td>
+<td id="T_8631c_row2_col3" class="data row2 col3">0.32</td>
+<td id="T_8631c_row2_col4" class="data row2 col4">1.25 M</td>
+<td id="T_8631c_row2_col5" class="data row2 col5">838 mil</td>
+<td id="T_8631c_row2_col6" class="data row2 col6">47 %</td>
+<td id="T_8631c_row2_col7" class="data row2 col7">0.60</td>
+</tr>
+<tr class="even">
+<td id="T_8631c_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Cab. interurbana + transbordo + área alim.</td>
+<td id="T_8631c_row3_col0" class="data row3 col0">4</td>
+<td id="T_8631c_row3_col1" class="data row3 col1">806.0</td>
+<td id="T_8631c_row3_col2" class="data row3 col2">0.045</td>
+<td id="T_8631c_row3_col3" class="data row3 col3">0.32</td>
+<td id="T_8631c_row3_col4" class="data row3 col4">1.58 M</td>
+<td id="T_8631c_row3_col5" class="data row3 col5">926 mil</td>
+<td id="T_8631c_row3_col6" class="data row3 col6">50 %</td>
+<td id="T_8631c_row3_col7" class="data row3 col7">0.60</td>
+</tr>
+<tr class="odd">
+<td id="T_8631c_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">Cab. interurbana + transbordo + pob. a pie</td>
+<td id="T_8631c_row4_col0" class="data row4 col0">4</td>
+<td id="T_8631c_row4_col1" class="data row4 col1">809.0</td>
+<td id="T_8631c_row4_col2" class="data row4 col2">0.041</td>
+<td id="T_8631c_row4_col3" class="data row4 col3">0.35</td>
+<td id="T_8631c_row4_col4" class="data row4 col4">1.49 M</td>
+<td id="T_8631c_row4_col5" class="data row4 col5">957 mil</td>
+<td id="T_8631c_row4_col6" class="data row4 col6">51 %</td>
+<td id="T_8631c_row4_col7" class="data row4 col7">0.57</td>
+</tr>
+<tr class="even">
+<td id="T_8631c_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">Cabecera</td>
+<td id="T_8631c_row5_col0" class="data row5 col0">2</td>
+<td id="T_8631c_row5_col1" class="data row5 col1">820.9</td>
+<td id="T_8631c_row5_col2" class="data row5 col2">0.022</td>
+<td id="T_8631c_row5_col3" class="data row5 col3">0.60</td>
+<td id="T_8631c_row5_col4" class="data row5 col4">2.33 M</td>
+<td id="T_8631c_row5_col5" class="data row5 col5">2,166 mil</td>
+<td id="T_8631c_row5_col6" class="data row5 col6">55 %</td>
+<td id="T_8631c_row5_col7" class="data row5 col7">0.21</td>
+</tr>
+<tr class="odd">
+<td id="T_8631c_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">Nulo</td>
+<td id="T_8631c_row6_col0" class="data row6 col0">1</td>
+<td id="T_8631c_row6_col1" class="data row6 col1">837.4</td>
+<td id="T_8631c_row6_col2" class="data row6 col2">-0.000</td>
+<td id="T_8631c_row6_col3" class="data row6 col3">1.06</td>
+<td id="T_8631c_row6_col4" class="data row6 col4">3.13 M</td>
+<td id="T_8631c_row6_col5" class="data row6 col5">3,760 mil</td>
+<td id="T_8631c_row6_col6" class="data row6 col6">118 %</td>
+<td id="T_8631c_row6_col7" class="data row6 col7">-0.35</td>
+</tr>
+<tr class="even">
+<td id="T_8631c_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">Población a pie</td>
+<td id="T_8631c_row7_col0" class="data row7 col0">2</td>
+<td id="T_8631c_row7_col1" class="data row7 col1">838.0</td>
+<td id="T_8631c_row7_col2" class="data row7 col2">0.002</td>
+<td id="T_8631c_row7_col3" class="data row7 col3">1.02</td>
+<td id="T_8631c_row7_col4" class="data row7 col4">3.08 M</td>
+<td id="T_8631c_row7_col5" class="data row7 col5">3,848 mil</td>
+<td id="T_8631c_row7_col6" class="data row7 col6">101 %</td>
+<td id="T_8631c_row7_col7" class="data row7 col7">-0.36</td>
+</tr>
+<tr class="odd">
+<td id="T_8631c_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">Área de alimentación</td>
+<td id="T_8631c_row8_col0" class="data row8 col0">2</td>
+<td id="T_8631c_row8_col1" class="data row8 col1">839.3</td>
+<td id="T_8631c_row8_col2" class="data row8 col2">0.000</td>
+<td id="T_8631c_row8_col3" class="data row8 col3">1.06</td>
+<td id="T_8631c_row8_col4" class="data row8 col4">3.23 M</td>
+<td id="T_8631c_row8_col5" class="data row8 col5">4,068 mil</td>
+<td id="T_8631c_row8_col6" class="data row8 col6">111 %</td>
+<td id="T_8631c_row8_col7" class="data row8 col7">-0.41</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="cadb9cc4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:31.948883Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:31.948445Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:32.570399Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:32.568758Z&quot;}}" data-execution_count="4">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> comp.sort_values(<span class="st">"loo_mae"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">3.8</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>colores <span class="op">=</span> [viz.SECUENCIAL[<span class="dv">5</span>] <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> viz.SECUENCIAL[<span class="dv">2</span>] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(c))]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.barh(c.index, c[<span class="st">"loo_mae"</span>] <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span>colores, height<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, v <span class="kw">in</span> <span class="bu">enumerate</span>(c[<span class="st">"loo_mae"</span>] <span class="op">/</span> <span class="fl">1e6</span>):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ax.text(v <span class="op">+</span> <span class="fl">0.04</span>, i, <span class="ss">f"</span><span class="sc">{</span>viz<span class="sc">.</span>num(v, <span class="dv">2</span>)<span class="sc">}</span><span class="ss"> M"</span>, va<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span>viz.TINTA_2)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax.invert_yaxis()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, visible<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Error absoluto medio LOO (millones de abordajes/año)"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Error de predicción fuera de muestra por modelo"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"04_comparacion_modelos"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_modelo_demanda_estaciones_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Lectura:</strong> - El mejor modelo fuera de muestra es el más simple: <strong>solo <code>cabecera_interurbana</code></strong> (error LOO de 1,13 M frente a 3,13 M del modelo nulo; R² LOO en log de 0,60). - Agregar transbordo, población a pie o área de alimentación <strong>empeora</strong> el error LOO (1,25-1,58 M). Con 26 estaciones, cada variable extra sobreajusta. - Los modelos con solo población son tan malos como el nulo. <strong>La hipótesis 3 del plan no se sostiene tal como estaba planteada:</strong> la demanda observada no se explica por la población del área de influencia a pie, sino por el <strong>rol de la estación en la red</strong>.</p>
+</section>
+<section id="modelos-elegidos" class="level2">
+<h2 class="anchored" data-anchor-id="modelos-elegidos">3. Modelos elegidos</h2>
+<ul>
+<li><strong>Principal:</strong> <code>cabecera_interurbana</code> (menor error LOO).</li>
+<li><strong>Extendido</strong> (para la sensibilidad del notebook 05): <code>cabecera_interurbana + transbordo + log(pob. a pie)</code>. Su error LOO es algo mayor, pero permite que la población caminable mueva la predicción.</li>
+</ul>
+<p>Los coeficientes se leen como <strong>multiplicadores</strong> (exp(β)): cuántas veces más abordajes tiene una estación con el atributo, o por cada vez que se multiplica por <em>e</em> la población.</p>
+<div id="ed34c1b3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:32.575986Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:32.575553Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:32.686166Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:32.684173Z&quot;}}" data-execution_count="5">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>principal <span class="op">=</span> dm.ajustar(dm.MODELOS[<span class="st">"Cabecera interurbana"</span>], df)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>extendido <span class="op">=</span> dm.ajustar(dm.MODELOS[<span class="st">"Cab. interurbana + transbordo + pob. a pie"</span>], df)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multiplicadores(res):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ci <span class="op">=</span> res.conf_int()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> pd.DataFrame({<span class="st">"coef"</span>: res.params, <span class="st">"p_valor"</span>: res.pvalues, <span class="st">"ic95_inf"</span>: ci[<span class="dv">0</span>], <span class="st">"ic95_sup"</span>: ci[<span class="dv">1</span>]})</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> out.drop(index<span class="op">=</span><span class="st">"alpha"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    out[[<span class="st">"exp_coef"</span>, <span class="st">"exp_inf"</span>, <span class="st">"exp_sup"</span>]] <span class="op">=</span> np.exp(out[[<span class="st">"coef"</span>, <span class="st">"ic95_inf"</span>, <span class="st">"ic95_sup"</span>]])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Principal: alpha = </span><span class="sc">{</span>principal<span class="sc">.</span>params[<span class="st">'alpha'</span>]<span class="sc">:.2f}</span><span class="ss">; base (estación común) = "</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"</span><span class="sc">{</span>viz<span class="sc">.</span>fmt_int(np.exp(principal.params[<span class="st">'Intercept'</span>]))<span class="sc">}</span><span class="ss"> abordajes/año"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>display(multiplicadores(principal))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Extendido: alpha = </span><span class="sc">{</span>extendido<span class="sc">.</span>params[<span class="st">'alpha'</span>]<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>multiplicadores(extendido)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Principal: alpha = 0.38; base (estación común) = 1.328.926 abordajes/año</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">p_valor</th>
+<th data-quarto-table-cell-role="th">ic95_inf</th>
+<th data-quarto-table-cell-role="th">ic95_sup</th>
+<th data-quarto-table-cell-role="th">exp_coef</th>
+<th data-quarto-table-cell-role="th">exp_inf</th>
+<th data-quarto-table-cell-role="th">exp_sup</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>14.100</td>
+<td>0.000</td>
+<td>13.824</td>
+<td>14.376</td>
+<td>1,328,926.000</td>
+<td>1,008,486.473</td>
+<td>1,751,182.946</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">cabecera_interurbana</td>
+<td>1.901</td>
+<td>0.000</td>
+<td>1.369</td>
+<td>2.433</td>
+<td>6.691</td>
+<td>3.932</td>
+<td>11.388</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Extendido: alpha = 0.35</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">p_valor</th>
+<th data-quarto-table-cell-role="th">ic95_inf</th>
+<th data-quarto-table-cell-role="th">ic95_sup</th>
+<th data-quarto-table-cell-role="th">exp_coef</th>
+<th data-quarto-table-cell-role="th">exp_inf</th>
+<th data-quarto-table-cell-role="th">exp_sup</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>13.921</td>
+<td>0.000</td>
+<td>13.511</td>
+<td>14.332</td>
+<td>1,111,508.619</td>
+<td>737,228.113</td>
+<td>1,675,806.156</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">cabecera_interurbana</td>
+<td>1.778</td>
+<td>0.000</td>
+<td>1.177</td>
+<td>2.380</td>
+<td>5.920</td>
+<td>3.245</td>
+<td>10.802</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">transbordo</td>
+<td>0.386</td>
+<td>0.180</td>
+<td>-0.178</td>
+<td>0.949</td>
+<td>1.471</td>
+<td>0.837</td>
+<td>2.584</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">l_pob_15</td>
+<td>0.122</td>
+<td>0.505</td>
+<td>-0.238</td>
+<td>0.483</td>
+<td>1.130</td>
+<td>0.788</td>
+<td>1.620</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Lectura:</strong> - Una estación “común” capta en promedio <strong>~1,3 M de abordajes/año</strong> (IC 95 % de la media: 1,0-1,8 M). - Ser cabecera de una línea El Alto ↔︎ La Paz <strong>multiplica la demanda por ~6,7</strong> (IC 95 %: 3,9-11,4). - En el modelo extendido, el transbordo multiplica por 1,5 y duplicar la población a pie, por ~1,09 (elasticidad 0,12). <strong>Ninguno de los dos es significativo</strong> (p = 0,18 y 0,51), así que el modelo extendido solo se usa como sensibilidad. - La sobredispersión es alta (α ≈ 0,35-0,38): incluso con el mismo perfil, las estaciones varían mucho.</p>
+</section>
+<section id="predicción-fuera-de-muestra-loo-frente-a-lo-observado" class="level2">
+<h2 class="anchored" data-anchor-id="predicción-fuera-de-muestra-loo-frente-a-lo-observado">4. Predicción fuera de muestra (LOO) frente a lo observado</h2>
+<div id="4972032b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:32.691519Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:32.691088Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:33.428756Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:33.426717Z&quot;}}" data-execution_count="6">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> preds[<span class="st">"Cabecera interurbana"</span>].rename(<span class="st">"pred"</span>).to_frame().join(df.set_index(<span class="st">"slug"</span>)[[<span class="st">"nombre"</span>, <span class="st">"y"</span>, <span class="st">"cabecera_interurbana"</span>]])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">7.5</span>, <span class="fl">6.5</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax.scatter(p[<span class="st">"y"</span>], p[<span class="st">"pred"</span>], c<span class="op">=</span>p[<span class="st">"cabecera_interurbana"</span>].<span class="bu">map</span>(COL), s<span class="op">=</span><span class="dv">50</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>, zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>lim <span class="op">=</span> [<span class="fl">2e5</span>, <span class="fl">2.5e7</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>ax.plot(lim, lim, color<span class="op">=</span>viz.TINTA_3, lw<span class="op">=</span><span class="dv">1</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>ax.fill_between(lim, [x <span class="op">/</span> <span class="dv">2</span> <span class="cf">for</span> x <span class="kw">in</span> lim], [x <span class="op">*</span> <span class="dv">2</span> <span class="cf">for</span> x <span class="kw">in</span> lim], color<span class="op">=</span>viz.GRILLA, alpha<span class="op">=</span><span class="fl">0.6</span>, lw<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> p.itertuples():</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> r.pred <span class="op">/</span> r.y <span class="op">&gt;</span> <span class="dv">2</span> <span class="kw">or</span> r.y <span class="op">/</span> r.pred <span class="op">&gt;</span> <span class="dv">2</span>:</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        ax.annotate(r.nombre, (r.y, r.pred), xytext<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">3</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, fontsize<span class="op">=</span><span class="dv">8</span>, color<span class="op">=</span>viz.TINTA_2)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax.set_xscale(<span class="st">"log"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>ax.set_yscale(<span class="st">"log"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(lim)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(lim)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>fmt <span class="op">=</span> mticker.FuncFormatter(<span class="kw">lambda</span> x, _: viz.millones(x) <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="fl">1e6</span> <span class="cf">else</span> viz.miles(x))</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(fmt)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(fmt)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Abordajes observados 2025"</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Predicción LOO"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Modelo principal: predicción fuera de muestra (banda gris = factor 2)"</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"04_loo"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>dentro <span class="op">=</span> ((p[<span class="st">"pred"</span>] <span class="op">/</span> p[<span class="st">"y"</span>]).between(<span class="fl">0.5</span>, <span class="dv">2</span>)).mean() <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estaciones con predicción LOO dentro de un factor 2: </span><span class="sc">{</span>dentro<span class="sc">:.0f}</span><span class="ss"> %"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_modelo_demanda_estaciones_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estaciones con predicción LOO dentro de un factor 2: 65 %</code></pre>
+</div>
+</div>
+</section>
+<section id="contraste-demanda-acumulada-2014-2025" class="level2">
+<h2 class="anchored" data-anchor-id="contraste-demanda-acumulada-2014-2025">5. Contraste: demanda acumulada 2014-2025</h2>
+<p>El plan propone usar el acumulado como contraste. Como las líneas abrieron en años distintos, se usa el <strong>promedio anual</strong> del acumulado (acumulado / años de operación) con el mismo modelo.</p>
+<div id="33db02bc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:33.433383Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:33.432929Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:33.631740Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:33.629960Z&quot;}}" data-execution_count="7">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>acum <span class="op">=</span> demanda.estaciones_fisicas(t, periodo<span class="op">=</span><span class="st">"2014_2025"</span>)[[<span class="st">"slug"</span>, <span class="st">"pasajeros_est"</span>]].rename(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{<span class="st">"pasajeros_est"</span>: <span class="st">"acumulado"</span>})</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df_ac <span class="op">=</span> df.merge(acum, on<span class="op">=</span><span class="st">"slug"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df_ac[<span class="st">"y"</span>] <span class="op">=</span> (df_ac[<span class="st">"acumulado"</span>] <span class="op">/</span> df_ac[<span class="st">"anios_operacion"</span>]).<span class="bu">round</span>()</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>filas <span class="op">=</span> []</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nombre <span class="kw">in</span> [<span class="st">"Cabecera interurbana"</span>, <span class="st">"Cab. interurbana + transbordo + pob. a pie"</span>]:</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> etiqueta, datos <span class="kw">in</span> ((<span class="st">"2025"</span>, df), (<span class="st">"Promedio 2014-2025"</span>, df_ac)):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> dm.ajustar(dm.MODELOS[nombre], datos)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        filas.append({<span class="st">"modelo"</span>: nombre, <span class="st">"respuesta"</span>: etiqueta,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                      <span class="op">**</span>{<span class="ss">f"exp(</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">)"</span>: np.exp(v) <span class="cf">for</span> k, v <span class="kw">in</span> r.params.drop(<span class="st">"alpha"</span>).items()}})</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(filas).set_index([<span class="st">"modelo"</span>, <span class="st">"respuesta"</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">exp(Intercept)</th>
+<th data-quarto-table-cell-role="th">exp(cabecera_interurbana)</th>
+<th data-quarto-table-cell-role="th">exp(transbordo)</th>
+<th data-quarto-table-cell-role="th">exp(l_pob_15)</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">modelo</th>
+<th data-quarto-table-cell-role="th">respuesta</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">Cabecera interurbana</td>
+<td data-quarto-table-cell-role="th">2025</td>
+<td>1,328,926.000</td>
+<td>6.691</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Promedio 2014-2025</td>
+<td>1,105,100.421</td>
+<td>5.831</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">Cab. interurbana + transbordo + pob. a pie</td>
+<td data-quarto-table-cell-role="th">2025</td>
+<td>1,111,508.619</td>
+<td>5.920</td>
+<td>1.471</td>
+<td>1.130</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Promedio 2014-2025</td>
+<td>888,472.238</td>
+<td>5.142</td>
+<td>1.572</td>
+<td>1.155</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Lectura:</strong> con el promedio anual del acumulado 2014-2025, la estructura se mantiene: la cabecera interurbana multiplica por 5,8 (frente a 6,7 en 2025) y la base es de ~1,1 M. <strong>El hallazgo no es un efecto de 2025:</strong> es estructural desde que existe la red.</p>
+</section>
+<section id="predicción-para-estaciones-hipotéticas-con-intervalos" class="level2">
+<h2 class="anchored" data-anchor-id="predicción-para-estaciones-hipotéticas-con-intervalos">6. Predicción para estaciones hipotéticas (con intervalos)</h2>
+<p>Se simulan 5.000 escenarios: los coeficientes se toman de su distribución estimada y los pasajeros de una binomial negativa. El intervalo del 90 % refleja la incertidumbre del modelo <strong>y</strong> la variabilidad entre estaciones, que es muy grande.</p>
+<div id="73370860" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:33.636284Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:33.635769Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:33.694972Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:33.692995Z&quot;}}" data-execution_count="8">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>escenarios <span class="op">=</span> dm.transformar(pd.DataFrame({</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"escenario"</span>: [<span class="st">"Estación común (sin transbordo), 20 mil vecinos a pie"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Estación común (sin transbordo), 40 mil vecinos a pie"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Estación de transbordo, 20 mil vecinos a pie"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Cabecera de una nueva línea El Alto ↔ La Paz"</span>],</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cabecera_interurbana"</span>: [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>], <span class="st">"transbordo"</span>: [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>],</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pob_15"</span>: [<span class="dv">20_000</span>, <span class="dv">40_000</span>, <span class="dv">20_000</span>, <span class="dv">20_000</span>], <span class="st">"pob_voronoi_3km"</span>: [<span class="dv">50_000</span>] <span class="op">*</span> <span class="dv">4</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>filas <span class="op">=</span> []</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nombre, res <span class="kw">in</span> ((<span class="st">"Principal"</span>, principal), (<span class="st">"Extendido"</span>, extendido)):</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    sim <span class="op">=</span> dm.simular(res, escenarios)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, e <span class="kw">in</span> <span class="bu">enumerate</span>(escenarios[<span class="st">"escenario"</span>]):</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        filas.append({<span class="st">"modelo"</span>: nombre, <span class="st">"escenario"</span>: e, <span class="op">**</span>dm.intervalo(sim[:, i])})</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> pd.DataFrame(filas).set_index([<span class="st">"escenario"</span>, <span class="st">"modelo"</span>]).sort_index()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>pred.style.<span class="bu">format</span>(<span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:,.2f}</span><span class="ss"> M"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<style type="text/css">
+</style>
+
+<table id="T_723cc" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_723cc_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">media</th>
+<th id="T_723cc_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">p05</th>
+<th id="T_723cc_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">p50</th>
+<th id="T_723cc_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">p95</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">escenario</th>
+<th class="index_name level1" data-quarto-table-cell-role="th">modelo</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="2" id="T_723cc_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cabecera de una nueva línea El Alto ↔︎ La Paz</td>
+<td id="T_723cc_level1_row0" class="row_heading level1 row0" data-quarto-table-cell-role="th">Extendido</td>
+<td id="T_723cc_row0_col0" class="data row0 col0">7.51 M</td>
+<td id="T_723cc_row0_col1" class="data row0 col1">1.68 M</td>
+<td id="T_723cc_row0_col2" class="data row0 col2">6.32 M</td>
+<td id="T_723cc_row0_col3" class="data row0 col3">17.05 M</td>
+</tr>
+<tr class="even">
+<td id="T_723cc_level1_row1" class="row_heading level1 row1" data-quarto-table-cell-role="th">Principal</td>
+<td id="T_723cc_row1_col0" class="data row1 col0">9.21 M</td>
+<td id="T_723cc_row1_col1" class="data row1 col1">2.01 M</td>
+<td id="T_723cc_row1_col2" class="data row1 col2">7.77 M</td>
+<td id="T_723cc_row1_col3" class="data row1 col3">21.17 M</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" id="T_723cc_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Estación común (sin transbordo), 20 mil vecinos a pie</td>
+<td id="T_723cc_level1_row2" class="row_heading level1 row2" data-quarto-table-cell-role="th">Extendido</td>
+<td id="T_723cc_row2_col0" class="data row2 col0">1.19 M</td>
+<td id="T_723cc_row2_col1" class="data row2 col1">0.27 M</td>
+<td id="T_723cc_row2_col2" class="data row2 col2">1.04 M</td>
+<td id="T_723cc_row2_col3" class="data row2 col3">2.60 M</td>
+</tr>
+<tr class="even">
+<td id="T_723cc_level1_row3" class="row_heading level1 row3" data-quarto-table-cell-role="th">Principal</td>
+<td id="T_723cc_row3_col0" class="data row3 col0">1.33 M</td>
+<td id="T_723cc_row3_col1" class="data row3 col1">0.33 M</td>
+<td id="T_723cc_row3_col2" class="data row3 col2">1.17 M</td>
+<td id="T_723cc_row3_col3" class="data row3 col3">2.97 M</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" id="T_723cc_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">Estación común (sin transbordo), 40 mil vecinos a pie</td>
+<td id="T_723cc_level1_row4" class="row_heading level1 row4" data-quarto-table-cell-role="th">Extendido</td>
+<td id="T_723cc_row4_col0" class="data row4 col0">1.33 M</td>
+<td id="T_723cc_row4_col1" class="data row4 col1">0.32 M</td>
+<td id="T_723cc_row4_col2" class="data row4 col2">1.16 M</td>
+<td id="T_723cc_row4_col3" class="data row4 col3">2.88 M</td>
+</tr>
+<tr class="even">
+<td id="T_723cc_level1_row5" class="row_heading level1 row5" data-quarto-table-cell-role="th">Principal</td>
+<td id="T_723cc_row5_col0" class="data row5 col0">1.34 M</td>
+<td id="T_723cc_row5_col1" class="data row5 col1">0.29 M</td>
+<td id="T_723cc_row5_col2" class="data row5 col2">1.17 M</td>
+<td id="T_723cc_row5_col3" class="data row5 col3">2.96 M</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" id="T_723cc_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">Estación de transbordo, 20 mil vecinos a pie</td>
+<td id="T_723cc_level1_row6" class="row_heading level1 row6" data-quarto-table-cell-role="th">Extendido</td>
+<td id="T_723cc_row6_col0" class="data row6 col0">1.86 M</td>
+<td id="T_723cc_row6_col1" class="data row6 col1">0.43 M</td>
+<td id="T_723cc_row6_col2" class="data row6 col2">1.57 M</td>
+<td id="T_723cc_row6_col3" class="data row6 col3">4.28 M</td>
+</tr>
+<tr class="even">
+<td id="T_723cc_level1_row7" class="row_heading level1 row7" data-quarto-table-cell-role="th">Principal</td>
+<td id="T_723cc_row7_col0" class="data row7 col0">1.34 M</td>
+<td id="T_723cc_row7_col1" class="data row7 col1">0.32 M</td>
+<td id="T_723cc_row7_col2" class="data row7 col2">1.17 M</td>
+<td id="T_723cc_row7_col3" class="data row7 col3">2.96 M</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Lectura:</strong> - Una estación nueva <strong>común</strong> (sin transbordo ni rol de puerta El Alto ↔︎ La Paz) captaría <strong>~1,2-1,3 M de abordajes/año</strong>, con un intervalo del 90 % muy amplio (0,3-3,0 M). Pasar de 20 a 40 mil vecinos a pie casi no cambia la predicción. - Una <strong>nueva cabecera El Alto ↔︎ La Paz</strong> captaría ~7,5-9 M (1,7-21 M): un orden de magnitud más. - El modelo sobreestima las estaciones chicas de La Paz (Las Villas, Obrajes, Teatro al Aire Libre: 0,26-0,35 M observados frente a ~1,4 M predichos) y subestima Héroes de la Revolución y Río Seco. <strong>El 65 % de las estaciones queda dentro de un factor 2</strong> en la validación LOO.</p>
+</section>
+<section id="conclusiones" class="level2">
+<h2 class="anchored" data-anchor-id="conclusiones">7. Conclusiones</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Hallazgo</th>
+<th>Implicación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Las 7 cabeceras de las líneas Roja, Amarilla y Morada concentran el 71 % de los abordajes</td>
+<td>La red funciona como un <strong>sistema de puertas entre El Alto y La Paz</strong> alimentado por minibús</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>El mejor modelo (LOO) usa una sola variable, <code>cabecera_interurbana</code>: ×6,7 sobre una base de ~1,3 M/año</td>
+<td>Simple, estable (se repite con el acumulado 2014-2025) y fácil de comunicar</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>La población a pie no explica la demanda (ρ = −0,08; no significativa en el modelo)</td>
+<td>La <strong>hipótesis 3 se reformula</strong>: la población del área de influencia explica poco. Pesa el rol en la red</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Error LOO de 1,13 M/año; 65 % de las estaciones dentro de un factor 2; intervalos de predicción muy amplios</td>
+<td>Las estimaciones de pasajeros de la Fase 5 son <strong>órdenes de magnitud</strong>, no pronósticos</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Una estación común nueva: ~1,3 M/año (IC 90 %: 0,3-3,0 M). Una nueva puerta El Alto ↔︎ La Paz: ~7,5-9 M</td>
+<td>Para la demanda, <strong>conectar El Alto con La Paz</strong> vale más que cubrir vecindarios</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implicación para el notebook 05:</strong> la optimización maximiza la <strong>cobertura</strong> (acceso a pie, equidad), y el modelo traduce cada estación nueva a pasajeros. Una línea interna de El Alto que alimente una estación existente capta del orden de 1,3 M por estación. Si la línea crea una nueva conexión directa con La Paz, el potencial es mucho mayor, pero eso ya no se mide con la población caminable.</p>
+</section>
+<section id="anexo-exportación-de-datos-para-el-sitio" class="level2">
+<h2 class="anchored" data-anchor-id="anexo-exportación-de-datos-para-el-sitio">Anexo: exportación de datos para el sitio</h2>
+<div id="7a273ec6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:59:33.699619Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:59:33.699160Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:59:34.311991Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:59:34.310165Z&quot;}}" data-execution_count="9">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico.export_web <span class="im">import</span> exportar_modelo_demanda</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>exportar_modelo_demanda(df, comp, preds)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/freddxvill\.github\.io\/analisis-proyeccion-linea-teleferico-la-paz-bolivia\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Datos: Mi Teleférico, Censo 2024 (INE vía censosbo), OpenStreetMap (ODbL), GTFS comunitario (CC-BY-4.0), Copernicus GLO-30.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Análisis independiente; no es un sitio oficial de Mi Teleférico.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

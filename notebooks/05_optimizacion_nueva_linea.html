@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>05 · Optimización: ¿dónde va una nueva línea de teleférico? – Mi Teleférico: ¿quién queda lejos del cable?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/img/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6c595b621499470f26c402490b503aff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-f33d57418b8ae2465de997d81314bbfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-6c595b621499470f26c402490b503aff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Mi Teleférico: ¿quién queda lejos del cable?</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../demanda.html"> 
+<span class="menu-text">Demanda</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../accesibilidad.html"> 
+<span class="menu-text">Accesibilidad</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../propuesta.html"> 
+<span class="menu-text">Propuesta</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../metodologia.html"> 
+<span class="menu-text">Metodología</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks.html"> 
+<span class="menu-text">Notebooks</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#bolsones-de-subcobertura-dbscan" id="toc-bolsones-de-subcobertura-dbscan" class="nav-link active" data-scroll-target="#bolsones-de-subcobertura-dbscan">1. Bolsones de subcobertura (DBSCAN)</a>
+  <ul class="collapse">
+  <li><a href="#calibración-de-eps" id="toc-calibración-de-eps" class="nav-link" data-scroll-target="#calibración-de-eps">Calibración de <code>eps</code></a></li>
+  <li><a href="#robustez-número-de-bolsones-y-población-según-los-parámetros" id="toc-robustez-número-de-bolsones-y-población-según-los-parámetros" class="nav-link" data-scroll-target="#robustez-número-de-bolsones-y-población-según-los-parámetros">Robustez: número de bolsones y población según los parámetros</a></li>
+  </ul></li>
+  <li><a href="#mclp-cuánta-población-se-cubre-con-k-estaciones-nuevas" id="toc-mclp-cuánta-población-se-cubre-con-k-estaciones-nuevas" class="nav-link" data-scroll-target="#mclp-cuánta-población-se-cubre-con-k-estaciones-nuevas">2. MCLP: ¿cuánta población se cubre con k estaciones nuevas?</a>
+  <ul class="collapse">
+  <li><a href="#p-mediana-tiempo-medio-de-caminata-en-los-bolsones" id="toc-p-mediana-tiempo-medio-de-caminata-en-los-bolsones" class="nav-link" data-scroll-target="#p-mediana-tiempo-medio-de-caminata-en-los-bolsones">p-mediana: tiempo medio de caminata en los bolsones</a></li>
+  </ul></li>
+  <li><a href="#trazado-de-la-línea" id="toc-trazado-de-la-línea" class="nav-link" data-scroll-target="#trazado-de-la-línea">3. Trazado de la línea</a>
+  <ul class="collapse">
+  <li><a href="#comparación-con-las-líneas-actuales-población-a-15-min-por-km-de-cable" id="toc-comparación-con-las-líneas-actuales-población-a-15-min-por-km-de-cable" class="nav-link" data-scroll-target="#comparación-con-las-líneas-actuales-población-a-15-min-por-km-de-cable">Comparación con las líneas actuales: población a ≤ 15 min por km de cable</a></li>
+  </ul></li>
+  <li><a href="#impacto-cobertura-y-pasajeros-estimados" id="toc-impacto-cobertura-y-pasajeros-estimados" class="nav-link" data-scroll-target="#impacto-cobertura-y-pasajeros-estimados">4. Impacto: cobertura y pasajeros estimados</a></li>
+  <li><a href="#sensibilidad-del-trazado" id="toc-sensibilidad-del-trazado" class="nav-link" data-scroll-target="#sensibilidad-del-trazado">5. Sensibilidad del trazado</a></li>
+  <li><a href="#contraste-con-el-proyecto-anunciado-extensión-de-la-línea-café-a-pampahasi" id="toc-contraste-con-el-proyecto-anunciado-extensión-de-la-línea-café-a-pampahasi" class="nav-link" data-scroll-target="#contraste-con-el-proyecto-anunciado-extensión-de-la-línea-café-a-pampahasi">6. Contraste con el proyecto anunciado: extensión de la Línea Café a Pampahasi</a></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">7. Conclusiones</a></li>
+  <li><a href="#anexo-exportación-de-datos-para-el-sitio" id="toc-anexo-exportación-de-datos-para-el-sitio" class="nav-link" data-scroll-target="#anexo-exportación-de-datos-para-el-sitio">Anexo: exportación de datos para el sitio</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">05 · Optimización: ¿dónde va una nueva línea de teleférico?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Pregunta:</strong> ¿dónde ubicar k nuevas estaciones para cubrir a la mayor cantidad de población hoy a más de 15 minutos a pie, qué línea las conecta con la red y cuánto rinde por km de cable?</p>
+<p><strong>Método</strong> (<code>teleferico.optimize</code>; corre en el pipeline con <code>--pasos optimizacion</code>): 1. <strong>Demanda:</strong> hexágonos H3 r9 con su población <strong>no cubierta</strong> (a &gt; 15 min con pendiente, notebook 03). 2. <strong>Bolsones de subcobertura (DBSCAN)</strong> sobre los hexágonos densos no cubiertos, con la población como <code>sample_weight</code>. Solo se reportan los bolsones que persisten en la mayoría de 9 combinaciones de parámetros. 3. <strong>Candidatos:</strong> centros de hexágonos en los bolsones y hasta 2 anillos alrededor, con pendiente del terreno ≤ 30 %. 4. <strong>Tiempo a pie</strong> demanda → candidato con el mismo grafo y la misma función de Tobler direccional. 5. <strong>MCLP</strong> (máxima cobertura) y <strong>p-mediana</strong> (mínimo tiempo total) con <code>spopt</code>, para k = 3…10. 6. <strong>Trazado:</strong> búsqueda en haz de una línea que sale de una estación existente, con vanos de 700-2.500 m y giros ≤ 60° en las estaciones, que maximiza la población nueva por km de cable. 7. <strong>Impacto:</strong> cobertura recalculada por manzano y pasajeros/año estimados con el modelo del notebook 04.</p>
+<blockquote class="blockquote">
+<p><strong>Escenario guiado por datos, no diseño de ingeniería:</strong> no se evalúan derechos de vía, torres, costos ni factibilidad política (ver <code>docs/plan.md</code> §8).</p>
+</blockquote>
+<div id="344ffce2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:06:54.847484Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:06:54.847092Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:02.519986Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:02.518109Z&quot;}}" data-execution_count="1">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> h3</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> mticker</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico <span class="im">import</span> access <span class="im">as</span> ac</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico <span class="im">import</span> demand_model <span class="im">as</span> dm</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico <span class="im">import</span> optimize <span class="im">as</span> op</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico <span class="im">import</span> viz</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico.config <span class="im">import</span> CRS_METRIC, CRS_WGS84, PROCESSED</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>viz.estilo()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.float_format"</span>, <span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x<span class="sc">:,.1f}</span><span class="ss">"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> op.OUT_DIR</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>acc <span class="op">=</span> pd.read_parquet(ac.OUT_DIR <span class="op">/</span> <span class="st">"manzanos_acceso.parquet"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>dem_h <span class="op">=</span> pd.read_parquet(D <span class="op">/</span> <span class="st">"demanda_h3.parquet"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>bol <span class="op">=</span> pd.read_parquet(D <span class="op">/</span> <span class="st">"bolsones.parquet"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>cand <span class="op">=</span> gpd.read_parquet(D <span class="op">/</span> <span class="st">"candidatos.parquet"</span>).to_crs(CRS_METRIC)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>curva <span class="op">=</span> pd.read_parquet(D <span class="op">/</span> <span class="st">"curva_mclp.parquet"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>elegidos <span class="op">=</span> pd.read_parquet(D <span class="op">/</span> <span class="st">"mclp_elegidos.parquet"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>pmed <span class="op">=</span> pd.read_parquet(D <span class="op">/</span> <span class="st">"pmediana.parquet"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>lineas_haz <span class="op">=</span> pd.read_parquet(D <span class="op">/</span> <span class="st">"lineas_haz.parquet"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>linea <span class="op">=</span> gpd.read_parquet(D <span class="op">/</span> <span class="st">"linea_propuesta.parquet"</span>).to_crs(CRS_METRIC)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>nuevas <span class="op">=</span> gpd.read_parquet(D <span class="op">/</span> <span class="st">"estaciones_propuestas.parquet"</span>).to_crs(CRS_METRIC)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>m_prop <span class="op">=</span> pd.read_parquet(D <span class="op">/</span> <span class="st">"manzanos_propuesta.parquet"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>resumen <span class="op">=</span> json.loads((D <span class="op">/</span> <span class="st">"resumen_propuesta.json"</span>).read_text(encoding<span class="op">=</span><span class="st">"utf-8"</span>))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>Ts <span class="op">=</span> <span class="bu">dict</span>(np.load(op.MATRIZ_PATH))</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>lim <span class="op">=</span> gpd.read_parquet(PROCESSED <span class="op">/</span> <span class="st">"limites.parquet"</span>).to_crs(CRS_METRIC)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>mun <span class="op">=</span> lim.query(<span class="st">"nivel == 'municipio'"</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>est <span class="op">=</span> gpd.read_parquet(PROCESSED <span class="op">/</span> <span class="st">"red"</span> <span class="op">/</span> <span class="st">"estaciones.parquet"</span>).to_crs(CRS_METRIC)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>lineas <span class="op">=</span> gpd.read_parquet(PROCESSED <span class="op">/</span> <span class="st">"red"</span> <span class="op">/</span> <span class="st">"lineas.parquet"</span>).to_crs(CRS_METRIC)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hexagonos(df):</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame(df, geometry<span class="op">=</span>ac.hexagonos(df[<span class="st">"h3"</span>]).values, crs<span class="op">=</span>CRS_WGS84).to_crs(CRS_METRIC)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>dem <span class="op">=</span> hexagonos(dem_h)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>hx_todos <span class="op">=</span> hexagonos(pd.read_parquet(ac.OUT_DIR <span class="op">/</span> <span class="st">"h3_acceso_r9.parquet"</span>))</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> hx_todos.total_bounds <span class="op">+</span> np.array([<span class="op">-</span><span class="dv">500</span>, <span class="op">-</span><span class="dv">500</span>, <span class="dv">500</span>, <span class="dv">500</span>])</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> dem_h[<span class="st">"personas"</span>].to_numpy()</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(dem)<span class="sc">:,}</span><span class="ss"> hexágonos con población no cubierta · </span><span class="sc">{</span>w<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:,.0f}</span><span class="ss"> personas · "</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(bol)<span class="sc">}</span><span class="ss"> bolsones robustos · </span><span class="sc">{</span><span class="bu">len</span>(cand)<span class="sc">:,}</span><span class="ss"> candidatos"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>2,780 hexágonos con población no cubierta · 1,227,666 personas · 16 bolsones robustos · 957 candidatos</code></pre>
+</div>
+</div>
+<section id="bolsones-de-subcobertura-dbscan" class="level2">
+<h2 class="anchored" data-anchor-id="bolsones-de-subcobertura-dbscan">1. Bolsones de subcobertura (DBSCAN)</h2>
+<section id="calibración-de-eps" class="level3">
+<h3 class="anchored" data-anchor-id="calibración-de-eps">Calibración de <code>eps</code></h3>
+<p>Distancia al 6.º vecino más cercano entre los hexágonos densos no cubiertos. En una grilla H3 r9 los centros vecinos están a ~350 m. El codo de la curva indica la escala a la que los hexágonos dejan de ser contiguos.</p>
+<div id="f91600a2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:02.524166Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:02.523726Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:05.195491Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:05.193476Z&quot;}}" data-execution_count="2">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>kd <span class="op">=</span> op.distancia_k_vecino(op.demanda_no_cubierta(acc))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.4</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.plot(np.arange(<span class="bu">len</span>(kd)), kd, color<span class="op">=</span>viz.ACENTO)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> op.GRILLA_EPS:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ax.axhline(e, color<span class="op">=</span>viz.TINTA_3, lw<span class="op">=</span><span class="fl">0.8</span>, ls<span class="op">=</span><span class="st">"--"</span> <span class="cf">if</span> e <span class="op">!=</span> op.EPS_M <span class="cf">else</span> <span class="st">"-"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    ax.text(<span class="bu">len</span>(kd) <span class="op">*</span> <span class="fl">0.02</span>, e <span class="op">+</span> <span class="dv">15</span>, <span class="ss">f"eps = </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss"> m"</span> <span class="op">+</span> (<span class="st">" (base)"</span> <span class="cf">if</span> e <span class="op">==</span> op.EPS_M <span class="cf">else</span> <span class="st">""</span>), fontsize<span class="op">=</span><span class="fl">8.5</span>, color<span class="op">=</span>viz.TINTA_2)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">1500</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Hexágonos (ordenados)"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Distancia al 6.º vecino (m)"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Curva de distancias al k-ésimo vecino"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"05_k_distancia"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Percentiles de la distancia al 6.º vecino (m):"</span>, np.percentile(kd, [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>, <span class="dv">90</span>]).<span class="bu">round</span>(<span class="dv">0</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_optimizacion_nueva_linea_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Percentiles de la distancia al 6.º vecino (m): [409. 580. 626. 708.]</code></pre>
+</div>
+</div>
+</section>
+<section id="robustez-número-de-bolsones-y-población-según-los-parámetros" class="level3">
+<h3 class="anchored" data-anchor-id="robustez-número-de-bolsones-y-población-según-los-parámetros">Robustez: número de bolsones y población según los parámetros</h3>
+<div id="688ab5be" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:05.200017Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:05.199607Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:07.614847Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:07.612682Z&quot;}}" data-execution_count="3">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dem_full <span class="op">=</span> op.demanda_no_cubierta(acc)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>filas <span class="op">=</span> []</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> op.GRILLA_EPS:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pct <span class="kw">in</span> op.GRILLA_PCT:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> op.dbscan(dem_full, e, op.POB_NUCLEO, pct)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        filas.append({<span class="st">"eps_m"</span>: e, <span class="st">"percentil_densidad"</span>: pct, <span class="st">"bolsones"</span>: <span class="bu">int</span>(b.<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"personas_en_bolsones"</span>: dem_full.loc[b <span class="op">&gt;=</span> <span class="dv">0</span>, <span class="st">"personas"</span>].<span class="bu">sum</span>()})</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>rob <span class="op">=</span> pd.DataFrame(filas)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>rob.pivot(index<span class="op">=</span><span class="st">"eps_m"</span>, columns<span class="op">=</span><span class="st">"percentil_densidad"</span>, values<span class="op">=</span><span class="st">"personas_en_bolsones"</span>).style.<span class="bu">format</span>(viz.fmt_int)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<style type="text/css">
+</style>
+
+<table id="T_706a4" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="index_name level0" data-quarto-table-cell-role="th">percentil_densidad</th>
+<th id="T_706a4_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">40</th>
+<th id="T_706a4_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">50</th>
+<th id="T_706a4_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">60</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">eps_m</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_706a4_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">350</td>
+<td id="T_706a4_row0_col0" class="data row0 col0">143.304</td>
+<td id="T_706a4_row0_col1" class="data row0 col1">140.620</td>
+<td id="T_706a4_row0_col2" class="data row0 col2">138.941</td>
+</tr>
+<tr class="even">
+<td id="T_706a4_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">450</td>
+<td id="T_706a4_row1_col0" class="data row1 col0">574.435</td>
+<td id="T_706a4_row1_col1" class="data row1 col1">561.380</td>
+<td id="T_706a4_row1_col2" class="data row1 col2">529.389</td>
+</tr>
+<tr class="odd">
+<td id="T_706a4_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">600</td>
+<td id="T_706a4_row2_col0" class="data row2 col0">811.896</td>
+<td id="T_706a4_row2_col1" class="data row2 col1">737.253</td>
+<td id="T_706a4_row2_col2" class="data row2 col2">652.191</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="1b61d193" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:07.619351Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:07.618674Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:17.120966Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:17.118706Z&quot;}}" data-execution_count="4">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">6</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axs[<span class="dv">0</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>hx_todos.plot(ax<span class="op">=</span>ax, color<span class="op">=</span>viz.GRILLA, linewidth<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>dem.plot(ax<span class="op">=</span>ax, column<span class="op">=</span><span class="st">"persistencia"</span>, cmap<span class="op">=</span><span class="st">"Purples"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">1</span>, linewidth<span class="op">=</span><span class="dv">0</span>, legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>         legend_kwds<span class="op">=</span>{<span class="st">"shrink"</span>: <span class="fl">0.5</span>, <span class="st">"label"</span>: <span class="st">"Persistencia (fracción de combinaciones)"</span>})</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>viz.mapa_base(ax, mun, lineas, est, bounds)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Persistencia de cada hexágono en algún bolsón"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axs[<span class="dv">1</span>]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>hx_todos.plot(ax<span class="op">=</span>ax, color<span class="op">=</span>viz.GRILLA, linewidth<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dem[dem[<span class="st">"bolson"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>paleta <span class="op">=</span> plt.get_cmap(<span class="st">"tab20"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>orden <span class="op">=</span> {k: i <span class="cf">for</span> i, k <span class="kw">in</span> <span class="bu">enumerate</span>(bol[<span class="st">"bolson"</span>])}</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, g <span class="kw">in</span> b.groupby(<span class="st">"bolson"</span>):</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    g.plot(ax<span class="op">=</span>ax, color<span class="op">=</span>paleta(orden[k] <span class="op">%</span> <span class="dv">20</span>), linewidth<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>viz.mapa_base(ax, mun, lineas, est, bounds)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, r <span class="kw">in</span> bol.head(<span class="dv">8</span>).iterrows():</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> gpd.GeoSeries(gpd.points_from_xy([r[<span class="st">"lon"</span>]], [r[<span class="st">"lat"</span>]]), crs<span class="op">=</span>CRS_WGS84).to_crs(CRS_METRIC).iat[<span class="dv">0</span>]</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f"B</span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>, (p.x, p.y), fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>, color<span class="op">=</span>viz.TINTA,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"center"</span>, bbox<span class="op">=</span>{<span class="st">"boxstyle"</span>: <span class="st">"round,pad=0.2"</span>, <span class="st">"fc"</span>: <span class="st">"white"</span>, <span class="st">"ec"</span>: <span class="st">"none"</span>, <span class="st">"alpha"</span>: <span class="fl">0.8</span>})</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Bolsones robustos (eps = </span><span class="sc">{</span>op<span class="sc">.</span>EPS_M<span class="sc">}</span><span class="ss"> m, percentil </span><span class="sc">{</span>op<span class="sc">.</span>PCT_DENSIDAD<span class="sc">}</span><span class="ss"> de densidad)"</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"05_bolsones"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>tabla_b <span class="op">=</span> bol.assign(<span class="bu">id</span><span class="op">=</span>[<span class="ss">f"B</span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(bol))]).set_index(<span class="st">"id"</span>)[</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"municipio"</span>, <span class="st">"zona"</span>, <span class="st">"personas_no_cubiertas"</span>, <span class="st">"area_km2"</span>, <span class="st">"densidad_no_cubierta_hab_km2"</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>     <span class="st">"t_actual_min"</span>, <span class="st">"iv"</span>, <span class="st">"persistencia"</span>]]</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>tabla_b.style.<span class="bu">format</span>({<span class="st">"personas_no_cubiertas"</span>: viz.fmt_int, <span class="st">"area_km2"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"densidad_no_cubierta_hab_km2"</span>: viz.fmt_int, <span class="st">"t_actual_min"</span>: <span class="st">"</span><span class="sc">{:.0f}</span><span class="st">"</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"iv"</span>: <span class="st">"</span><span class="sc">{:.2f}</span><span class="st">"</span>, <span class="st">"persistencia"</span>: <span class="st">"</span><span class="sc">{:.2f}</span><span class="st">"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_optimizacion_nueva_linea_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<style type="text/css">
+</style>
+
+<table id="T_24d45" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_24d45_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">municipio</th>
+<th id="T_24d45_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">zona</th>
+<th id="T_24d45_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">personas_no_cubiertas</th>
+<th id="T_24d45_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">area_km2</th>
+<th id="T_24d45_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">densidad_no_cubierta_hab_km2</th>
+<th id="T_24d45_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">t_actual_min</th>
+<th id="T_24d45_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">iv</th>
+<th id="T_24d45_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">persistencia</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">id</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col4" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col5" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col6" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col7" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_24d45_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">B1</td>
+<td id="T_24d45_row0_col0" class="data row0 col0">El Alto</td>
+<td id="T_24d45_row0_col1" class="data row0 col1">El Alto</td>
+<td id="T_24d45_row0_col2" class="data row0 col2">102.723</td>
+<td id="T_24d45_row0_col3" class="data row0 col3">10.8</td>
+<td id="T_24d45_row0_col4" class="data row0 col4">9.468</td>
+<td id="T_24d45_row0_col5" class="data row0 col5">26</td>
+<td id="T_24d45_row0_col6" class="data row0 col6">0.57</td>
+<td id="T_24d45_row0_col7" class="data row0 col7">0.73</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">B2</td>
+<td id="T_24d45_row1_col0" class="data row1 col0">El Alto</td>
+<td id="T_24d45_row1_col1" class="data row1 col1">El Alto</td>
+<td id="T_24d45_row1_col2" class="data row1 col2">96.560</td>
+<td id="T_24d45_row1_col3" class="data row1 col3">11.0</td>
+<td id="T_24d45_row1_col4" class="data row1 col4">8.815</td>
+<td id="T_24d45_row1_col5" class="data row1 col5">52</td>
+<td id="T_24d45_row1_col6" class="data row1 col6">0.48</td>
+<td id="T_24d45_row1_col7" class="data row1 col7">0.66</td>
+</tr>
+<tr class="odd">
+<td id="T_24d45_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">B3</td>
+<td id="T_24d45_row2_col0" class="data row2 col0">La Paz</td>
+<td id="T_24d45_row2_col1" class="data row2 col1">San Antonio</td>
+<td id="T_24d45_row2_col2" class="data row2 col2">68.560</td>
+<td id="T_24d45_row2_col3" class="data row2 col3">6.4</td>
+<td id="T_24d45_row2_col4" class="data row2 col4">10.670</td>
+<td id="T_24d45_row2_col5" class="data row2 col5">29</td>
+<td id="T_24d45_row2_col6" class="data row2 col6">0.42</td>
+<td id="T_24d45_row2_col7" class="data row2 col7">0.83</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">B4</td>
+<td id="T_24d45_row3_col0" class="data row3 col0">El Alto</td>
+<td id="T_24d45_row3_col1" class="data row3 col1">El Alto</td>
+<td id="T_24d45_row3_col2" class="data row3 col2">51.093</td>
+<td id="T_24d45_row3_col3" class="data row3 col3">5.8</td>
+<td id="T_24d45_row3_col4" class="data row3 col4">8.819</td>
+<td id="T_24d45_row3_col5" class="data row3 col5">42</td>
+<td id="T_24d45_row3_col6" class="data row3 col6">0.46</td>
+<td id="T_24d45_row3_col7" class="data row3 col7">0.71</td>
+</tr>
+<tr class="odd">
+<td id="T_24d45_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">B5</td>
+<td id="T_24d45_row4_col0" class="data row4 col0">El Alto</td>
+<td id="T_24d45_row4_col1" class="data row4 col1">El Alto</td>
+<td id="T_24d45_row4_col2" class="data row4 col2">46.940</td>
+<td id="T_24d45_row4_col3" class="data row4 col3">5.3</td>
+<td id="T_24d45_row4_col4" class="data row4 col4">8.913</td>
+<td id="T_24d45_row4_col5" class="data row4 col5">27</td>
+<td id="T_24d45_row4_col6" class="data row4 col6">0.52</td>
+<td id="T_24d45_row4_col7" class="data row4 col7">0.66</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">B6</td>
+<td id="T_24d45_row5_col0" class="data row5 col0">La Paz</td>
+<td id="T_24d45_row5_col1" class="data row5 col1">Periférica</td>
+<td id="T_24d45_row5_col2" class="data row5 col2">41.363</td>
+<td id="T_24d45_row5_col3" class="data row5 col3">3.7</td>
+<td id="T_24d45_row5_col4" class="data row5 col4">11.220</td>
+<td id="T_24d45_row5_col5" class="data row5 col5">29</td>
+<td id="T_24d45_row5_col6" class="data row5 col6">0.48</td>
+<td id="T_24d45_row5_col7" class="data row5 col7">0.85</td>
+</tr>
+<tr class="odd">
+<td id="T_24d45_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">B7</td>
+<td id="T_24d45_row6_col0" class="data row6 col0">La Paz</td>
+<td id="T_24d45_row6_col1" class="data row6 col1">Periférica</td>
+<td id="T_24d45_row6_col2" class="data row6 col2">33.431</td>
+<td id="T_24d45_row6_col3" class="data row6 col3">2.9</td>
+<td id="T_24d45_row6_col4" class="data row6 col4">11.335</td>
+<td id="T_24d45_row6_col5" class="data row6 col5">31</td>
+<td id="T_24d45_row6_col6" class="data row6 col6">0.44</td>
+<td id="T_24d45_row6_col7" class="data row6 col7">0.87</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">B8</td>
+<td id="T_24d45_row7_col0" class="data row7 col0">El Alto</td>
+<td id="T_24d45_row7_col1" class="data row7 col1">El Alto</td>
+<td id="T_24d45_row7_col2" class="data row7 col2">33.131</td>
+<td id="T_24d45_row7_col3" class="data row7 col3">3.4</td>
+<td id="T_24d45_row7_col4" class="data row7 col4">9.829</td>
+<td id="T_24d45_row7_col5" class="data row7 col5">24</td>
+<td id="T_24d45_row7_col6" class="data row7 col6">0.45</td>
+<td id="T_24d45_row7_col7" class="data row7 col7">0.66</td>
+</tr>
+<tr class="odd">
+<td id="T_24d45_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">B9</td>
+<td id="T_24d45_row8_col0" class="data row8 col0">La Paz</td>
+<td id="T_24d45_row8_col1" class="data row8 col1">Cotahuma</td>
+<td id="T_24d45_row8_col2" class="data row8 col2">31.261</td>
+<td id="T_24d45_row8_col3" class="data row8 col3">2.5</td>
+<td id="T_24d45_row8_col4" class="data row8 col4">12.366</td>
+<td id="T_24d45_row8_col5" class="data row8 col5">19</td>
+<td id="T_24d45_row8_col6" class="data row8 col6">0.51</td>
+<td id="T_24d45_row8_col7" class="data row8 col7">0.94</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">B10</td>
+<td id="T_24d45_row9_col0" class="data row9 col0">La Paz</td>
+<td id="T_24d45_row9_col1" class="data row9 col1">Cotahuma</td>
+<td id="T_24d45_row9_col2" class="data row9 col2">13.057</td>
+<td id="T_24d45_row9_col3" class="data row9 col3">1.4</td>
+<td id="T_24d45_row9_col4" class="data row9 col4">9.535</td>
+<td id="T_24d45_row9_col5" class="data row9 col5">28</td>
+<td id="T_24d45_row9_col6" class="data row9 col6">0.51</td>
+<td id="T_24d45_row9_col7" class="data row9 col7">0.78</td>
+</tr>
+<tr class="odd">
+<td id="T_24d45_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">B11</td>
+<td id="T_24d45_row10_col0" class="data row10 col0">La Paz</td>
+<td id="T_24d45_row10_col1" class="data row10 col1">Sur</td>
+<td id="T_24d45_row10_col2" class="data row10 col2">9.908</td>
+<td id="T_24d45_row10_col3" class="data row10 col3">1.2</td>
+<td id="T_24d45_row10_col4" class="data row10 col4">8.551</td>
+<td id="T_24d45_row10_col5" class="data row10 col5">25</td>
+<td id="T_24d45_row10_col6" class="data row10 col6">0.28</td>
+<td id="T_24d45_row10_col7" class="data row10 col7">0.63</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row11" class="row_heading level0 row11" data-quarto-table-cell-role="th">B12</td>
+<td id="T_24d45_row11_col0" class="data row11 col0">La Paz</td>
+<td id="T_24d45_row11_col1" class="data row11 col1">Sur</td>
+<td id="T_24d45_row11_col2" class="data row11 col2">8.070</td>
+<td id="T_24d45_row11_col3" class="data row11 col3">0.6</td>
+<td id="T_24d45_row11_col4" class="data row11 col4">12.769</td>
+<td id="T_24d45_row11_col5" class="data row11 col5">23</td>
+<td id="T_24d45_row11_col6" class="data row11 col6">0.33</td>
+<td id="T_24d45_row11_col7" class="data row11 col7">0.63</td>
+</tr>
+<tr class="odd">
+<td id="T_24d45_level0_row12" class="row_heading level0 row12" data-quarto-table-cell-role="th">B13</td>
+<td id="T_24d45_row12_col0" class="data row12 col0">La Paz</td>
+<td id="T_24d45_row12_col1" class="data row12 col1">Sur</td>
+<td id="T_24d45_row12_col2" class="data row12 col2">6.743</td>
+<td id="T_24d45_row12_col3" class="data row12 col3">0.6</td>
+<td id="T_24d45_row12_col4" class="data row12 col4">10.669</td>
+<td id="T_24d45_row12_col5" class="data row12 col5">22</td>
+<td id="T_24d45_row12_col6" class="data row12 col6">0.42</td>
+<td id="T_24d45_row12_col7" class="data row12 col7">0.52</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row13" class="row_heading level0 row13" data-quarto-table-cell-role="th">B14</td>
+<td id="T_24d45_row13_col0" class="data row13 col0">La Paz</td>
+<td id="T_24d45_row13_col1" class="data row13 col1">Max Paredes</td>
+<td id="T_24d45_row13_col2" class="data row13 col2">6.342</td>
+<td id="T_24d45_row13_col3" class="data row13 col3">0.7</td>
+<td id="T_24d45_row13_col4" class="data row13 col4">8.601</td>
+<td id="T_24d45_row13_col5" class="data row13 col5">60</td>
+<td id="T_24d45_row13_col6" class="data row13 col6">0.49</td>
+<td id="T_24d45_row13_col7" class="data row13 col7">0.55</td>
+</tr>
+<tr class="odd">
+<td id="T_24d45_level0_row14" class="row_heading level0 row14" data-quarto-table-cell-role="th">B15</td>
+<td id="T_24d45_row14_col0" class="data row14 col0">El Alto</td>
+<td id="T_24d45_row14_col1" class="data row14 col1">El Alto</td>
+<td id="T_24d45_row14_col2" class="data row14 col2">6.135</td>
+<td id="T_24d45_row14_col3" class="data row14 col3">0.7</td>
+<td id="T_24d45_row14_col4" class="data row14 col4">8.321</td>
+<td id="T_24d45_row14_col5" class="data row14 col5">22</td>
+<td id="T_24d45_row14_col6" class="data row14 col6">0.58</td>
+<td id="T_24d45_row14_col7" class="data row14 col7">0.67</td>
+</tr>
+<tr class="even">
+<td id="T_24d45_level0_row15" class="row_heading level0 row15" data-quarto-table-cell-role="th">B16</td>
+<td id="T_24d45_row15_col0" class="data row15 col0">La Paz</td>
+<td id="T_24d45_row15_col1" class="data row15 col1">Sur</td>
+<td id="T_24d45_row15_col2" class="data row15 col2">6.063</td>
+<td id="T_24d45_row15_col3" class="data row15 col3">0.7</td>
+<td id="T_24d45_row15_col4" class="data row15 col4">8.223</td>
+<td id="T_24d45_row15_col5" class="data row15 col5">56</td>
+<td id="T_24d45_row15_col6" class="data row15 col6">0.43</td>
+<td id="T_24d45_row15_col7" class="data row15 col7">0.67</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Lectura:</strong> - La distancia al 6.º vecino tiene mediana de ~580 m. Con <code>eps</code> = 350 m casi nada se agrupa (140 mil personas); con 450-600 m aparecen los bolsones (530-810 mil). Se elige <strong>450 m</strong>: une hexágonos contiguos sin fusionar zonas separadas por quebradas o por la autopista. - Con eps = 450 m, el resultado es estable frente al umbral de densidad (±4 % de población entre los percentiles 40 y 60). Los <strong>16 bolsones</strong> reportados persisten en al menos la mitad de las 9 combinaciones; los de las laderas de La Paz son los más estables (persistencia de 0,8-0,9). - <strong>Hipótesis 2, confirmada:</strong> los mayores bolsones están en <strong>El Alto</strong>: B1 al norte de 16 de Julio (103 mil personas no cubiertas), B2 al sur (97 mil, a 52 min de una estación hoy), B4 y B5. En La Paz, <strong>B3 en San Antonio</strong> (69 mil) y las laderas de Periférica (B6 y B7) y Cotahuma (B9). Los bolsones tienen densidades de 8-13 mil hab/km², y los 10 mayores, un índice de vulnerabilidad medio de 0,42-0,57.</p>
+</section>
+</section>
+<section id="mclp-cuánta-población-se-cubre-con-k-estaciones-nuevas" class="level2">
+<h2 class="anchored" data-anchor-id="mclp-cuánta-población-se-cubre-con-k-estaciones-nuevas">2. MCLP: ¿cuánta población se cubre con k estaciones nuevas?</h2>
+<p>Las estaciones del MCLP son libres: pueden quedar dispersas por toda la ciudad. Es la <strong>cota superior</strong> de lo que lograrían k estaciones, sin la restricción de formar una línea.</p>
+<div id="c72a3584" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:17.126660Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:17.126253Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:17.773671Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:17.771544Z&quot;}}" data-execution_count="5">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">4.2</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>estilos <span class="op">=</span> {(<span class="st">"pendiente"</span>, <span class="dv">15</span>): (<span class="st">"Con pendiente, 15 min"</span>, viz.SECUENCIAL[<span class="dv">5</span>], <span class="st">"-"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           (<span class="st">"plana"</span>, <span class="dv">15</span>): (<span class="st">"Sin pendiente, 15 min"</span>, viz.SECUENCIAL[<span class="dv">2</span>], <span class="st">"--"</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           (<span class="st">"pendiente"</span>, <span class="dv">10</span>): (<span class="st">"Con pendiente, 10 min"</span>, viz.TINTA_3, <span class="st">"-"</span>)}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (v, u), (lab, col, ls) <span class="kw">in</span> estilos.items():</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> curva[(curva[<span class="st">"variante"</span>] <span class="op">==</span> v) <span class="op">&amp;</span> (curva[<span class="st">"umbral"</span>] <span class="op">==</span> u)]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    ax.plot(c[<span class="st">"k"</span>], c[<span class="st">"personas"</span>], marker<span class="op">=</span><span class="st">"o"</span>, color<span class="op">=</span>col, ls<span class="op">=</span>ls, label<span class="op">=</span>lab)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>c15 <span class="op">=</span> curva[(curva[<span class="st">"variante"</span>] <span class="op">==</span> <span class="st">"pendiente"</span>) <span class="op">&amp;</span> (curva[<span class="st">"umbral"</span>] <span class="op">==</span> <span class="dv">15</span>)].set_index(<span class="st">"k"</span>)[<span class="st">"personas"</span>]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, v <span class="kw">in</span> c15.items():</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    ax.annotate(viz.miles(v), (k, v), xytext<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">7</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, ha<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">8</span>, color<span class="op">=</span>viz.TINTA_2)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(mticker.FuncFormatter(viz.miles))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estaciones nuevas (k)"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Población nueva cubierta"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Rendimientos decrecientes: población nueva cubierta según k (MCLP)"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"05_curva_mclp"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>marg <span class="op">=</span> c15.diff().fillna(c15)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"personas"</span>: c15, <span class="st">"marginal"</span>: marg, <span class="st">"por_estacion"</span>: c15 <span class="op">/</span> c15.index}).T.style.<span class="bu">format</span>(viz.fmt_int)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_optimizacion_nueva_linea_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<style type="text/css">
+</style>
+
+<table id="T_d54c9" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="index_name level0" data-quarto-table-cell-role="th">k</th>
+<th id="T_d54c9_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">3</th>
+<th id="T_d54c9_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">4</th>
+<th id="T_d54c9_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">5</th>
+<th id="T_d54c9_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">6</th>
+<th id="T_d54c9_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">7</th>
+<th id="T_d54c9_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">8</th>
+<th id="T_d54c9_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">9</th>
+<th id="T_d54c9_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_d54c9_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">personas</td>
+<td id="T_d54c9_row0_col0" class="data row0 col0">90.514</td>
+<td id="T_d54c9_row0_col1" class="data row0 col1">120.258</td>
+<td id="T_d54c9_row0_col2" class="data row0 col2">147.067</td>
+<td id="T_d54c9_row0_col3" class="data row0 col3">172.792</td>
+<td id="T_d54c9_row0_col4" class="data row0 col4">198.136</td>
+<td id="T_d54c9_row0_col5" class="data row0 col5">220.530</td>
+<td id="T_d54c9_row0_col6" class="data row0 col6">242.014</td>
+<td id="T_d54c9_row0_col7" class="data row0 col7">262.511</td>
+</tr>
+<tr class="even">
+<td id="T_d54c9_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">marginal</td>
+<td id="T_d54c9_row1_col0" class="data row1 col0">90.514</td>
+<td id="T_d54c9_row1_col1" class="data row1 col1">29.744</td>
+<td id="T_d54c9_row1_col2" class="data row1 col2">26.809</td>
+<td id="T_d54c9_row1_col3" class="data row1 col3">25.725</td>
+<td id="T_d54c9_row1_col4" class="data row1 col4">25.344</td>
+<td id="T_d54c9_row1_col5" class="data row1 col5">22.394</td>
+<td id="T_d54c9_row1_col6" class="data row1 col6">21.484</td>
+<td id="T_d54c9_row1_col7" class="data row1 col7">20.497</td>
+</tr>
+<tr class="odd">
+<td id="T_d54c9_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">por_estacion</td>
+<td id="T_d54c9_row2_col0" class="data row2 col0">30.171</td>
+<td id="T_d54c9_row2_col1" class="data row2 col1">30.064</td>
+<td id="T_d54c9_row2_col2" class="data row2 col2">29.413</td>
+<td id="T_d54c9_row2_col3" class="data row2 col3">28.799</td>
+<td id="T_d54c9_row2_col4" class="data row2 col4">28.305</td>
+<td id="T_d54c9_row2_col5" class="data row2 col5">27.566</td>
+<td id="T_d54c9_row2_col6" class="data row2 col6">26.890</td>
+<td id="T_d54c9_row2_col7" class="data row2 col7">26.251</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="1ff27c0c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:17.777695Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:17.777321Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:20.769199Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:20.767213Z&quot;}}" data-execution_count="6">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sel <span class="op">=</span> elegidos[(elegidos[<span class="st">"variante"</span>] <span class="op">==</span> <span class="st">"pendiente"</span>) <span class="op">&amp;</span> (elegidos[<span class="st">"umbral"</span>] <span class="op">==</span> <span class="dv">15</span>) <span class="op">&amp;</span> (elegidos[<span class="st">"k"</span>] <span class="op">==</span> <span class="dv">6</span>)]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pts <span class="op">=</span> cand.set_index(<span class="st">"h3"</span>).loc[sel[<span class="st">"h3"</span>]]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">8.5</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>hx_todos.plot(ax<span class="op">=</span>ax, color<span class="op">=</span>viz.GRILLA, linewidth<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>dem.plot(ax<span class="op">=</span>ax, column<span class="op">=</span><span class="st">"personas"</span>, cmap<span class="op">=</span><span class="st">"Oranges"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">3000</span>, linewidth<span class="op">=</span><span class="dv">0</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>viz.mapa_base(ax, mun, lineas, est, bounds)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>pts.plot(ax<span class="op">=</span>ax, marker<span class="op">=</span><span class="st">"*"</span>, color<span class="op">=</span>viz.TINTA, markersize<span class="op">=</span><span class="dv">220</span>, zorder<span class="op">=</span><span class="dv">6</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>p6 <span class="op">=</span> pmed.loc[pmed[<span class="st">"k"</span>] <span class="op">==</span> <span class="dv">6</span>, <span class="st">"h3"</span>].iat[<span class="dv">0</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>cand.set_index(<span class="st">"h3"</span>).loc[<span class="bu">list</span>(p6)].plot(ax<span class="op">=</span>ax, marker<span class="op">=</span><span class="st">"D"</span>, color<span class="op">=</span><span class="st">"#c8642a"</span>, markersize<span class="op">=</span><span class="dv">60</span>, zorder<span class="op">=</span><span class="dv">6</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                                         edgecolor<span class="op">=</span><span class="st">"white"</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>[plt.Line2D([], [], marker<span class="op">=</span><span class="st">"*"</span>, color<span class="op">=</span>viz.TINTA, ls<span class="op">=</span><span class="st">""</span>, ms<span class="op">=</span><span class="dv">13</span>, label<span class="op">=</span><span class="st">"MCLP (k = 6)"</span>),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                   plt.Line2D([], [], marker<span class="op">=</span><span class="st">"D"</span>, color<span class="op">=</span><span class="st">"#c8642a"</span>, ls<span class="op">=</span><span class="st">""</span>, ms<span class="op">=</span><span class="dv">7</span>, label<span class="op">=</span><span class="st">"p-mediana (k = 6, solo bolsones)"</span>),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                   Patch(color<span class="op">=</span><span class="st">"#f4a261"</span>, label<span class="op">=</span><span class="st">"Población no cubierta por hexágono"</span>)],</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>          loc<span class="op">=</span><span class="st">"lower left"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Dónde pondría 6 estaciones nuevas cada modelo"</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"05_mclp_pmediana"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_optimizacion_nueva_linea_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="p-mediana-tiempo-medio-de-caminata-en-los-bolsones" class="level3">
+<h3 class="anchored" data-anchor-id="p-mediana-tiempo-medio-de-caminata-en-los-bolsones">p-mediana: tiempo medio de caminata en los bolsones</h3>
+<div id="1a36a787" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:20.775955Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:20.775544Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:20.790192Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:20.788561Z&quot;}}" data-execution_count="7">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pmed[[<span class="st">"k"</span>, <span class="st">"t_medio_antes"</span>, <span class="st">"t_medio_despues"</span>, <span class="st">"personas_a_15"</span>]].assign(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    reduccion_min<span class="op">=</span>pmed[<span class="st">"t_medio_antes"</span>] <span class="op">-</span> pmed[<span class="st">"t_medio_despues"</span>]).set_index(<span class="st">"k"</span>).style.<span class="bu">format</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"t_medio_antes"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"t_medio_despues"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"reduccion_min"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"personas_a_15"</span>: viz.fmt_int})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<style type="text/css">
+</style>
+
+<table id="T_38b41" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_38b41_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">t_medio_antes</th>
+<th id="T_38b41_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">t_medio_despues</th>
+<th id="T_38b41_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">personas_a_15</th>
+<th id="T_38b41_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">reduccion_min</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">k</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_38b41_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">3</td>
+<td id="T_38b41_row0_col0" class="data row0 col0">33.0</td>
+<td id="T_38b41_row0_col1" class="data row0 col1">24.0</td>
+<td id="T_38b41_row0_col2" class="data row0 col2">79.480</td>
+<td id="T_38b41_row0_col3" class="data row0 col3">9.0</td>
+</tr>
+<tr class="even">
+<td id="T_38b41_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">6</td>
+<td id="T_38b41_row1_col0" class="data row1 col0">33.0</td>
+<td id="T_38b41_row1_col1" class="data row1 col1">20.5</td>
+<td id="T_38b41_row1_col2" class="data row1 col2">147.064</td>
+<td id="T_38b41_row1_col3" class="data row1 col3">12.5</td>
+</tr>
+<tr class="odd">
+<td id="T_38b41_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">10</td>
+<td id="T_38b41_row2_col0" class="data row2 col0">33.0</td>
+<td id="T_38b41_row2_col1" class="data row2 col1">17.4</td>
+<td id="T_38b41_row2_col2" class="data row2 col2">227.544</td>
+<td id="T_38b41_row2_col3" class="data row2 col3">15.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Lectura:</strong> - <strong>Rendimientos decrecientes suaves:</strong> las primeras 3 estaciones cubren 90 mil personas (30 mil c/u); la décima agrega 20 mil. Con 10 estaciones libres se cubrirían 263 mil personas (21 % de la población hoy no cubierta). - Sin pendiente, la curva sube apenas un 4-9 %: los bolsones más grandes están en El Alto, que es plano. Con 10 minutos de umbral, la cobertura cae a la mitad (47-54 %). - Con k = 6, el MCLP reparte estaciones entre el <strong>norte (B1)</strong>, el oeste (B5) y el <strong>sur de El Alto (B2/B4)</strong>, más una cerca de la línea Morada. La p-mediana, restringida a los bolsones, coincide en El Alto y suma San Antonio (B3). Baja el tiempo medio de caminata en los bolsones de 33 a 20,5 min. - Las estaciones libres del MCLP quedan <strong>dispersas</strong>: no forman una línea. Por eso el trazado se resuelve aparte, y el MCLP queda como cota superior.</p>
+</section>
+</section>
+<section id="trazado-de-la-línea" class="level2">
+<h2 class="anchored" data-anchor-id="trazado-de-la-línea">3. Trazado de la línea</h2>
+<p>La búsqueda en haz arma, para cada número de estaciones nuevas, la línea con más población nueva por km. El número de estaciones se elige con una regla de rendimiento marginal: se agregan estaciones mientras cada una cubra al menos tantas personas por km como la red actual (13.167 personas a ≤ 15 min por km de cable).</p>
+<div id="633b5244" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:20.794574Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:20.794033Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:20.812766Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:20.810948Z&quot;}}" data-execution_count="8">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lh <span class="op">=</span> lineas_haz.copy()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>lh[<span class="st">"marginal_por_km"</span>] <span class="op">=</span> lh[<span class="st">"personas"</span>].diff().fillna(lh[<span class="st">"personas"</span>]) <span class="op">/</span> lh[<span class="st">"km"</span>].diff().fillna(lh[<span class="st">"km"</span>])</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>mclp_k <span class="op">=</span> c15.reindex(lh[<span class="st">"n_estaciones"</span>]).to_numpy()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lh[<span class="st">"eficiencia_vs_mclp_%"</span>] <span class="op">=</span> lh[<span class="st">"personas"</span>] <span class="op">/</span> mclp_k <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>lh.drop(columns<span class="op">=</span><span class="st">"secuencia"</span>).set_index(<span class="st">"n_estaciones"</span>).style.<span class="bu">format</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"km"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"personas"</span>: viz.fmt_int, <span class="st">"personas_por_km"</span>: viz.fmt_int, <span class="st">"marginal_por_km"</span>: viz.fmt_int,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>     <span class="st">"eficiencia_vs_mclp_%"</span>: <span class="st">"</span><span class="sc">{:.0f}</span><span class="st"> %"</span>}, na_rep<span class="op">=</span><span class="st">"—"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<style type="text/css">
+</style>
+
+<table id="T_7c4be" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_7c4be_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">origen</th>
+<th id="T_7c4be_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">km</th>
+<th id="T_7c4be_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">personas</th>
+<th id="T_7c4be_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">personas_por_km</th>
+<th id="T_7c4be_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">marginal_por_km</th>
+<th id="T_7c4be_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">eficiencia_vs_mclp_%</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">n_estaciones</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col4" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col5" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_7c4be_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">1</td>
+<td id="T_7c4be_row0_col0" class="data row0 col0">16_de_julio</td>
+<td id="T_7c4be_row0_col1" class="data row0 col1">0.9</td>
+<td id="T_7c4be_row0_col2" class="data row0 col2">20.497</td>
+<td id="T_7c4be_row0_col3" class="data row0 col3">24.064</td>
+<td id="T_7c4be_row0_col4" class="data row0 col4">24.064</td>
+<td id="T_7c4be_row0_col5" class="data row0 col5">—</td>
+</tr>
+<tr class="even">
+<td id="T_7c4be_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">2</td>
+<td id="T_7c4be_row1_col0" class="data row1 col0">rio_seco</td>
+<td id="T_7c4be_row1_col1" class="data row1 col1">1.5</td>
+<td id="T_7c4be_row1_col2" class="data row1 col2">33.020</td>
+<td id="T_7c4be_row1_col3" class="data row1 col3">21.576</td>
+<td id="T_7c4be_row1_col4" class="data row1 col4">18.453</td>
+<td id="T_7c4be_row1_col5" class="data row1 col5">—</td>
+</tr>
+<tr class="odd">
+<td id="T_7c4be_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">3</td>
+<td id="T_7c4be_row2_col0" class="data row2 col0">rio_seco</td>
+<td id="T_7c4be_row2_col1" class="data row2 col1">2.3</td>
+<td id="T_7c4be_row2_col2" class="data row2 col2">42.855</td>
+<td id="T_7c4be_row2_col3" class="data row2 col3">19.036</td>
+<td id="T_7c4be_row2_col4" class="data row2 col4">13.643</td>
+<td id="T_7c4be_row2_col5" class="data row2 col5">47 %</td>
+</tr>
+<tr class="even">
+<td id="T_7c4be_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">4</td>
+<td id="T_7c4be_row3_col0" class="data row3 col0">16_de_julio</td>
+<td id="T_7c4be_row3_col1" class="data row3 col1">3.7</td>
+<td id="T_7c4be_row3_col2" class="data row3 col2">67.541</td>
+<td id="T_7c4be_row3_col3" class="data row3 col3">18.129</td>
+<td id="T_7c4be_row3_col4" class="data row3 col4">16.745</td>
+<td id="T_7c4be_row3_col5" class="data row3 col5">56 %</td>
+</tr>
+<tr class="odd">
+<td id="T_7c4be_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">5</td>
+<td id="T_7c4be_row4_col0" class="data row4 col0">16_de_julio</td>
+<td id="T_7c4be_row4_col1" class="data row4 col1">4.2</td>
+<td id="T_7c4be_row4_col2" class="data row4 col2">75.793</td>
+<td id="T_7c4be_row4_col3" class="data row4 col3">18.037</td>
+<td id="T_7c4be_row4_col4" class="data row4 col4">17.319</td>
+<td id="T_7c4be_row4_col5" class="data row4 col5">52 %</td>
+</tr>
+<tr class="even">
+<td id="T_7c4be_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">6</td>
+<td id="T_7c4be_row5_col0" class="data row5 col0">16_de_julio</td>
+<td id="T_7c4be_row5_col1" class="data row5 col1">5.1</td>
+<td id="T_7c4be_row5_col2" class="data row5 col2">90.721</td>
+<td id="T_7c4be_row5_col3" class="data row5 col3">17.638</td>
+<td id="T_7c4be_row5_col4" class="data row5 col4">15.854</td>
+<td id="T_7c4be_row5_col5" class="data row5 col5">53 %</td>
+</tr>
+<tr class="odd">
+<td id="T_7c4be_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">7</td>
+<td id="T_7c4be_row6_col0" class="data row6 col0">16_de_julio</td>
+<td id="T_7c4be_row6_col1" class="data row6 col1">5.9</td>
+<td id="T_7c4be_row6_col2" class="data row6 col2">100.749</td>
+<td id="T_7c4be_row6_col3" class="data row6 col3">17.180</td>
+<td id="T_7c4be_row6_col4" class="data row6 col4">13.913</td>
+<td id="T_7c4be_row6_col5" class="data row6 col5">51 %</td>
+</tr>
+<tr class="even">
+<td id="T_7c4be_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">8</td>
+<td id="T_7c4be_row7_col0" class="data row7 col0">16_de_julio</td>
+<td id="T_7c4be_row7_col1" class="data row7 col1">6.6</td>
+<td id="T_7c4be_row7_col2" class="data row7 col2">106.082</td>
+<td id="T_7c4be_row7_col3" class="data row7 col3">16.109</td>
+<td id="T_7c4be_row7_col4" class="data row7 col4">7.399</td>
+<td id="T_7c4be_row7_col5" class="data row7 col5">48 %</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="4b271602" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:20.817293Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:20.816893Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:23.615636Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:23.613534Z&quot;}}" data-execution_count="9">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mz_nuevos <span class="op">=</span> m_prop[(m_prop[<span class="st">"t_despues"</span>] <span class="op">&lt;=</span> <span class="dv">15</span>) <span class="op">&amp;</span> <span class="op">~</span>(m_prop[<span class="st">"t_antes"</span>] <span class="op">&lt;=</span> <span class="dv">15</span>)]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mz_xy <span class="op">=</span> acc.set_index(<span class="st">"codigo"</span>).loc[mz_nuevos[<span class="st">"codigo"</span>], [<span class="st">"lon"</span>, <span class="st">"lat"</span>]]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>nuevos_pts <span class="op">=</span> gpd.GeoDataFrame(mz_nuevos, geometry<span class="op">=</span>gpd.points_from_xy(mz_xy[<span class="st">"lon"</span>], mz_xy[<span class="st">"lat"</span>]),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                              crs<span class="op">=</span>CRS_WGS84).to_crs(CRS_METRIC)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>zoom <span class="op">=</span> linea.<span class="bu">buffer</span>(<span class="dv">3500</span>).total_bounds</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">8.5</span>))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>hx_todos.plot(ax<span class="op">=</span>ax, color<span class="op">=</span>viz.GRILLA, linewidth<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>dem[dem[<span class="st">"bolson"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>].plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"#f2c46d"</span>, linewidth<span class="op">=</span><span class="dv">0</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>nuevos_pts.plot(ax<span class="op">=</span>ax, color<span class="op">=</span>viz.SECUENCIAL[<span class="dv">5</span>], markersize<span class="op">=</span><span class="dv">2</span>, zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>viz.mapa_base(ax, mun, lineas, est, zoom)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>linea.plot(ax<span class="op">=</span>ax, color<span class="op">=</span>viz.TINTA, lw<span class="op">=</span><span class="dv">3</span>, ls<span class="op">=</span><span class="st">"--"</span>, zorder<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>nuevas.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"white"</span>, edgecolor<span class="op">=</span>viz.TINTA, markersize<span class="op">=</span><span class="dv">70</span>, linewidth<span class="op">=</span><span class="fl">1.6</span>, zorder<span class="op">=</span><span class="dv">7</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> nuevas.itertuples():</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    ax.annotate(r.<span class="bu">id</span>, (r.geometry.x, r.geometry.y), xytext<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, fontsize<span class="op">=</span><span class="dv">9</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>                fontweight<span class="op">=</span><span class="st">"bold"</span>, color<span class="op">=</span>viz.TINTA)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>[plt.Line2D([], [], color<span class="op">=</span>viz.TINTA, lw<span class="op">=</span><span class="dv">3</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Línea propuesta"</span>),</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>                   plt.Line2D([], [], marker<span class="op">=</span><span class="st">"o"</span>, color<span class="op">=</span>viz.SECUENCIAL[<span class="dv">5</span>], ls<span class="op">=</span><span class="st">""</span>, label<span class="op">=</span><span class="st">"Manzanos que pasan a ≤ 15 min"</span>),</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                   Patch(color<span class="op">=</span><span class="st">"#f2c46d"</span>, label<span class="op">=</span><span class="st">"Bolsones de subcobertura"</span>)], loc<span class="op">=</span><span class="st">"lower left"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Línea propuesta: </span><span class="sc">{</span>resumen[<span class="st">'n_estaciones'</span>]<span class="sc">}</span><span class="ss"> estaciones nuevas desde "</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>             <span class="ss">f"</span><span class="sc">{</span>est<span class="sc">.</span>set_index(<span class="st">'slug'</span>)<span class="sc">.</span>loc[resumen[<span class="st">'origen'</span>], <span class="st">'nombre'</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>resumen[<span class="st">'km_cable'</span>]<span class="sc">:.1f}</span><span class="ss"> km)"</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"05_linea_propuesta"</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_optimizacion_nueva_linea_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Lectura:</strong> - La mejor línea sale de <strong>16 de Julio</strong> (transbordo con las líneas Roja, Azul y Plateada) hacia el <strong>noroeste</strong>, a lo largo del bolsón <strong>B1</strong> (norte de El Alto). Tiene <strong>7 estaciones nuevas en 5,9 km</strong>, con vanos de 0,7-1,2 km, parecidos a los de la línea Azul. - La regla marginal se detiene en 7: la 8.ª estación agregaría solo 7,4 mil personas por km, frente a las 13,2 mil de la red actual. - Cubre el <strong>~50 % de lo que lograrían 7 estaciones libres</strong> (MCLP). Es el costo de exigir que las estaciones formen una línea continua conectada a la red. - La primera estación (N1) cae en el borde de la ladera de <strong>Max Paredes</strong> (La Paz) y cubre ~19 mil personas paceñas. Las otras 6 están en El Alto (77 mil personas). - La evaluación por manzano (95 mil personas nuevas) da algo menos que la estimación por hexágonos de la búsqueda (101 mil): dentro de cada hexágono no todos los manzanos quedan a ≤ 15 min.</p>
+<section id="comparación-con-las-líneas-actuales-población-a-15-min-por-km-de-cable" class="level3">
+<h3 class="anchored" data-anchor-id="comparación-con-las-líneas-actuales-población-a-15-min-por-km-de-cable">Comparación con las líneas actuales: población a ≤ 15 min por km de cable</h3>
+<p>Para cada línea existente se cuenta la población a ≤ 15 min (con pendiente) de <strong>alguna de sus estaciones</strong>, dividida por su longitud. Para la propuesta se usa solo la población <strong>nueva</strong>, la que hoy no tiene acceso, un criterio más exigente.</p>
+<div id="35ed148a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:23.621270Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:23.620855Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:25.382751Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:25.380971Z&quot;}}" data-execution_count="10">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nod, a <span class="op">=</span> ac.nodos(), ac.aristas_tiempo()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>T_est <span class="op">=</span> ac.tiempos_por_estacion(a, nod, est, variantes<span class="op">=</span>(<span class="st">"pendiente"</span>,))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>mz <span class="op">=</span> ac.manzanos_centroides()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>_, por_est <span class="op">=</span> ac.acceso_manzanos(mz, nod, est, T_est)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>pers <span class="op">=</span> mz[<span class="st">"personas"</span>].to_numpy()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>km_linea <span class="op">=</span> lineas.groupby(<span class="st">"linea"</span>)[<span class="st">"longitud_m"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="dv">1000</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>andenes <span class="op">=</span> pd.read_parquet(PROCESSED <span class="op">/</span> <span class="st">"red"</span> <span class="op">/</span> <span class="st">"andenes.parquet"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>filas <span class="op">=</span> []</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l, g <span class="kw">in</span> andenes.groupby(<span class="st">"linea"</span>):</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> est.index[est[<span class="st">"slug"</span>].isin(g[<span class="st">"slug"</span>])]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    cub <span class="op">=</span> (por_est[<span class="st">"pendiente"</span>][idx] <span class="op">&lt;=</span> <span class="dv">15</span>).<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    filas.append({<span class="st">"linea"</span>: l, <span class="st">"km"</span>: km_linea[l], <span class="st">"personas_15"</span>: pers[cub].<span class="bu">sum</span>()})</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>comp_l <span class="op">=</span> pd.DataFrame(filas)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>comp_l[<span class="st">"personas_por_km"</span>] <span class="op">=</span> comp_l[<span class="st">"personas_15"</span>] <span class="op">/</span> comp_l[<span class="st">"km"</span>]</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>comp_l <span class="op">=</span> pd.concat([comp_l, pd.DataFrame([{<span class="st">"linea"</span>: <span class="st">"Propuesta (solo población nueva)"</span>, <span class="st">"km"</span>: resumen[<span class="st">"km_cable"</span>],</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"personas_15"</span>: resumen[<span class="st">"personas_nuevas_15"</span>],</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"personas_por_km"</span>: resumen[<span class="st">"personas_nuevas_por_km"</span>]}])])</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>comp_l <span class="op">=</span> comp_l.sort_values(<span class="st">"personas_por_km"</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">4.6</span>))</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [viz.TINTA <span class="cf">if</span> l.startswith(<span class="st">"Propuesta"</span>) <span class="cf">else</span> viz.COLOR_LINEA.get(l, viz.TINTA_3) <span class="cf">for</span> l <span class="kw">in</span> comp_l[<span class="st">"linea"</span>]]</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>borde <span class="op">=</span> [viz.BORDE_LINEA.get(l, c) <span class="cf">for</span> l, c <span class="kw">in</span> <span class="bu">zip</span>(comp_l[<span class="st">"linea"</span>], col)]</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>ax.barh(comp_l[<span class="st">"linea"</span>], comp_l[<span class="st">"personas_por_km"</span>], color<span class="op">=</span>col, edgecolor<span class="op">=</span>borde, height<span class="op">=</span><span class="fl">0.65</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, v <span class="kw">in</span> <span class="bu">enumerate</span>(comp_l[<span class="st">"personas_por_km"</span>]):</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    ax.text(v <span class="op">+</span> <span class="dv">300</span>, i, viz.fmt_int(v), va<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span>viz.TINTA_2)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(mticker.FuncFormatter(viz.miles))</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, visible<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Personas a ≤ 15 min a pie por km de cable"</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Rendimiento por km: líneas actuales frente a la propuesta"</span>)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>viz.guardar(fig, <span class="st">"05_rendimiento_lineas"</span>)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>comp_l.set_index(<span class="st">"linea"</span>).style.<span class="bu">format</span>({<span class="st">"km"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"personas_15"</span>: viz.fmt_int, <span class="st">"personas_por_km"</span>: viz.fmt_int})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_optimizacion_nueva_linea_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<style type="text/css">
+</style>
+
+<table id="T_1c069" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_1c069_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">km</th>
+<th id="T_1c069_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">personas_15</th>
+<th id="T_1c069_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">personas_por_km</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">linea</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_1c069_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Verde</td>
+<td id="T_1c069_row0_col0" class="data row0 col0">3.7</td>
+<td id="T_1c069_row0_col1" class="data row0 col1">34.754</td>
+<td id="T_1c069_row0_col2" class="data row0 col2">9.317</td>
+</tr>
+<tr class="even">
+<td id="T_1c069_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Plateada</td>
+<td id="T_1c069_row1_col0" class="data row1 col0">2.8</td>
+<td id="T_1c069_row1_col1" class="data row1 col1">41.177</td>
+<td id="T_1c069_row1_col2" class="data row1 col2">14.900</td>
+</tr>
+<tr class="odd">
+<td id="T_1c069_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Propuesta (solo población nueva)</td>
+<td id="T_1c069_row2_col0" class="data row2 col0">5.9</td>
+<td id="T_1c069_row2_col1" class="data row2 col1">95.276</td>
+<td id="T_1c069_row2_col2" class="data row2 col2">16.247</td>
+</tr>
+<tr class="even">
+<td id="T_1c069_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Morada</td>
+<td id="T_1c069_row3_col0" class="data row3 col0">4.4</td>
+<td id="T_1c069_row3_col1" class="data row3 col1">72.106</td>
+<td id="T_1c069_row3_col2" class="data row3 col2">16.407</td>
+</tr>
+<tr class="odd">
+<td id="T_1c069_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">Azul</td>
+<td id="T_1c069_row4_col0" class="data row4 col0">5.0</td>
+<td id="T_1c069_row4_col1" class="data row4 col1">82.630</td>
+<td id="T_1c069_row4_col2" class="data row4 col2">16.643</td>
+</tr>
+<tr class="even">
+<td id="T_1c069_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">Amarilla</td>
+<td id="T_1c069_row5_col0" class="data row5 col0">3.8</td>
+<td id="T_1c069_row5_col1" class="data row5 col1">72.961</td>
+<td id="T_1c069_row5_col2" class="data row5 col2">19.451</td>
+</tr>
+<tr class="odd">
+<td id="T_1c069_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">Celeste</td>
+<td id="T_1c069_row6_col0" class="data row6 col0">2.7</td>
+<td id="T_1c069_row6_col1" class="data row6 col1">54.227</td>
+<td id="T_1c069_row6_col2" class="data row6 col2">19.826</td>
+</tr>
+<tr class="even">
+<td id="T_1c069_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">Blanca</td>
+<td id="T_1c069_row7_col0" class="data row7 col0">2.9</td>
+<td id="T_1c069_row7_col1" class="data row7 col1">74.829</td>
+<td id="T_1c069_row7_col2" class="data row7 col2">25.853</td>
+</tr>
+<tr class="odd">
+<td id="T_1c069_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">Roja</td>
+<td id="T_1c069_row8_col0" class="data row8 col0">2.4</td>
+<td id="T_1c069_row8_col1" class="data row8 col1">68.836</td>
+<td id="T_1c069_row8_col2" class="data row8 col2">28.844</td>
+</tr>
+<tr class="even">
+<td id="T_1c069_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">Naranja</td>
+<td id="T_1c069_row9_col0" class="data row9 col0">2.6</td>
+<td id="T_1c069_row9_col1" class="data row9 col1">78.223</td>
+<td id="T_1c069_row9_col2" class="data row9 col2">30.103</td>
+</tr>
+<tr class="odd">
+<td id="T_1c069_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">Café</td>
+<td id="T_1c069_row10_col0" class="data row10 col0">0.7</td>
+<td id="T_1c069_row10_col1" class="data row10 col1">52.908</td>
+<td id="T_1c069_row10_col2" class="data row10 col2">70.638</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Lectura:</strong> la propuesta cubre <strong>16,2 mil personas nuevas por km</strong>, al nivel de la Azul (16,6 mil) y la Morada (16,4 mil), y por encima de la Plateada y la Verde, que cuentan toda su población y no solo la nueva. Las líneas cortas del centro (Café, Naranja, Roja) rinden más por km porque atraviesan las zonas más densas y ya consolidadas.</p>
+</section>
+</section>
+<section id="impacto-cobertura-y-pasajeros-estimados" class="level2">
+<h2 class="anchored" data-anchor-id="impacto-cobertura-y-pasajeros-estimados">4. Impacto: cobertura y pasajeros estimados</h2>
+<div id="076198ae" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:25.387532Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:25.387058Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:25.703869Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:25.701824Z&quot;}}" data-execution_count="11">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pas <span class="op">=</span> op.pasajeros(nuevas)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tot <span class="op">=</span> pas[dm.PRINCIPAL][<span class="st">"total"</span>]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tot_ext <span class="op">=</span> pas[dm.EXTENDIDO][<span class="st">"total"</span>]</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>alto <span class="op">=</span> acc[acc[<span class="st">"municipio"</span>] <span class="op">==</span> <span class="st">"El Alto"</span>]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>pct_alto_antes <span class="op">=</span> alto.loc[alto[<span class="st">"t_pendiente_min"</span>] <span class="op">&lt;=</span> <span class="dv">15</span>, <span class="st">"personas"</span>].<span class="bu">sum</span>() <span class="op">/</span> alto[<span class="st">"personas"</span>].<span class="bu">sum</span>() <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>impacto <span class="op">=</span> pd.Series({</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Estaciones nuevas"</span>: resumen[<span class="st">"n_estaciones"</span>],</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Km de cable"</span>: <span class="bu">round</span>(resumen[<span class="st">"km_cable"</span>], <span class="dv">1</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Personas nuevas a ≤ 15 min"</span>: viz.fmt_int(resumen[<span class="st">"personas_nuevas_15"</span>]),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Personas nuevas a ≤ 10 min"</span>: viz.fmt_int(resumen[<span class="st">"personas_nuevas_10"</span>]),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"…de ellas, vulnerables (Q4-Q5)"</span>: viz.fmt_int(resumen[<span class="st">"personas_nuevas_vulnerables_15"</span>]),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Personas nuevas por km"</span>: viz.fmt_int(resumen[<span class="st">"personas_nuevas_por_km"</span>]),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cobertura a ≤ 15 min, total"</span>: <span class="ss">f"</span><span class="sc">{</span>resumen[<span class="st">'pct_15_antes'</span>]<span class="sc">:.1f}</span><span class="ss"> % → </span><span class="sc">{</span>resumen[<span class="st">'pct_15_despues'</span>]<span class="sc">:.1f}</span><span class="ss"> %"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cobertura a ≤ 15 min, El Alto"</span>: <span class="ss">f"</span><span class="sc">{</span>pct_alto_antes<span class="sc">:.1f}</span><span class="ss"> % → </span><span class="sc">{</span>resumen[<span class="st">'pct_15_despues_el_alto'</span>]<span class="sc">:.1f}</span><span class="ss"> %"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Abordajes/año (modelo principal), media [IC 90 %]"</span>:</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>tot[<span class="st">'media'</span>] <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> M [</span><span class="sc">{</span>tot[<span class="st">'p05'</span>] <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">-</span><span class="sc">{</span>tot[<span class="st">'p95'</span>] <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> M]"</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Abordajes/año (modelo extendido), media [IC 90 %]"</span>:</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>tot_ext[<span class="st">'media'</span>] <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> M [</span><span class="sc">{</span>tot_ext[<span class="st">'p05'</span>] <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">-</span><span class="sc">{</span>tot_ext[<span class="st">'p95'</span>] <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> M]"</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>impacto.to_frame(<span class="st">"valor"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Estaciones nuevas</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Km de cable</td>
+<td>5.9</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Personas nuevas a ≤ 15 min</td>
+<td>95.276</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Personas nuevas a ≤ 10 min</td>
+<td>59.251</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">…de ellas, vulnerables (Q4-Q5)</td>
+<td>59.687</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Personas nuevas por km</td>
+<td>16.247</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Cobertura a ≤ 15 min, total</td>
+<td>24.9 % → 30.8 %</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Cobertura a ≤ 15 min, El Alto</td>
+<td>12.9 % → 21.6 %</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Abordajes/año (modelo principal), media [IC 90 %]</td>
+<td>9.4 M [5.7-13.9 M]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Abordajes/año (modelo extendido), media [IC 90 %]</td>
+<td>8.7 M [5.3-12.9 M]</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="af80fee5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:25.708072Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:25.707547Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:25.727385Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:25.725647Z&quot;}}" data-execution_count="12">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>por_est <span class="op">=</span> pd.DataFrame({i: v <span class="cf">for</span> i, v <span class="kw">in</span> pas[dm.EXTENDIDO][<span class="st">"por_estacion"</span>].items()}).T</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>nuevas.drop(columns<span class="op">=</span><span class="st">"geometry"</span>).set_index(<span class="st">"id"</span>)[[<span class="st">"pob_pendiente_10"</span>, <span class="st">"pob_pendiente_15"</span>]].join(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    por_est.add_prefix(<span class="st">"abordajes_"</span>)).style.<span class="bu">format</span>(viz.fmt_int)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<style type="text/css">
+</style>
+
+<table id="T_c40b7" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_c40b7_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">pob_pendiente_10</th>
+<th id="T_c40b7_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">pob_pendiente_15</th>
+<th id="T_c40b7_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">abordajes_media</th>
+<th id="T_c40b7_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">abordajes_p05</th>
+<th id="T_c40b7_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">abordajes_p50</th>
+<th id="T_c40b7_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">abordajes_p95</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">id</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col4" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col5" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_c40b7_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">N1</td>
+<td id="T_c40b7_row0_col0" class="data row0 col0">10.437</td>
+<td id="T_c40b7_row0_col1" class="data row0 col1">21.951</td>
+<td id="T_c40b7_row0_col2" class="data row0 col2">1.231.127</td>
+<td id="T_c40b7_row0_col3" class="data row0 col3">288.426</td>
+<td id="T_c40b7_row0_col4" class="data row0 col4">1.082.780</td>
+<td id="T_c40b7_row0_col5" class="data row0 col5">2.721.386</td>
+</tr>
+<tr class="even">
+<td id="T_c40b7_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">N2</td>
+<td id="T_c40b7_row1_col0" class="data row1 col0">10.803</td>
+<td id="T_c40b7_row1_col1" class="data row1 col1">21.040</td>
+<td id="T_c40b7_row1_col2" class="data row1 col2">1.223.904</td>
+<td id="T_c40b7_row1_col3" class="data row1 col3">300.254</td>
+<td id="T_c40b7_row1_col4" class="data row1 col4">1.078.469</td>
+<td id="T_c40b7_row1_col5" class="data row1 col5">2.686.089</td>
+</tr>
+<tr class="odd">
+<td id="T_c40b7_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">N3</td>
+<td id="T_c40b7_row2_col0" class="data row2 col0">12.435</td>
+<td id="T_c40b7_row2_col1" class="data row2 col1">25.903</td>
+<td id="T_c40b7_row2_col2" class="data row2 col2">1.266.145</td>
+<td id="T_c40b7_row2_col3" class="data row2 col3">308.899</td>
+<td id="T_c40b7_row2_col4" class="data row2 col4">1.120.719</td>
+<td id="T_c40b7_row2_col5" class="data row2 col5">2.752.067</td>
+</tr>
+<tr class="even">
+<td id="T_c40b7_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">N4</td>
+<td id="T_c40b7_row3_col0" class="data row3 col0">11.697</td>
+<td id="T_c40b7_row3_col1" class="data row3 col1">29.261</td>
+<td id="T_c40b7_row3_col2" class="data row3 col2">1.263.480</td>
+<td id="T_c40b7_row3_col3" class="data row3 col3">300.397</td>
+<td id="T_c40b7_row3_col4" class="data row3 col4">1.100.055</td>
+<td id="T_c40b7_row3_col5" class="data row3 col5">2.756.042</td>
+</tr>
+<tr class="odd">
+<td id="T_c40b7_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">N5</td>
+<td id="T_c40b7_row4_col0" class="data row4 col0">10.099</td>
+<td id="T_c40b7_row4_col1" class="data row4 col1">24.308</td>
+<td id="T_c40b7_row4_col2" class="data row4 col2">1.275.001</td>
+<td id="T_c40b7_row4_col3" class="data row4 col3">299.595</td>
+<td id="T_c40b7_row4_col4" class="data row4 col4">1.105.086</td>
+<td id="T_c40b7_row4_col5" class="data row4 col5">2.821.769</td>
+</tr>
+<tr class="even">
+<td id="T_c40b7_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">N6</td>
+<td id="T_c40b7_row5_col0" class="data row5 col0">10.550</td>
+<td id="T_c40b7_row5_col1" class="data row5 col1">24.454</td>
+<td id="T_c40b7_row5_col2" class="data row5 col2">1.249.168</td>
+<td id="T_c40b7_row5_col3" class="data row5 col3">301.830</td>
+<td id="T_c40b7_row5_col4" class="data row5 col4">1.099.180</td>
+<td id="T_c40b7_row5_col5" class="data row5 col5">2.677.718</td>
+</tr>
+<tr class="odd">
+<td id="T_c40b7_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">N7</td>
+<td id="T_c40b7_row6_col0" class="data row6 col0">8.962</td>
+<td id="T_c40b7_row6_col1" class="data row6 col1">22.413</td>
+<td id="T_c40b7_row6_col2" class="data row6 col2">1.216.842</td>
+<td id="T_c40b7_row6_col3" class="data row6 col3">292.738</td>
+<td id="T_c40b7_row6_col4" class="data row6 col4">1.067.002</td>
+<td id="T_c40b7_row6_col5" class="data row6 col5">2.584.181</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Lectura:</strong> - <strong>95 mil personas</strong> pasan a vivir a ≤ 15 min a pie de una estación (59 mil a ≤ 10 min). La cobertura total sube de <strong>24,9 % a 30,8 %</strong> y la de <strong>El Alto, de 12,9 % a 21,6 %</strong>. - <strong>El 63 % de las personas nuevas cubiertas (60 mil) está en los quintiles más vulnerables (Q4-Q5)</strong>: la línea también reduce la brecha de equidad del notebook 03. - Abordajes estimados: <strong>~9 M/año</strong> (IC 90 %: 5-14 M), unos 1,2 M por estación. Es coherente con las estaciones internas de la línea Azul (0,8-2,7 M cada una). No incluye los abordajes adicionales en 16 de Julio (en la Azul ese andén suma 4,7 M), y <strong>una parte de los abordajes vendría de otras estaciones</strong>: no son todos viajeros nuevos.</p>
+</section>
+<section id="sensibilidad-del-trazado" class="level2">
+<h2 class="anchored" data-anchor-id="sensibilidad-del-trazado">5. Sensibilidad del trazado</h2>
+<p>¿La línea elegida cambia si se usa la caminata sin pendiente o el umbral de 10 minutos?</p>
+<div id="f32907e3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:25.731882Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:25.731311Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:28.651710Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:28.649764Z&quot;}}" data-execution_count="13">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>w_ <span class="op">=</span> dem_h[<span class="st">"personas"</span>].to_numpy()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>filas <span class="op">=</span> []</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nombre, T, u <span class="kw">in</span> ((<span class="st">"Con pendiente, 15 min (base)"</span>, Ts[<span class="st">"pendiente"</span>], <span class="dv">15</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                     (<span class="st">"Sin pendiente, 15 min"</span>, Ts[<span class="st">"plana"</span>], <span class="dv">15</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                     (<span class="st">"Con pendiente, 10 min"</span>, Ts[<span class="st">"pendiente"</span>], <span class="dv">10</span>)):</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> op.trazar_linea(cand, T, w_, est, umbral<span class="op">=</span>u)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> L.set_index(<span class="st">"n_estaciones"</span>).loc[resumen[<span class="st">"n_estaciones"</span>]]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    comun <span class="op">=</span> <span class="bu">len</span>(<span class="bu">set</span>(cand[<span class="st">"h3"</span>].iloc[<span class="bu">list</span>(f[<span class="st">"secuencia"</span>])]) <span class="op">&amp;</span> <span class="bu">set</span>(nuevas[<span class="st">"h3"</span>]))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    filas.append({<span class="st">"escenario"</span>: nombre, <span class="st">"origen"</span>: f[<span class="st">"origen"</span>], <span class="st">"km"</span>: f[<span class="st">"km"</span>], <span class="st">"personas"</span>: f[<span class="st">"personas"</span>],</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"estaciones en común con la base"</span>: <span class="ss">f"</span><span class="sc">{</span>comun<span class="sc">}</span><span class="ss"> de </span><span class="sc">{</span>resumen[<span class="st">'n_estaciones'</span>]<span class="sc">}</span><span class="ss">"</span>})</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(filas).set_index(<span class="st">"escenario"</span>).style.<span class="bu">format</span>({<span class="st">"km"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"personas"</span>: viz.fmt_int})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<style type="text/css">
+</style>
+
+<table id="T_3b859" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_3b859_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">origen</th>
+<th id="T_3b859_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">km</th>
+<th id="T_3b859_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">personas</th>
+<th id="T_3b859_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">estaciones en común con la base</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">escenario</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col3" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_3b859_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Con pendiente, 15 min (base)</td>
+<td id="T_3b859_row0_col0" class="data row0 col0">16_de_julio</td>
+<td id="T_3b859_row0_col1" class="data row0 col1">5.9</td>
+<td id="T_3b859_row0_col2" class="data row0 col2">100.749</td>
+<td id="T_3b859_row0_col3" class="data row0 col3">7 de 7</td>
+</tr>
+<tr class="even">
+<td id="T_3b859_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Sin pendiente, 15 min</td>
+<td id="T_3b859_row1_col0" class="data row1 col0">16_de_julio</td>
+<td id="T_3b859_row1_col1" class="data row1 col1">5.9</td>
+<td id="T_3b859_row1_col2" class="data row1 col2">104.711</td>
+<td id="T_3b859_row1_col3" class="data row1 col3">4 de 7</td>
+</tr>
+<tr class="odd">
+<td id="T_3b859_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Con pendiente, 10 min</td>
+<td id="T_3b859_row2_col0" class="data row2 col0">16_de_julio</td>
+<td id="T_3b859_row2_col1" class="data row2 col1">6.0</td>
+<td id="T_3b859_row2_col2" class="data row2 col2">63.013</td>
+<td id="T_3b859_row2_col3" class="data row2 col3">0 de 7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Lectura:</strong> - El <strong>corredor es robusto</strong>: con caminata plana o con umbral de 10 min, la mejor línea también sale de 16 de Julio y recorre el norte de El Alto, con la misma longitud (5,9-6,0 km). - Lo que cambia es la <strong>ubicación exacta de las estaciones</strong>: sin pendiente coinciden 4 de 7 y con 10 min ninguna (se acercan más entre sí para cubrir radios más cortos). La ubicación fina debe definirse con estudios de terreno, no con este modelo.</p>
+</section>
+<section id="contraste-con-el-proyecto-anunciado-extensión-de-la-línea-café-a-pampahasi" class="level2">
+<h2 class="anchored" data-anchor-id="contraste-con-el-proyecto-anunciado-extensión-de-la-línea-café-a-pampahasi">6. Contraste con el proyecto anunciado: extensión de la Línea Café a Pampahasi</h2>
+<p>El único proyecto de ampliación con financiamiento aprobado (crédito del BID, Ley N° 1759) es la <strong>extensión de la Línea Café desde Las Villas hasta Pampahasi (~1,2 km)</strong>, en el macrodistrito San Antonio. Se evalúa con el mismo método: una estación nueva en Pampahasi (punto de OSM, nodo 1740962925).</p>
+<div id="01353e6a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:28.656260Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:28.655883Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:29.380159Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:29.378200Z&quot;}}" data-execution_count="14">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pampahasi <span class="op">=</span> gpd.GeoDataFrame({<span class="st">"id"</span>: [<span class="st">"Pampahasi"</span>], <span class="st">"h3"</span>: [<span class="va">None</span>]},</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                              geometry<span class="op">=</span>gpd.points_from_xy([<span class="op">-</span><span class="fl">68.1037712</span>], [<span class="op">-</span><span class="fl">16.4997213</span>]), crs<span class="op">=</span>CRS_WGS84).to_crs(CRS_METRIC)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>m_pa, est_pa <span class="op">=</span> op.evaluar(pampahasi, acc, a, nod, mz)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>km_pa <span class="op">=</span> est.set_index(<span class="st">"slug"</span>).geometry[<span class="st">"las_villas"</span>].distance(pampahasi.geometry.iat[<span class="dv">0</span>]) <span class="op">/</span> <span class="dv">1000</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>r_pa <span class="op">=</span> op.resumen_propuesta(m_pa, km_pa)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>pas_pa <span class="op">=</span> op.pasajeros(est_pa)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>contraste <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Línea Café → Pampahasi (anunciada)"</span>: {</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"estaciones nuevas"</span>: <span class="dv">1</span>, <span class="st">"km"</span>: km_pa, <span class="st">"personas nuevas a ≤ 15 min"</span>: r_pa[<span class="st">"personas_nuevas_15"</span>],</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"personas nuevas por km"</span>: r_pa[<span class="st">"personas_nuevas_por_km"</span>],</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"abordajes/año (extendido)"</span>: pas_pa[dm.EXTENDIDO][<span class="st">"total"</span>][<span class="st">"media"</span>]},</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Línea propuesta (este análisis)"</span>: {</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"estaciones nuevas"</span>: resumen[<span class="st">"n_estaciones"</span>], <span class="st">"km"</span>: resumen[<span class="st">"km_cable"</span>],</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"personas nuevas a ≤ 15 min"</span>: resumen[<span class="st">"personas_nuevas_15"</span>],</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"personas nuevas por km"</span>: resumen[<span class="st">"personas_nuevas_por_km"</span>],</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"abordajes/año (extendido)"</span>: tot_ext[<span class="st">"media"</span>]},</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>}).T</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>contraste.style.<span class="bu">format</span>({<span class="st">"estaciones nuevas"</span>: <span class="st">"</span><span class="sc">{:.0f}</span><span class="st">"</span>, <span class="st">"km"</span>: <span class="st">"</span><span class="sc">{:.1f}</span><span class="st">"</span>, <span class="st">"personas nuevas a ≤ 15 min"</span>: viz.fmt_int,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"personas nuevas por km"</span>: viz.fmt_int, <span class="st">"abordajes/año (extendido)"</span>: <span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss"> M"</span>})</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<style type="text/css">
+</style>
+
+<table id="T_acfd3" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_acfd3_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">estaciones nuevas</th>
+<th id="T_acfd3_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">km</th>
+<th id="T_acfd3_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">personas nuevas a ≤ 15 min</th>
+<th id="T_acfd3_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">personas nuevas por km</th>
+<th id="T_acfd3_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">abordajes/año (extendido)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_acfd3_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Línea Café → Pampahasi (anunciada)</td>
+<td id="T_acfd3_row0_col0" class="data row0 col0">1</td>
+<td id="T_acfd3_row0_col1" class="data row0 col1">1.2</td>
+<td id="T_acfd3_row0_col2" class="data row0 col2">18.261</td>
+<td id="T_acfd3_row0_col3" class="data row0 col3">14.792</td>
+<td id="T_acfd3_row0_col4" class="data row0 col4">1.20 M</td>
+</tr>
+<tr class="even">
+<td id="T_acfd3_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Línea propuesta (este análisis)</td>
+<td id="T_acfd3_row1_col0" class="data row1 col0">7</td>
+<td id="T_acfd3_row1_col1" class="data row1 col1">5.9</td>
+<td id="T_acfd3_row1_col2" class="data row1 col2">95.276</td>
+<td id="T_acfd3_row1_col3" class="data row1 col3">16.247</td>
+<td id="T_acfd3_row1_col4" class="data row1 col4">8.73 M</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="a6773404" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:29.384023Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:29.383615Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:29.395877Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:29.394188Z&quot;}}" data-execution_count="15">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿En qué bolsón cae Pampahasi y qué parte de él cubre?</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>nuevos_pa <span class="op">=</span> m_pa[(m_pa[<span class="st">"t_despues"</span>] <span class="op">&lt;=</span> <span class="dv">15</span>) <span class="op">&amp;</span> <span class="op">~</span>(m_pa[<span class="st">"t_antes"</span>] <span class="op">&lt;=</span> <span class="dv">15</span>)]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>h_pa <span class="op">=</span> h3.latlng_to_cell(<span class="op">-</span><span class="fl">16.4997213</span>, <span class="op">-</span><span class="fl">68.1037712</span>, <span class="dv">9</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>b_pa <span class="op">=</span> dem_h.loc[dem_h[<span class="st">"h3"</span>] <span class="op">==</span> h_pa, <span class="st">"bolson"</span>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hexágono de Pampahasi en bolsón:"</span>, <span class="bu">int</span>(b_pa.iat[<span class="dv">0</span>]) <span class="cf">if</span> <span class="bu">len</span>(b_pa) <span class="cf">else</span> <span class="st">"no (sin población no cubierta)"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Personas nuevas cubiertas por zona: </span><span class="sc">{</span>nuevos_pa<span class="sc">.</span>groupby(<span class="st">'zona'</span>)[<span class="st">'personas'</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span><span class="bu">round</span>(<span class="dv">0</span>)<span class="sc">.</span>to_dict()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hexágono de Pampahasi en bolsón: 0
+Personas nuevas cubiertas por zona: {'San Antonio': 18261}</code></pre>
+</div>
+</div>
+<p><strong>Lectura:</strong> - La extensión anunciada <strong>apunta a un bolsón real</strong>: Pampahasi está dentro de <strong>B3 (San Antonio)</strong>, uno de los bolsones más grandes y persistentes de La Paz. - Con 1 estación y 1,2 km cubre ~18 mil personas nuevas (<strong>14,8 mil por km</strong>), algo menos que la propuesta (16,2 mil/km), y estaría por encima del promedio de la red (13,2 mil/km). - El modelo de demanda le asigna ~1,2 M de abordajes/año, pero con mucha incertidumbre: hoy Las Villas, la estación a la que se conecta, es una de las de menor demanda (0,35 M en 2025). - Las dos intervenciones son complementarias: Pampahasi atiende una ladera de La Paz; la línea propuesta, el bolsón más grande de El Alto.</p>
+</section>
+<section id="conclusiones" class="level2">
+<h2 class="anchored" data-anchor-id="conclusiones">7. Conclusiones</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Hallazgo</th>
+<th>Implicación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><strong>H2 confirmada:</strong> 16 bolsones robustos con 561 mil personas no cubiertas. Los mayores están en El Alto (norte y sur de 16 de Julio) y en San Antonio (La Paz)</td>
+<td>La expansión debe empezar por El Alto</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>MCLP: 3 estaciones libres cubren 90 mil personas y 10 cubren 263 mil. Los rendimientos decrecientes son suaves</td>
+<td>Hay espacio para más de una intervención</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><strong>Propuesta: línea de 7 estaciones y 5,9 km desde 16 de Julio hacia el norte de El Alto</strong></td>
+<td>Transbordo con Roja, Azul y Plateada en la estación de más demanda de la red</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>95 mil personas nuevas a ≤ 15 min (16,2 mil/km, al nivel de Azul y Morada). Cobertura de El Alto: 12,9 % → 21,6 %</td>
+<td>El mejor rendimiento por km disponible con una línea continua</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>63 % de las personas nuevas cubiertas son vulnerables (Q4-Q5)</td>
+<td>Argumento de equidad además de demanda</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>~9 M de abordajes/año (IC 90 %: 5-14 M), sin contar los transbordos en 16 de Julio</td>
+<td>Orden de magnitud similar al de la línea Azul (11,5 M en 2025)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>El corredor se repite con caminata plana y con umbral de 10 min; la ubicación exacta de las estaciones no</td>
+<td>Recomendar el <strong>corredor</strong>, no puntos exactos</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>La extensión anunciada a Pampahasi cae en el bolsón B3 y rinde 14,8 mil personas/km</td>
+<td>Validación independiente: el método identifica la misma prioridad que la planificación oficial en La Paz</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Limitaciones:</strong> escenario guiado por datos, sin costos, derechos de vía ni factibilidad de torres. La caminata ignora el minibús, que es el principal alimentador. El modelo de demanda tiene n = 26 e intervalos amplios. Los abordajes de la nueva línea no son todos viajeros nuevos.</p>
+</section>
+<section id="anexo-exportación-de-datos-para-el-sitio" class="level2">
+<h2 class="anchored" data-anchor-id="anexo-exportación-de-datos-para-el-sitio">Anexo: exportación de datos para el sitio</h2>
+<div id="3a4dd56e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T00:07:29.400185Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T00:07:29.399778Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T00:07:29.649862Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T00:07:29.648167Z&quot;}}" data-execution_count="16">
+<details class="code-fold">
+<summary>Ver código</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(D <span class="op">/</span> <span class="st">"pasajeros_propuesta.json"</span>).write_text(json.dumps(pas, ensure_ascii<span class="op">=</span><span class="va">False</span>, indent<span class="op">=</span><span class="dv">2</span>), encoding<span class="op">=</span><span class="st">"utf-8"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> teleferico.export_web <span class="im">import</span> exportar_propuesta</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>exportar_propuesta()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/freddxvill\.github\.io\/analisis-proyeccion-linea-teleferico-la-paz-bolivia\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Datos: Mi Teleférico, Censo 2024 (INE vía censosbo), OpenStreetMap (ODbL), GTFS comunitario (CC-BY-4.0), Copernicus GLO-30.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Análisis independiente; no es un sitio oficial de Mi Teleférico.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
