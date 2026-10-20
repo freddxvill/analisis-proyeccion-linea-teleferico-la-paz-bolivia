@@ -11,7 +11,7 @@
   const k = () => Number(document.getElementById("k-mclp").value);
   const verMclp = () => document.getElementById("chk-mclp").checked;
   const leyenda = () => TF.leyendaHTML(document.getElementById("leyenda-propuesta"), [
-    { color: TF.tok("--o-2"), texto: "Bolsones de subcobertura" },
+    { color: TF.tok("--o-2"), texto: "Zonas sin cobertura" },
     ...(verMclp() ? [{ color: TF.tok("--cat-3"), texto: `MCLP: ${k()} estaciones libres`, tipo: "punto" }] : []),
     { color: TF.tok("--ink-1"), texto: "Línea propuesta", tipo: "linea" },
     { color: TF.tok("--o-4"), texto: "Pampahasi (anunciada)", tipo: "punto" },

@@ -38,7 +38,7 @@ subtitle: "Fuentes, supuestos, limitaciones y cómo reproducir el análisis"
   Los transbordos cuentan como abordajes.
 - **Vulnerabilidad:** promedio de los rangos percentiles ponderados por población de 7 carencias de la ficha
   censal (disponible para el 96 % de la población del área).
-- **Bolsones:** DBSCAN sobre los hexágonos H3 densos no cubiertos, con la población como peso (eps = 450 m,
+- **Zonas sin cobertura:** DBSCAN sobre los hexágonos H3 densos no cubiertos, con la población como peso (eps = 450 m,
   núcleo de 6.000 personas). Solo se reportan los que persisten en la mayoría de 9 combinaciones de parámetros.
 - **Línea:** búsqueda en haz desde una estación existente, con vanos de 700-2.500 m y giros ≤ 60°. Se
   agregan estaciones mientras cada una rinda al menos lo que la red actual por km.

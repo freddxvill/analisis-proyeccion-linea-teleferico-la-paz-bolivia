@@ -4,7 +4,7 @@ subtitle: "¿Dónde convendría una nueva línea? Un escenario guiado por datos"
 include-in-header: assets/librerias.html
 ---
 
-La población hoy a más de 15 minutos a pie se agrupó en **bolsones de subcobertura** (DBSCAN ponderado
+La población hoy a más de 15 minutos a pie se agrupó en **zonas sin cobertura** (DBSCAN ponderado
 por población). Luego se buscaron las ubicaciones que más población nueva cubren (**MCLP**) y la **línea
 continua** que mejor rinde por km de cable, conectada a la red actual. Detalle en los notebooks
 [04](notebooks/04_modelo_demanda_estaciones.ipynb) y [05](notebooks/05_optimizacion_nueva_linea.ipynb).
@@ -29,12 +29,12 @@ política. Se recomienda un **corredor**: la ubicación exacta de las estaciones
 :::
 
 <div id="leyenda-propuesta" class="leyenda"></div>
-<div id="mapa-propuesta" class="mapa" role="img" aria-label="Mapa con los bolsones de subcobertura, las estaciones del MCLP, la línea propuesta y la extensión anunciada a Pampahasi"></div>
+<div id="mapa-propuesta" class="mapa" role="img" aria-label="Mapa con las zonas sin cobertura, las estaciones del MCLP, la línea propuesta y la extensión anunciada a Pampahasi"></div>
 
-- **Hipótesis 2, confirmada:** hay 16 bolsones robustos con 561 mil personas no cubiertas. Los mayores
+- **Hipótesis 2, confirmada:** hay 16 zonas sin cobertura robustas con 561 mil personas no cubiertas. Los mayores
   están al norte (103 mil) y al sur (97 mil) de 16 de Julio, en El Alto, y en San Antonio (69 mil), en La Paz.
 - La **línea propuesta** sale de 16 de Julio (transbordo con las líneas Roja, Azul y Plateada) hacia el
-  noroeste, a lo largo del bolsón más grande, con vanos de 0,7 a 1,2 km. Su primera estación cae en la
+  noroeste, a lo largo de la zona sin cobertura más grande, con vanos de 0,7 a 1,2 km. Su primera estación cae en la
   ladera de Max Paredes (La Paz).
 
 ## ¿Cuántas estaciones?
@@ -91,9 +91,9 @@ Villas a Pampahasi** (~1,2 km; Ley N° 1759, crédito del BID BO-L1229). Evaluad
 
 <div id="tabla-contraste"></div>
 
-Pampahasi cae **dentro del bolsón de San Antonio**, uno de los más grandes y persistentes de La Paz: el
+Pampahasi cae **dentro de la zona sin cobertura de San Antonio**, una de las más grandes y persistentes de La Paz: el
 método llega a la misma prioridad que la planificación oficial. Las dos intervenciones son
-complementarias: una atiende una ladera de La Paz y la otra, el bolsón más grande de El Alto.
+complementarias: una atiende una ladera de La Paz y la otra, la zona sin cobertura más grande de El Alto.
 
 <script src="assets/js/comun.js"></script>
 <script src="assets/js/propuesta.js"></script>

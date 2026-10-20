@@ -29,7 +29,7 @@ del cable de verdad** y **dónde una línea nueva cubriría más gente por cada 
 | Hipótesis | Cómo se probó | Resultado |
 |---|---|---|
 | **H1.** La distancia en línea recta sobreestima la cobertura; con caminata real y pendiente es mucho menor. | Grafo peatonal dirigido de OSM, pendiente del DEM Copernicus y velocidad de Tobler (subir ≠ bajar). Dijkstra multi-origen desde las estaciones. | ✅ Confirmada: 38,5 % → **24,9 %** |
-| **H2.** Hay bolsones densos con baja cobertura, sobre todo en la periferia de El Alto. | DBSCAN ponderado por población sobre hexágonos H3 no cubiertos, con prueba de robustez. | ✅ Confirmada: **16 bolsones** con 561 mil personas |
+| **H2.** Hay zonas densas sin cobertura, sobre todo en la periferia de El Alto. | DBSCAN ponderado por población sobre hexágonos H3 no cubiertos, con prueba de robustez. | ✅ Confirmada: **16 zonas sin cobertura** con 561 mil personas |
 | **H3.** La población a pie de una estación explica su demanda y permite estimar pasajeros de una línea nueva. | Binomial negativa por estación (n = 26) con validación leave-one-out. | 🔄 Reformulada: manda ser **cabecera El Alto ↔ La Paz** (×6,7), no la población a pie |
 
 Con eso, un modelo de **máxima cobertura (MCLP)** y la **p-mediana** eligen dónde poner estaciones nuevas, y una
@@ -49,7 +49,7 @@ búsqueda en haz arma el trazado de la línea que se conecta a la red actual.
   - La cobertura de El Alto sube de **12,9 % a 21,6 %**; la total, de 24,9 % a 30,8 %.
   - El **63 %** de los nuevos cubiertos es población vulnerable.
   - Captaría **~9 M de abordajes al año** (IC 90 %: 5-14 M).
-- **Contraste:** la extensión anunciada de la Línea Café a Pampahasi cae en un bolsón real (San Antonio) y cubre
+- **Contraste:** la extensión anunciada de la Línea Café a Pampahasi cae en una zona sin cobertura real (San Antonio) y cubre
   ~18 mil personas nuevas (14,8 mil por km).
 
 ![Población a ≤ 15 min según el método](reports/figures/03_hipotesis_1.png)
@@ -81,7 +81,7 @@ flowchart LR
     end
 
     subgraph M["🧮 Modelado"]
-        M0["Bolsones de subcobertura<br/>DBSCAN: 16 bolsones"]
+        M0["Zonas sin cobertura<br/>DBSCAN: 16 zonas"]
         M1["Modelo de demanda<br/>por estación (binomial negativa)"]
         M2["Optimización MCLP / p-mediana<br/>nuevas estaciones"]
         M3["Trazado de línea<br/>+ sensibilidad k y umbral"]
