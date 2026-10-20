@@ -100,3 +100,41 @@ def test_captacion_estaciones():
     assert len(cap) == 26
     assert (cap["pob_pendiente_20"] >= cap["pob_pendiente_15"]).all()
     assert (cap["pob_pendiente_15"] >= cap["pob_exclusiva_pendiente_15"]).all()
+
+
+MODELO = PROCESSED / "modelo_demanda"
+PROPUESTA = PROCESSED / "propuesta"
+
+
+def test_modelo_demanda():
+    _requiere(MODELO / "comparacion_modelos.parquet")
+    comp = pd.read_parquet(MODELO / "comparacion_modelos.parquet").set_index("modelo")
+    # Algún modelo con variables debe superar al nulo fuera de muestra.
+    assert comp["loo_mae"].min() < comp.loc["Nulo", "loo_mae"]
+    var = pd.read_parquet(MODELO / "estaciones_variables.parquet")
+    assert len(var) == 26 and var["y"].gt(0).all()
+
+
+def test_simulacion_nb():
+    from teleferico import demand_model as dm
+
+    _requiere(MODELO / "estaciones_variables.parquet")
+    df = dm.variables()
+    res = dm.ajustar(dm.MODELOS[dm.PRINCIPAL], df)
+    sim = dm.simular(res, dm.transformar(pd.DataFrame({"cabecera_interurbana": [0, 1]})), n=4000)
+    medias = sim.mean(axis=0)
+    # La media simulada se parece a la predicción puntual y la cabecera interurbana capta más.
+    assert medias[1] > medias[0]
+    assert abs(medias[0] / res.predict(pd.DataFrame({"cabecera_interurbana": [0]})).iat[0] - 1) < 0.15
+
+
+def test_propuesta():
+    _requiere(PROPUESTA / "resumen_propuesta.json")
+    r = json.loads((PROPUESTA / "resumen_propuesta.json").read_text(encoding="utf-8"))
+    assert r["personas_nuevas_15"] > 0
+    assert r["pct_15_despues"] > r["pct_15_antes"]
+    curva = pd.read_parquet(PROPUESTA / "curva_mclp.parquet")
+    for _, g in curva.groupby(["variante", "umbral"]):
+        assert g.sort_values("k")["personas"].is_monotonic_increasing
+    est = gpd.read_parquet(PROPUESTA / "estaciones_propuestas.parquet")
+    assert len(est) == r["n_estaciones"]

@@ -175,12 +175,17 @@ def accesos_estaciones(estaciones: gpd.GeoDataFrame, nod: gpd.GeoDataFrame, tree
     return np.array(filas)
 
 
-def tiempos_por_estacion(aristas: pd.DataFrame, nod: gpd.GeoDataFrame, estaciones: gpd.GeoDataFrame) -> dict:
+def tiempos_por_estacion(aristas: pd.DataFrame, nod: gpd.GeoDataFrame, estaciones: gpd.GeoDataFrame,
+                         variantes=("pendiente", "pendiente_salida", "plana"), limite_min: float = LIMITE_MIN,
+                         columnas: np.ndarray | None = None) -> dict:
     """Matrices (estación × nodo) de minutos de caminata para cada variante.
 
     - "pendiente": del nodo a la estación (grafo invertido), con Tobler direccional.
     - "pendiente_salida": de la estación al nodo (para medir la asimetría subida/bajada).
     - "plana": sin pendiente (simétrica).
+
+    `columnas` (índices posicionales de nodos) recorta la salida, para usarla con miles de
+    puntos candidatos sin guardar la matriz completa.
     """
     pos = pd.Series(np.arange(len(nod)), index=nod.index)
     u, v = pos[aristas["u"]].to_numpy(), pos[aristas["v"]].to_numpy()
@@ -193,14 +198,16 @@ def tiempos_por_estacion(aristas: pd.DataFrame, nod: gpd.GeoDataFrame, estacione
 
     def correr(src, dst, w):
         M = _matriz(np.r_[src, sup], np.r_[dst, puerta], np.r_[w, t_acc], n + k)
-        d = dijkstra(M, directed=True, indices=origenes, limit=LIMITE_MIN * 60)
-        return (d[:, :n] / 60).astype("float32")
+        d = dijkstra(M, directed=True, indices=origenes, limit=limite_min * 60)
+        d = d[:, :n] if columnas is None else d[:, columnas]
+        return (d / 60).astype("float32")
 
-    return {
-        "pendiente": correr(v, u, aristas["t_pendiente_s"].to_numpy()),  # invertido: nodo → estación
-        "pendiente_salida": correr(u, v, aristas["t_pendiente_s"].to_numpy()),
-        "plana": correr(u, v, aristas["t_plana_s"].to_numpy()),
+    argumentos = {
+        "pendiente": (v, u, "t_pendiente_s"),  # invertido: nodo → estación
+        "pendiente_salida": (u, v, "t_pendiente_s"),
+        "plana": (u, v, "t_plana_s"),
     }
+    return {var: correr(a, b, aristas[w].to_numpy()) for var, (a, b, w) in argumentos.items() if var in variantes}
 
 
 def ruta(aristas: pd.DataFrame, nod: gpd.GeoDataFrame, origen: tuple, destino: tuple) -> dict:
