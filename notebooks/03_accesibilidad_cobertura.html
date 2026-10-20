@@ -284,11 +284,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Mi Teleférico: ¿quién queda lejos del cable?</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Buscar"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -999,7 +994,7 @@ dtype: float64</code></pre>
 </section>
 <section id="dónde-vive-la-población-no-cubierta" class="level2">
 <h2 class="anchored" data-anchor-id="dónde-vive-la-población-no-cubierta">6. ¿Dónde vive la población no cubierta?</h2>
-<p>Densidad de los hexágonos donde vive la población a más de 15 minutos (insumo para los bolsones del notebook 05).</p>
+<p>Densidad de los hexágonos donde vive la población a más de 15 minutos (insumo para las zonas sin cobertura del notebook 05).</p>
 <div id="b67e8c71" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T23:18:36.958778Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T23:18:36.958554Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T23:18:36.971633Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T23:18:36.970576Z&quot;}}" data-execution_count="10">
 <details class="code-fold">
 <summary>Ver código</summary>
@@ -1072,7 +1067,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p><strong>Lectura:</strong> - Ranking de cobertura a ≤ 15 min: Centro (95 %) → Cotahuma (59 %) → Max Paredes (46 %) → Periférica (32 %) → San Antonio (25 %) → Sur (19 %) → <strong>El Alto (13 %)</strong>. - La pendiente le quita más puntos a <strong>Cotahuma y Max Paredes</strong> (−17 a −18 pp frente a la red plana). En términos relativos, <strong>San Antonio</strong> pierde un tercio de su cobertura (de 38 % a 25 %). - En números absolutos, las mayores poblaciones no cubiertas son <strong>El Alto (771 mil, mediana de 49 min)</strong>, la <strong>zona Sur (136 mil)</strong> y Periférica (96 mil).</p>
-<p><strong>Lectura:</strong> - La población no cubierta no está dispersa: <strong>~1,02 M de las 1,23 M personas a más de 15 minutos viven en la mitad más densa de los hexágonos</strong> (635 mil en El Alto y 384 mil en La Paz). - Los hexágonos no cubiertos <strong>más densos</strong> (20-30 mil hab/km²) están en las laderas de La Paz, justo en el borde de las isócronas (norte de las líneas Roja y Naranja, alrededor de la Morada). Son los candidatos naturales para <strong>estaciones adicionales en líneas existentes</strong>. - En El Alto la densidad es menor (8-15 mil hab/km²), pero la mancha es enorme y continua al norte y al sur del corredor. Ahí cabe una <strong>línea nueva</strong>. Los bolsones se delimitan con DBSCAN en el notebook 05.</p>
+<p><strong>Lectura:</strong> - La población no cubierta no está dispersa: <strong>~1,02 M de las 1,23 M personas a más de 15 minutos viven en la mitad más densa de los hexágonos</strong> (635 mil en El Alto y 384 mil en La Paz). - Los hexágonos no cubiertos <strong>más densos</strong> (20-30 mil hab/km²) están en las laderas de La Paz, justo en el borde de las isócronas (norte de las líneas Roja y Naranja, alrededor de la Morada). Son los candidatos naturales para <strong>estaciones adicionales en líneas existentes</strong>. - En El Alto la densidad es menor (8-15 mil hab/km²), pero la mancha es enorme y continua al norte y al sur del corredor. Ahí cabe una <strong>línea nueva</strong>. Las zonas sin cobertura se delimitan con DBSCAN en el notebook 05.</p>
 </section>
 <section id="captación-de-cada-estación-frente-a-su-demanda-anticipo-del-notebook-04" class="level2">
 <h2 class="anchored" data-anchor-id="captación-de-cada-estación-frente-a-su-demanda-anticipo-del-notebook-04">7. Captación de cada estación frente a su demanda (anticipo del notebook 04)</h2>
@@ -1742,7 +1737,7 @@ dtype: float64</code></pre>
 </tr>
 </tbody>
 </table>
-<p><strong>Siguiente paso:</strong> modelo de demanda por estación (notebook 04) y bolsones de subcobertura y optimización de nuevas estaciones (notebook 05), ponderando la demanda por la población no cubierta y la brecha.</p>
+<p><strong>Siguiente paso:</strong> modelo de demanda por estación (notebook 04) y zonas sin cobertura y optimización de nuevas estaciones (notebook 05), ponderando la demanda por la población no cubierta y la brecha.</p>
 </section>
 <section id="anexo-exportación-de-datos-para-el-sitio" class="level2">
 <h2 class="anchored" data-anchor-id="anexo-exportación-de-datos-para-el-sitio">Anexo: exportación de datos para el sitio</h2>

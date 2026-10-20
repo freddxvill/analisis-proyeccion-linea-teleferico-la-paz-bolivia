@@ -285,11 +285,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Mi Teleférico: ¿quién queda lejos del cable?</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Buscar"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -401,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     end
 
     subgraph M["🧮 Modelado"]
-        M0["Bolsones de subcobertura&lt;br/&gt;DBSCAN: 16 bolsones"]
+        M0["Zonas sin cobertura&lt;br/&gt;DBSCAN: 16 zonas"]
         M1["Modelo de demanda&lt;br/&gt;por estación (binomial negativa)"]
         M2["Optimización MCLP / p-mediana&lt;br/&gt;nuevas estaciones"]
         M3["Trazado de línea&lt;br/&gt;+ sensibilidad k y umbral"]
@@ -521,7 +516,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Cubierto:</strong> a ≤ 15 minutos a pie con pendiente.</li>
 <li><strong>Demanda por estación:</strong> abordajes estimados de 2025 (porcentaje con un decimal del PDF × total anual). Los transbordos cuentan como abordajes.</li>
 <li><strong>Vulnerabilidad:</strong> promedio de los rangos percentiles ponderados por población de 7 carencias de la ficha censal (disponible para el 96 % de la población del área).</li>
-<li><strong>Bolsones:</strong> DBSCAN sobre los hexágonos H3 densos no cubiertos, con la población como peso (eps = 450 m, núcleo de 6.000 personas). Solo se reportan los que persisten en la mayoría de 9 combinaciones de parámetros.</li>
+<li><strong>Zonas sin cobertura:</strong> DBSCAN sobre los hexágonos H3 densos no cubiertos, con la población como peso (eps = 450 m, núcleo de 6.000 personas). Solo se reportan los que persisten en la mayoría de 9 combinaciones de parámetros.</li>
 <li><strong>Línea:</strong> búsqueda en haz desde una estación existente, con vanos de 700-2.500 m y giros ≤ 60°. Se agregan estaciones mientras cada una rinda al menos lo que la red actual por km.</li>
 </ul>
 </section>
