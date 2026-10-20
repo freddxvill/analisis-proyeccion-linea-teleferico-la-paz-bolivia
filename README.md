@@ -162,8 +162,10 @@ etiqueta, y se validan contra los totales impresos con tolerancia cero.
 ├── data/processed/       # salidas livianas versionadas (data/raw queda fuera de git)
 ├── reports/figures/      # figuras estáticas de los notebooks
 ├── site/                 # sitio Quarto: ECharts 5 + MapLibre 4 sobre OpenFreeMap
-└── docs/diagrama.mmd
+└── docs/                 # diagrama.mmd y glosario.md
 ```
+
+¿Términos desconocidos (MCLP, DBSCAN, isócrona, línea recta…)? Ver el [glosario](docs/glosario.md).
 
 > **Nota sobre nombres:** en el código y en los datos, las **zonas sin cobertura** se llaman `bolson` o
 > `bolsones` (la columna `bolson`, la función `resumen_bolsones`, los archivos `bolsones.parquet` y
