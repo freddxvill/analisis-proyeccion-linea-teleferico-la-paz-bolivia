@@ -38,8 +38,9 @@ búsqueda en haz arma el trazado de la línea que se conecta a la red actual.
 ## Resultados clave
 
 - **75 % de la población (1,23 M de personas) vive a más de 15 min a pie de una estación.** La mediana es de 31 min.
-- **La línea recta miente:** un buffer euclidiano da 38,5 % de cobertura; la red de calles real, 29,7 %; con
-  pendiente, **24,9 %**. Son 221 mil personas que los análisis con buffers cuentan como cubiertas y no lo están.
+- **La línea recta miente:** medir en línea recta (un círculo de 1,26 km alrededor de cada estación) da 38,5 %
+  de cobertura; la red de calles real, 29,7 %; con pendiente, **24,9 %**. Son 221 mil personas que los análisis
+  en línea recta cuentan como cubiertas y no lo están.
 - **El Alto es el gran vacío:** 12,9 % de cobertura frente al 39,1 % de La Paz, con el 54 % de la población.
 - **Brecha de equidad:** 44 % de cobertura en el quintil menos vulnerable frente al 6 % en el más vulnerable.
 - **La demanda la mueven las puertas entre ciudades:** las 7 cabeceras de las líneas Roja, Amarilla y Morada

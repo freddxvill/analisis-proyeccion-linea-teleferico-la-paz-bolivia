@@ -11,7 +11,7 @@ distancia en línea recta. Detalle en los notebooks [02](notebooks/02_red_peaton
 
 ::: {.kpis}
 <div class="kpi heroe"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_pendiente" data-fmt="pct">—</span><span class="kpi-etiqueta">de la población a ≤ 15 min a pie, con pendiente</span></div>
-<div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_euclidiano" data-fmt="pct">—</span><span class="kpi-etiqueta">según un buffer en línea recta, que sobreestima en <span data-fuente="accesibilidad/kpis.json" data-campo="sobreestimacion_euclid_personas" data-fmt="miles">—</span> personas</span></div>
+<div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_euclidiano" data-fmt="pct">—</span><span class="kpi-etiqueta">en línea recta (un círculo alrededor de cada estación), que sobreestima en <span data-fuente="accesibilidad/kpis.json" data-campo="sobreestimacion_euclid_personas" data-fmt="miles">—</span> personas</span></div>
 <div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="mediana_min_pendiente" data-fmt="min">—</span><span class="kpi-etiqueta">a pie es la mediana: la mitad de la población vive más lejos</span></div>
 <div class="kpi"><span class="kpi-valor" data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_q5" data-fmt="pct">—</span><span class="kpi-etiqueta">de cobertura en el quintil más vulnerable, frente a <span data-fuente="accesibilidad/kpis.json" data-campo="pct_15min_q1" data-fmt="pct">—</span> en el menos vulnerable</span></div>
 :::

@@ -30,7 +30,8 @@ la pendiente. La línea discontinua es la propuesta.
 ## Hallazgos clave
 
 ::: {.hallazgo}
-**1. La línea recta miente.** Un buffer en línea recta dice que el 38,5 % vive a ≤ 15 minutos de una
+**1. La línea recta miente.** Medir en línea recta (un círculo de 1,26 km alrededor de cada estación, sin
+contar calles ni pendiente) dice que el 38,5 % vive a ≤ 15 minutos de una
 estación. Caminando por las calles reales y con pendiente, es el **24,9 %**: unas **221 mil personas
 menos**. La pendiente sola quita 78 mil, todas en las laderas de La Paz. [Ver accesibilidad →](accesibilidad.qmd)
 :::
