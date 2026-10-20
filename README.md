@@ -165,6 +165,11 @@ etiqueta, y se validan contra los totales impresos con tolerancia cero.
 └── docs/diagrama.mmd
 ```
 
+> **Nota sobre nombres:** en el código y en los datos, las **zonas sin cobertura** se llaman `bolson` o
+> `bolsones` (la columna `bolson`, la función `resumen_bolsones`, los archivos `bolsones.parquet` y
+> `bolsones.geojson`). Las etiquetas Z1, Z2… del notebook 05 siguen el orden de `bolsones.parquet`, de mayor a
+> menor población no cubierta.
+
 ## Decisiones de modelado
 
 - **Tobler direccional:** `v = 6·exp(−3,5·|s + 0,05|)` km/h, con la pendiente medida cada 30 m sobre el DEM
